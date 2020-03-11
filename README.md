@@ -26,7 +26,19 @@ General description of how to use the module with basic example.
 
 ## API 
 
-Full API documentation.  
+Module specific api notes.
+
+The module comes with an optional node container including network connections
+for a Verdaccio server. The server image and docker-compose files are available [here](give_the_folks_a_link).
+If Verdaccio is not installed the container will not run. Node will work as normal
+outside the container.
+
+To run the container, after configuring Verdaccio, executing
+```
+./nodebox
+```
+will open the node container with the project mounted in /app and the registry
+replaced with Verdaccio.
 
 ## Examples
 
