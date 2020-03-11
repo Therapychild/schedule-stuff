@@ -1,5 +1,5 @@
 {
-  "name": "scaffold",
+  "name": "node-scaffold",
   "version": "0.0.0",
   "description": "An empty module, a clean slate.",
   "main": "index.ts",
