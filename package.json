@@ -2,8 +2,10 @@
   "name": "node-scaffold",
   "version": "0.0.0",
   "description": "An empty module, a clean slate.",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "prepublish": "tsc",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "test:coverage": "jest --coverage",
     "test": "jest"
