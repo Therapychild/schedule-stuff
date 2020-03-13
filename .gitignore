@@ -1,5 +1,13 @@
-/coverage
+# Node modules.
 /node_modules
+
+# Production code. Deployments should build from source.
 /build
 /dist
 
+# Jetbrains configuration.
+/.idea
+
+# Reports.
+*.log
+/coverage
