@@ -5,7 +5,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepublish": "tsc",
+    "type-check": "tsc --noEmit",
+    "build": "yarn build:types && yarn build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "prepublish": "type-check && build",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "test:coverage": "jest --coverage",
     "test": "jest"
@@ -17,6 +21,7 @@
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@types/jest": "^25.1.3",
     "@types/lodash": "^4.14.149",
     "babel": "^6.23.0",
