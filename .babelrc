@@ -7,10 +7,14 @@
         "corejs": "2.x"
       }
     ],
-    "@babel/preset-react"
+    [
+      "@babel/preset-react"
+    ],
+    [
+      "@babel/typescript"
+    ]
   ],
   "plugins": [
-    "@babel/proposal-class-properties"
+    "@babel/plugin-proposal-class-properties"
   ]
 }
-
