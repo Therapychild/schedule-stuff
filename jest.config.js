@@ -13,5 +13,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "<rootDir>/node_modules",
     "<rootDir>/build"
+  ],
+  transformIgnorePatterns: [
   ]
 };

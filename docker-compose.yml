@@ -14,4 +14,3 @@ services:
       - default
       - verdaccio_default
     working_dir: /app
-
