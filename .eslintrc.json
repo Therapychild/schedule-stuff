@@ -3,12 +3,15 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
+    "jsdoc",
     "prettier"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jsdoc/recommended",
+    "plugin:react/recommended",
     "prettier/@typescript-eslint"
   ],
   "parserOptions": {
@@ -16,26 +19,13 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    "comma-dangle": ["error", "always"],
     "consistent-return": ["off"],
     "no-underscore-dangle": ["off"],
     "max-nested-callbacks": ["warn", 3],
-    "no-plusplus": [
-      "warn", {
-        "allowForLoopAfterthoughts": true
-      }
-    ],
+    "no-plusplus": ["off"],
     "no-param-reassign": ["off"],
     "no-prototype-builtins": ["off"],
-    "valid-jsdoc": [
-      "warn",
-      {
-        "prefer": {
-          "returns": "return",
-          "property": "prop"
-        },
-        "requireReturn": false
-      }
-    ],
     "no-unused-vars": [
       "warn",
       {
