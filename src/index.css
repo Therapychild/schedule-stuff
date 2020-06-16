@@ -11,3 +11,35 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.card.collapsible {
+  width: 200px;
+  border: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  /*min-height: 200px;*/
+}
+
+.assign {
+  border: 1px red solid;
+}
+
+.card-header {
+  width: 100%;
+  border: 1px blue solid;
+}
+
+.card-content {
+  min-height: 20px;
+  border: 1px orange solid;
+}
+
+.card-body {
+  width: 100%;
+  border: 1px green solid;
+}
+
+.card footer {
+  min-height: 20px;
+  width: 100%;
+}

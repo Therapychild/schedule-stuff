@@ -1,0 +1,120 @@
+.p-sidebar.p-component.p-sidebar-left {
+
+}
+
+.sidebar-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 1px red solid;
+  padding: 0.25rem;
+}
+
+/*.p-float-label {*/
+/*  margin-top: 0.5rem;*/
+/*}*/
+
+/*.p-float-label > label {*/
+/*  top: 1.7rem;*/
+/*  left: 0.5rem;*/
+/*}*/
+
+/*.p-float-label>input:focus ~ label {*/
+/*  top: -.5em;*/
+/*  font-size: 14px;*/
+/*}*/
+
+/*.p-float-label>input:focus ~ label,*/
+/*.p-float-label>input.p-filled ~ label {*/
+/*  top: -.25rem;*/
+/*  font-size: 14px;*/
+/*  left: 0;*/
+/*}*/
+
+/*!* @todo fix the display none for real.*!*/
+/*.p-datepicker.p-datepicker-touch-ui.p-input-overlay-visible {*/
+/*  display: block !important;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-sidebar-close {*/
+/*  padding: 0.6rem 0.5rem;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-sidebar-close:focus {*/
+/*  box-shadow: none;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .sidebar-header {*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  width: 100%;*/
+/*  padding: 1rem;*/
+/*  text-align: right;*/
+/*  border-bottom: 0.0625rem #d4d4d8 solid;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active fieldset.p-fieldset {*/
+/*  width: 100%;*/
+/*  margin: 0.5rem 0 1rem;*/
+/*  padding-bottom: 0.75rem;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-inputtext {*/
+/*  width: 100%;*/
+/*  line-height: inherit;*/
+/*  margin: 0.5rem 0;*/
+/*  top: -0.25rem;*/
+/*  left: 0;*/
+/*}*/
+
+/*.p-sidebar .p-multiselect .p-multiselect-label {*/
+/*  white-space: normal;*/
+/*  word-break: break-word;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .multiselect {*/
+/*  margin-bottom: 1rem;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-multiselect {*/
+/*  width: 100%;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-multiselect-header {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  padding: 0.75rem;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-multiselect-header .p-checkbox {*/
+/*  margin-right: 0.75rem;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-multiselect-header .p-multiselect-filter-container {*/
+/*  flex-grow: 2;*/
+/*  margin: 0;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-multiselect-header .p-multiselect-filter-container input {*/
+/*  margin: 0;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-multiselect-header  .p-multiselect-close {*/
+/*  display: none;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-calendar {*/
+/*  width: 100%;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .p-calendar .p-datepicker-month {*/
+/*  width: auto;*/
+/*}*/
+
+/*.p-sidebar.p-sidebar-active .sort-parts {*/
+/*  padding: 0.25rem 0.5rem;*/
+/*}*/
