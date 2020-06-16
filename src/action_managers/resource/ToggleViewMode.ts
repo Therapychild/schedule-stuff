@@ -38,6 +38,6 @@ export class ToggleViewMode extends ReducibleActionManagerBase
   }
 
   handle(state: any, action: ToggleViewModeAction): void {
-    state.viewMode = state.viewMode === "job" ? "user" : "job";
+    state.viewMode = state.viewMode === "user" ? "job" : "user";
   }
 }

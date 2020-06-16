@@ -1,46 +1,35 @@
-import React from 'react';
+import React from "react";
 import { BaseListBox } from "./components/BaseListBox";
-import Sidebar from 'components/dist/common/Sidebar';
-// import {ConnectedToggleButton as ToggleButton} from "./components/connected/ToggleButton";
+import Sidebar from "components/dist/common/Sidebar";
+import { ConnectedToggleButton } from "./components/connected/ToggleButton";
 
-import './App.css';
+import "./App.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/nova-light/theme.css"
-import 'primereact/resources/primereact.css';
-import 'primeflex/primeflex.css';
+import "primereact/resources/primereact.css";
+import "primeflex/primeflex.css";
 
 import "./styles/sidebar.css";
 import "./styles/sidebar-toggle.css"
 import "./styles/timeline.css"
-import './index.css'
+import "./index.css"
 
 import {getAllUsers} from "./js/exampleData";
-import {AssignableCard} from "./components/AssignableCard";
+import Resource from "duckies/dist/resource/Resource";
 
-export interface OwnProps {
-}
-
-type modeType = "user" | "job";
-type Props = OwnProps & StateProps;
-export interface StateProps {
-  mode: modeType;
-}
-
-export default class App extends React.Component<Props, {}> {
+export default class App extends React.Component<{}, {}> {
   static defaultProps = {
-    className: ""
+    className: "",
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      mode: this.props.mode ? "user" : "job"
-    };
-  }
-
   render() {
-    const data = {data: {}, label: "Goodbye", value: "Yes!"};
+    const data = new Resource(
+      {
+        id: "1",
+        type: "timeEntry"
+      },
+      () => {}
+    );
     const users = getAllUsers();
     const groups: any[] = [];
 
@@ -53,16 +42,16 @@ export default class App extends React.Component<Props, {}> {
         data: item
       })
     })
+    const mode = "job";
 
     return (
       <div className="App">
-        {/*<ToggleButton label="Toggle"/>*/}
-        <AssignableCard data={data} expandable={false}/>
+        <ConnectedToggleButton label="Toggle" />
         <Sidebar>
         <BaseListBox
           activeGroup={""}
           groups={groups}
-          viewMode={"job"}
+          viewMode={mode}
           assignActive={() => {alert("You just assigned me!")}}
         />
       </Sidebar>

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {ListBox} from 'primereact/listbox';
+import React, {Component} from "react";
+import {ListBox} from "primereact/listbox";
 import {UserListItem} from "./UserListItem";
 import {JobListItem} from "./JobListItem";
 import {ListItemProps} from "./ListItemProps";
@@ -40,8 +40,8 @@ export class BaseListBox extends Component<Props, {}> {
         options={newGroups}
         onChange={this.onChange}
         itemTemplate={itemTemplate}
-        style={{width: '15em'}}
-        listStyle={{maxHeight: '250px'}}
+        style={{width: "15em"}}
+        listStyle={{maxHeight: "250px"}}
       />
     );
   }

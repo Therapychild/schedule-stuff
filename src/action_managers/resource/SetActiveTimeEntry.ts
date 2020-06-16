@@ -17,7 +17,7 @@ export type SetActiveTimeEntryAction = {
 /**
  * Sets active group.
  */
-export default class SetActiveTimeEntry extends ReducibleActionManagerBase
+export class SetActiveTimeEntry extends ReducibleActionManagerBase
   implements ReducibleActionManagerInterface<Payload, SetActiveTimeEntryAction> {
 
   defaultState = {
