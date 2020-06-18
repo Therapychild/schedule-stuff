@@ -15,7 +15,7 @@
     "@types/redux": "^3.6.0",
     "antd": "^4.3.3",
     "classnames": "^2.2.6",
-    "components": "0.0.58",
+    "components": "^0.0",
     "core-js": "^3.6.5",
     "duckies": "^0.0",
     "interactjs": "^1.9.19",
