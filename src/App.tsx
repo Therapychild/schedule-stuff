@@ -14,7 +14,6 @@ import "./styles/sidebar-toggle.css"
 import "./styles/timeline.css"
 import "./index.css"
 
-import {getAllUsers} from "./js/exampleData";
 import Resource from "duckies/dist/resource/Resource";
 
 export default class App extends React.Component<{}, {}> {
@@ -30,18 +29,7 @@ export default class App extends React.Component<{}, {}> {
       },
       () => {}
     );
-    const users = getAllUsers();
-    const groups: any[] = [];
 
-    // Need to reformat data to be shaped like a resource
-    Object.keys(users).forEach((key: string) => {
-      const item = users[key];
-      groups.push({
-        value: item.id,
-        label: item.name,
-        data: item
-      })
-    })
     const mode = "job";
 
     return (
