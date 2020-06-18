@@ -1,6 +1,5 @@
-import React from "react";
-import { setActiveGroup, SetActiveGroupAction } from "../../action_managers/resource/SetActiveGroup";
-import { connect } from "react-redux";
+import {setActiveGroup, SetActiveGroupAction} from "../../action_managers/resource/SetActiveGroup";
+import {connect} from "react-redux";
 import {
   BaseListBox,
   StateProps,

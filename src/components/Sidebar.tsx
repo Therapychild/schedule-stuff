@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Sidebar as PrimeSidebar } from "primereact/sidebar";
+import React, {Component} from "react";
+import {Sidebar as PrimeSidebar} from "primereact/sidebar";
 import SidebarToggle from "./SidebarToggle";
 
 export interface SidebarProps {

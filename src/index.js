@@ -1,12 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import "./index.css";
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
 import * as serviceWorker from "./serviceWorker";
+
 import App from "./App";
-import SetActiveGroup from "./action_managers/resource/SetActiveGroup";
-import { ToggleViewMode } from  "./action_managers/resource/ToggleViewMode";
+
+import "./index.css";
+
+import {SetActiveGroup} from "./action_managers/resource/SetActiveGroup";
+import {ToggleViewMode} from  "./action_managers/resource/ToggleViewMode";
 
 import ReducingActionRegistry from "duckies/dist/action_registries/ReducingActionRegistry";
 import ActionRegistry from "duckies/dist/action_registries/ActionRegistry";

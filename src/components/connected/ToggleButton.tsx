@@ -1,6 +1,6 @@
-import { Button } from "primereact/button";
 import {ToggleViewModeAction} from "../../action_managers/resource/ToggleViewMode";
 import {connect} from "react-redux";
+import {Button} from "primereact/button";
 
 const mapDispatchToProps = (dispatch: Function): any => {
   return {

@@ -10,7 +10,7 @@ export default class SidebarToggle extends React.Component<
   {}
   > {
   render(): React.ReactNode {
-    const { handleClick, visible } = this.props;
+    const {handleClick, visible} = this.props;
 
     return (
       <button

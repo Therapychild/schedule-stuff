@@ -1,6 +1,6 @@
 import React from "react";
 import {ListItemProps} from "./ListItemProps";
-import { Button } from "primereact/button";
+import {Button} from "primereact/button";
 
 type Props = ListItemProps;
 
