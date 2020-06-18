@@ -6,7 +6,6 @@ export const setActiveGroup = "SET_ACTIVE_GROUP";
 
 export type Payload = {
   activeGroup: string;
-  override: boolean;
 };
 
 export type SetActiveGroupAction = {
@@ -17,7 +16,7 @@ export type SetActiveGroupAction = {
 /**
  * Sets active group.
  */
-export default class SetActiveGroup extends ReducibleActionManagerBase
+export class SetActiveGroup extends ReducibleActionManagerBase
   implements ReducibleActionManagerInterface<Payload, SetActiveGroupAction> {
 
   defaultState = {
