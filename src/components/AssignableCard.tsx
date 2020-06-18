@@ -1,6 +1,5 @@
 import React from 'react';
 import Resource from "duckies/dist/resource/Resource";
-import { CollapsibleCard } from "./CollapsibleCard";
 
 export interface OwnProps {
   data: Resource;
@@ -40,16 +39,9 @@ export class AssignableCard extends React.Component<Props, {}> {
   }
 
   render() {
-    const { data, expandable } = this.props;
+    const { data } = this.props;
     return (
-      <CollapsibleCard
-        header={this.header()}
-        body={this.body}
-        footer={this.footer}
-        data={data}
-        toggleExpand={ this.toggleExpand }
-        expandable={expandable}
-      />
+      <div data={data}/>
     );
   }
 }
