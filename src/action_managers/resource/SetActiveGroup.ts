@@ -10,7 +10,7 @@ export type Payload = {
 };
 
 export type SetActiveGroupAction = {
-  type: "SET_ACTIVE_GROUP";
+  type: typeof setActiveGroup;
   payload: Payload;
 };
 
