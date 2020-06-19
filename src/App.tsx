@@ -22,14 +22,6 @@ export default class App extends React.Component<{}, {}> {
   };
 
   render() {
-    const data = new Resource(
-      {
-        id: "1",
-        type: "timeEntry"
-      },
-      () => {}
-    );
-
     const mode = "job";
 
     return (
