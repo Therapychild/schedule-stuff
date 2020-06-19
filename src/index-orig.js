@@ -5,7 +5,7 @@ import { createStore } from 'redux'
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import App from "./App";
-import SetActiveGroup from "./action_managers/resource/SetActiveGroup";
+import SetScheduleActiveGroup from "./action_managers/resource/SetScheduleActiveGroup";
 /** Module not found: Can't resolve 'core-js/modules/es6.array.for-each' in
  * '/home/jeremy/Projects/antoinesolutions/custom-node-modules/schedule-crapp/
  * node_modules/duckies/dist/action_registries'
@@ -19,7 +19,7 @@ const actionRegistry = new ReducingActionRegistry(
 
 const store = createStore(actionRegistry.reducer);
 
-actionRegistry.register(SetActiveGroup);
+actionRegistry.register(SetScheduleActiveGroup);
 
 store.dispatch({ type: "@duckies/initialize" });
 

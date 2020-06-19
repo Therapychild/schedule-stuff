@@ -8,7 +8,7 @@ import App from "./App";
 
 import "./index.css";
 
-import {SetActiveGroup} from "./action_managers/resource/SetActiveGroup";
+import {SetScheduleActiveGroup} from "./action_managers/resource/SetScheduleActiveGroup";
 import {ToggleViewMode} from  "./action_managers/resource/ToggleViewMode";
 
 import ReducingActionRegistry from "duckies/dist/action_registries/ReducingActionRegistry";
@@ -21,7 +21,7 @@ const actionRegistry = new ReducingActionRegistry(
 const store = createStore(actionRegistry.reducer);
 window.store = store;
 
-actionRegistry.register(SetActiveGroup);
+actionRegistry.register(SetScheduleActiveGroup);
 actionRegistry.register(ToggleViewMode);
 
 store.dispatch({ type: "@duckies/initialize" });

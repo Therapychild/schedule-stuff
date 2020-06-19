@@ -37,7 +37,7 @@ export default class App extends React.Component<{}, {}> {
         <ConnectedToggleButton label="Toggle" />
         <Sidebar>
         <BaseListBox
-          activeGroup={""}
+          scheduleActiveGroup={""}
           groups={groups}
           viewMode={mode}
           assignActive={() => {alert("You just assigned me!")}}

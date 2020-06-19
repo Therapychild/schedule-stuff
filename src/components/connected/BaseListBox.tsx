@@ -1,4 +1,4 @@
-import {setActiveGroup, SetActiveGroupAction} from "../../action_managers/resource/SetActiveGroup";
+import {setScheduleActiveGroup, SetScheduleActiveGroupAction} from "../../action_managers/resource/SetScheduleActiveGroup";
 import {connect} from "react-redux";
 import {
   BaseListBox,
@@ -8,10 +8,10 @@ import {
 
 // @todo get groups from resources, see List.tsx from erp_client.
 const mapStateToProps = (state: any): StateProps => {
-  const { activeGroup, groups, viewMode } = state;
+  const { scheduleActiveGroup, groups, viewMode } = state;
 
   return {
-    activeGroup,
+    scheduleActiveGroup,
     groups,
     viewMode
   };
@@ -19,11 +19,11 @@ const mapStateToProps = (state: any): StateProps => {
 
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
-    assignActive: (activeGroup: string): void => {
+    assignActive: (scheduleActiveGroup: string): void => {
       dispatch({
-        type: setActiveGroup,
-        payload: { activeGroup },
-      } as SetActiveGroupAction);
+        type: setScheduleActiveGroup,
+        payload: { scheduleActiveGroup },
+      } as SetScheduleActiveGroupAction);
     }
   };
 };

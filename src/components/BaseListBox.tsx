@@ -10,7 +10,7 @@ export interface DispatchProps {
 }
 
 export interface StateProps {
-  activeGroup: string;
+  scheduleActiveGroup: string;
   groups: ListItemProps[];
   viewMode: "user" | "job";
 }
@@ -19,11 +19,11 @@ type Props = StateProps & DispatchProps;
 
 export class BaseListBox extends Component<Props, {}> {
   onChange(event: {originalEvent: Event, value: any, target: {name: string, id: string, value: any}}): void {
-    //setActiveGroup, (dispatchProp)
+    //setScheduleActiveGroup, (dispatchProp)
   }
 
   render(): React.ReactNode {
-    const { activeGroup, viewMode, groups, assignActive } = this.props;
+    const { scheduleActiveGroup, viewMode, groups, assignActive } = this.props;
     const itemTemplate = viewMode === "job" ? UserListItem.listItemTemplate : JobListItem.listItemTemplate;
     const newGroups = cloneDeep(groups);
 
@@ -34,7 +34,7 @@ export class BaseListBox extends Component<Props, {}> {
 
     return (
       <ListBox
-        value={activeGroup}
+        value={scheduleActiveGroup}
         filter={true}
         filterPlaceholder="Search"
         options={newGroups}
