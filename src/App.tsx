@@ -2,6 +2,7 @@ import React from "react";
 import { BaseListBox } from "./components/BaseListBox";
 import Sidebar from "components/dist/common/Sidebar";
 import { ConnectedToggleButton } from "./components/connected/ToggleButton";
+import TimeLine from "react-calendar-timeline";
 
 import "./App.css";
 import "primeicons/primeicons.css";
@@ -23,10 +24,12 @@ export default class App extends React.Component<{}, {}> {
 
   render() {
     const mode = "job";
+    const {groups, items} = this.props;
 
     return (
       <div className="App">
         <ConnectedToggleButton label="Toggle" />
+        <TimeLine groups={groups} items={items}/>
         <Sidebar>
         <BaseListBox
           scheduleActiveGroup={""}
