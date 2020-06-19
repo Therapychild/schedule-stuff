@@ -8,6 +8,7 @@ import App from "./App";
 
 import "./index.css";
 
+import {SetScheduleActiveTimeEntry} from "./action_managers/resource/SetScheduleActiveTimeEntry";
 import {SetScheduleActiveGroup} from "./action_managers/resource/SetScheduleActiveGroup";
 import {ToggleViewMode} from  "./action_managers/resource/ToggleViewMode";
 
@@ -21,6 +22,7 @@ const actionRegistry = new ReducingActionRegistry(
 const store = createStore(actionRegistry.reducer);
 window.store = store;
 
+actionRegistry.register(SetScheduleActiveTimeEntry);
 actionRegistry.register(SetScheduleActiveGroup);
 actionRegistry.register(ToggleViewMode);
 
