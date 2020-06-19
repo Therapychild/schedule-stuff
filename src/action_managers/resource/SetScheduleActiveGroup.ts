@@ -6,12 +6,12 @@ export const setScheduleActiveGroup = "SET_SCHEDULE_ACTIVE_GROUP";
 
 export type Payload = {
   scheduleActiveGroup: string;
+  override: boolean;
 };
 
 export type SetScheduleActiveGroupAction = {
   type: typeof setScheduleActiveGroup;
   payload: Payload;
-  override: boolean;
 };
 
 /**
