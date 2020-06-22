@@ -1,4 +1,4 @@
-import {ToggleViewModeAction} from "../../action_managers/resource/ToggleViewMode";
+import {ScheduleToggleViewModeAction} from "../../action_managers/resource/ScheduleToggleViewMode";
 import {connect} from "react-redux";
 import {Button} from "primereact/button";
 
@@ -6,9 +6,9 @@ const mapDispatchToProps = (dispatch: Function): any => {
   return {
     onClick: (): void => {
       dispatch({
-        type: "TOGGLE_VIEW_MODE",
+        type: "SCHEDULE_TOGGLE_VIEW_MODE",
         payload: {},
-      } as ToggleViewModeAction);
+      } as ScheduleToggleViewModeAction);
     }
   };
 };

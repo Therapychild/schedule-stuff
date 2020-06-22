@@ -1,4 +1,4 @@
-import {setScheduleActiveGroup, SetScheduleActiveGroupAction} from "../../action_managers/resource/SetScheduleActiveGroup";
+import {scheduleSetActiveGroup, ScheduleSetActiveGroupAction} from "../../action_managers/resource/ScheduleSetActiveGroup";
 import {connect} from "react-redux";
 import {
   BaseListBox,
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
     assignActive: (scheduleActiveGroup: string): void => {
       dispatch({
-        type: setScheduleActiveGroup,
+        type: scheduleSetActiveGroup,
         payload: { scheduleActiveGroup },
-      } as SetScheduleActiveGroupAction);
+      } as ScheduleSetActiveGroupAction);
     }
   };
 };

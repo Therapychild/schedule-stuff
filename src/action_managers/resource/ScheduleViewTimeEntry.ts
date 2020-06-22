@@ -2,7 +2,7 @@ import ReducibleActionManagerBase, {
   ReducibleActionManagerInterface
 } from "duckies/dist/action_managers/base/ReducibleActionManagerBase";
 
-export const setScheduleActiveGroup = "SET_SCHEDULE_ACTIVE_GROUP";
+export const scheduleSetActiveGroup = "SET_SCHEDULE_ACTIVE_GROUP";
 
 export type Payload = {
   scheduleActiveGroup: string;
@@ -10,7 +10,7 @@ export type Payload = {
 };
 
 export type SetScheduleActiveGroupAction = {
-  type: typeof setScheduleActiveGroup;
+  type: typeof scheduleSetActiveGroup;
   payload: Payload;
 };
 
@@ -30,7 +30,7 @@ export class SetScheduleActiveGroup extends ReducibleActionManagerBase
   }
 
   getType(): string {
-    return setScheduleActiveGroup;
+    return scheduleSetActiveGroup;
   }
 
   create(payload: any, tags?: string[]): SetScheduleActiveGroupAction {
