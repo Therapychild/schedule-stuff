@@ -1,12 +1,11 @@
 import ReducibleActionManagerBase, {
   ReducibleActionManagerInterface
 } from "duckies/dist/action_managers/base/ReducibleActionManagerBase";
-import Resource from "duckies/dist/resource/Resource";
 
 export const scheduleSetActiveGroup = "SCHEDULE_SET_ACTIVE_GROUP";
 
 export type Payload = {
-  timeEntry: Resource;
+  group: string;
   override: boolean;
 };
 
@@ -22,7 +21,7 @@ export class ScheduleSetActiveGroup extends ReducibleActionManagerBase
   implements ReducibleActionManagerInterface<Payload, ScheduleSetActiveGroupAction> {
 
   defaultState = {
-    timeEntry: {}
+    activeGroup: "",
   }
 
   /* istanbul ignore next */
@@ -39,8 +38,13 @@ export class ScheduleSetActiveGroup extends ReducibleActionManagerBase
   }
 
   handle(state: any, action: ScheduleSetActiveGroupAction): void {
-    const { timeEntry } = action.payload;
+    const { group, override } = action.payload;
 
-    state.timeEntry = timeEntry;
+    if (state.activeGroup && override) {
+      state.group = group;
+    }
+    else if (!state.activeGroup){
+      state.group = group;
+    }
   }
 }
