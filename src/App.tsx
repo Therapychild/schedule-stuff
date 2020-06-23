@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseListBox } from "./components/BaseListBox";
+import { ConnectedBaseListBox } from "./components/connected/BaseListBox";
 import Sidebar from "components/dist/common/Sidebar";
 import { ConnectedToggleButton } from "./components/connected/ToggleButton";
 import TimeLine from "react-calendar-timeline";
@@ -23,7 +23,6 @@ export default class App extends React.Component<{}, {}> {
   };
 
   render() {
-    const mode = "job";
     const {groups, items} = this.props;
 
     return (
@@ -31,12 +30,7 @@ export default class App extends React.Component<{}, {}> {
         <ConnectedToggleButton label="Toggle" />
         <TimeLine groups={groups} items={items}/>
         <Sidebar>
-        <BaseListBox
-          groups={groups}
-          viewMode={mode}
-          scheduleSetActiveGroup={ScheduleSetActiveGroup}
-          scheduleAssign={ScheduleAssign}
-        />
+        <ConnectedBaseListBox />
       </Sidebar>
       </div>
     );
