@@ -4,5 +4,6 @@ export interface ListItemProps {
   label: string;
   value: string | number;
   data: any;
-  assignActive: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  scheduleSetActiveGroup: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  scheduleAssign: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
