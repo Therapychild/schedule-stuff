@@ -2,13 +2,6 @@ import ReducibleActionManagerBase, {
   ReducibleActionManagerInterface
 } from "duckies/dist/action_managers/base/ReducibleActionManagerBase";
 import Resource from "duckies/dist/resource/Resource";
-import {
-  ScheduleSetActiveTimeEntry,
-  scheduleSetActiveTimeEntry
-} from "./ScheduleSetActiveTimeEntry";
-import {ScheduleSetActiveGroup} from "./ScheduleSetActiveGroup";
-import {UserListItem} from "../../components/UserListItem";
-import {JobListItem} from "../../components/JobListItem";
 
 export const scheduleAssign = "SCHEDULE_ASSIGN";
 
@@ -24,14 +17,6 @@ export type ScheduleAssignAction = {
 
 /**
  * Assigns group and or timeEntry.
- * If Payload has both a TimeEntry and a group, set the group to
- * scheduleSetActiveTimeEntry
- *
- * If Payload has a TimeEntry and an activeGroup in state, set group to
- * scheduleSetActiveTimeEntry
- *
- * If there is an Group, and an activeTimeEntry in state, set timeEntry to
- * scheduleSetActiveGroup.
  */
 export class ScheduleAssign extends ReducibleActionManagerBase
   implements ReducibleActionManagerInterface<Payload, ScheduleAssignAction> {
