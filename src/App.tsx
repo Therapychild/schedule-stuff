@@ -32,10 +32,10 @@ export default class App extends React.Component<{}, {}> {
         <TimeLine groups={groups} items={items}/>
         <Sidebar>
         <BaseListBox
-          scheduleActiveGroup={""}
           groups={groups}
           viewMode={mode}
-          assignActive={() => {alert("You just assigned me!")}}
+          scheduleSetActiveGroup={ScheduleSetActiveGroup}
+          scheduleAssign={ScheduleAssign}
         />
       </Sidebar>
       </div>
