@@ -11,12 +11,11 @@ export class JobListItem extends React.Component<Props, {}> {
   }
 
   render() {
-    const { label, assignActive } = this.props
+    const { label, scheduleSetActiveGroup, scheduleAssign } = this.props
     return (
       <div className="p-clearfix">
-        <span style={{fontSize:'1em',float:'right',margin:'1em .5em 0 0'}}>{label}</span>
-        {/*button needs to be disabled by default, enabled when a time-entry becomes active*/}
-        <Button className="assign" label="Assign Job" onClick={assignActive} />
+        <button style={{fontSize:'1em',float:'right',margin:'1em .5em 0 0'}} onClick={scheduleSetActiveGroup}>{label}</button>
+        <Button className="assign" label="Assign" onClick={scheduleAssign} />
       </div>
     );
   }
