@@ -11,6 +11,7 @@ import "./index.css";
 import {ScheduleSetActiveTimeEntry} from "./action_managers/resource/ScheduleSetActiveTimeEntry";
 import {ScheduleSetActiveGroup} from "./action_managers/resource/ScheduleSetActiveGroup";
 import {ScheduleToggleViewMode} from  "./action_managers/resource/ScheduleToggleViewMode";
+import {ScheduleViewedTimeEntry} from "./action_managers/resource/ScheduleViewedTimeEntry";
 
 import ReducingActionRegistry from "duckies/dist/action_registries/ReducingActionRegistry";
 import ActionRegistry from "duckies/dist/action_registries/ActionRegistry";
@@ -25,6 +26,7 @@ window.store = store;
 actionRegistry.register(ScheduleSetActiveTimeEntry);
 actionRegistry.register(ScheduleSetActiveGroup);
 actionRegistry.register(ScheduleToggleViewMode);
+actionRegistry.register(ScheduleViewedTimeEntry);
 
 store.dispatch({ type: "@duckies/initialize" });
 
