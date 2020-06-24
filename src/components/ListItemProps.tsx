@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * Interface for a Group.
+ */
 export interface ListItemProps {
   label: string;
   value: string | number;
