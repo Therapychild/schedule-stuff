@@ -1,9 +1,11 @@
 import React, {Component} from "react";
+import {TMode} from "../types/mode";
 import {ListBox} from "primereact/listbox";
 import {UserListItem} from "./UserListItem";
 import {JobListItem} from "./JobListItem";
 import {ListItemProps} from "./ListItemProps";
 import cloneDeep from "lodash/cloneDeep";
+import Resource from "duckies/dist/resource/Resource";
 
 export interface DispatchProps {
   scheduleSetActiveGroup: Function;
@@ -12,8 +14,8 @@ export interface DispatchProps {
 
 export interface StateProps {
   groups: ListItemProps[];
-  viewMode: "user" | "job";
-  activeGroup:  ""
+  viewMode: TMode;
+  activeGroup: Resource;
 }
 
 type Props = StateProps & DispatchProps;
@@ -49,4 +51,3 @@ export class BaseListBox extends Component<Props, {}> {
     );
   }
 }
-
