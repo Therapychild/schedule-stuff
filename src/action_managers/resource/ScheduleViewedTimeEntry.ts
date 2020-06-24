@@ -42,10 +42,10 @@ export class ScheduleViewedTimeEntry extends ReducibleActionManagerBase
     const { timeEntry, override } = action.payload;
 
     if (state.activeViewedTimeEntry && override) {
-      state.activeViewedTimeEntry = timeEntry.id;
+      state.activeViewedTimeEntry = timeEntry.get("id");
     }
     else if (!state.activeViewedTimeEntry) {
-      state.activeViewedTimeEntry = timeEntry.id;
+      state.activeViewedTimeEntry = timeEntry.get("id");
     }
   }
 }
