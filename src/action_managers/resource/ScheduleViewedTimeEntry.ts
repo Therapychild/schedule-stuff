@@ -22,7 +22,7 @@ export class ScheduleViewedTimeEntry extends ReducibleActionManagerBase
   implements ReducibleActionManagerInterface<Payload, ScheduleViewedTimeEntryAction> {
 
   defaultState = {
-    active: false
+    activeViewedTimeEntry: ""
   }
 
   /* istanbul ignore next */
@@ -39,8 +39,13 @@ export class ScheduleViewedTimeEntry extends ReducibleActionManagerBase
   }
 
   handle(state: any, action: ScheduleViewedTimeEntryAction): void {
-    const { scheduleViewedTimeEntry } = action.payload;
+    const { timeEntry, override } = action.payload;
 
-    state.scheduleViewedTimeEntry = scheduleViewedTimeEntry;
+    if (state.activeViewedTimeEntry && override) {
+      state.activeViewedTimeEntry = timeEntry.id;
+    }
+    else if (!state.activeViewedTimeEntry) {
+      state.activeViewedTimeEntry = timeEntry.id;
+    }
   }
 }
