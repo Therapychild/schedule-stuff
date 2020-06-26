@@ -14,9 +14,9 @@ import {
 } from "../../action_managers/resource/ScheduleAssign";
 
 import {
-  scheduleViewedTimeEntry,
-  ScheduleViewedTimeEntryAction
-} from "../../action_managers/resource/ScheduleViewedTimeEntry";
+  scheduleViewTimeEntry,
+  ScheduleViewTimeEntryAction
+} from "../../action_managers/resource/ScheduleViewTimeEntry";
 
 import {
   TimeLineItem,
@@ -57,14 +57,14 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
         },
       } as ScheduleSetActiveTimeEntryAction);
     },
-    scheduleViewedTimeEntry: (timeEntry: Resource): void => {
+    scheduleViewTimeEntry: (timeEntry: Resource): void => {
       dispatch({
-        type: scheduleViewedTimeEntry,
+        type: scheduleViewTimeEntry,
         payload: {
           timeEntry: timeEntry.get("id"),
           override: true
         },
-      } as ScheduleViewedTimeEntryAction);
+      } as ScheduleViewTimeEntryAction);
     },
     scheduleAssign: (group: Resource, timeEntry: Resource ): void => {
       dispatch({

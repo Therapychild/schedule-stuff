@@ -7,7 +7,7 @@ export interface DispatchProps {
   scheduleSetActiveGroup: (group: string) => void;
   scheduleSetActiveTimeEntry: (timeEntry: Resource) => void;
   scheduleAssign: (group: Resource, timeEntry: Resource) => void;
-  scheduleViewedTimeEntry: (timeEntry: Resource) => void;
+  scheduleViewTimeEntry: (timeEntry: Resource) => void;
 }
 
 export interface OwnProps {
@@ -42,8 +42,8 @@ export class TimeLineItem extends React.Component<Props, {}> {
   }
 
   onViewTimeEntry() {
-    const {scheduleViewedTimeEntry, timeEntry} = this.props;
-    scheduleViewedTimeEntry(timeEntry.get("id"));
+    const {scheduleViewTimeEntry, timeEntry} = this.props;
+    scheduleViewTimeEntry(timeEntry.get("id"));
   }
 
   render(): React.ReactNode {
