@@ -51,7 +51,7 @@ export class TimeLineItem extends React.Component<Props, {}> {
       timeEntry,
       viewMode
     } = this.props;
-    const id = timeEntry.id;
+    const id = timeEntry.get("id");
     const title = viewMode === "job" ? timeEntry.get("user.displayName") : timeEntry.get("job.name");
 
     return (
@@ -59,7 +59,6 @@ export class TimeLineItem extends React.Component<Props, {}> {
         <Button className="time-entry" onClick={this.onSetActive} label={title} />
         <Button className="assign" label="Assign" onClick={this.onAssign} />
         <Button className="more-info" label="info" onClick={this.onViewTimeEntry} />
-        <div id="modal"/>
       </div>
     );
   }
