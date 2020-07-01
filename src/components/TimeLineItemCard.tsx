@@ -9,7 +9,6 @@ export class TimeLineItemCard extends React.Component<Props, {}> {
   header(): React.ReactNode {
     const { data } = this.props;
 
-    console.log(data);
     return (
       <ConnectedTimeLineItem timeEntry={data} />
     );
