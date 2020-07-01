@@ -4,7 +4,7 @@ import { DefaultQueryAction } from "duckies/dist/action_managers/resource/Defaul
 import Channelizer from "duckies/dist/utility/channelizer";
 import { connect } from "react-redux";
 
-import {ConnectedTimeLineItem} from "../connected/TimeLineItem";
+import {TimeLineItemCard} from "../TimeLineItemCard";
 
 import {
   Schedule,
