@@ -1,11 +1,12 @@
 import ReducibleActionManagerBase, {
   ReducibleActionManagerInterface
 } from "duckies/dist/action_managers/base/ReducibleActionManagerBase";
+import {TMode} from "../../types/mode";
 
 export const scheduleToggleViewMode = "SCHEDULE_TOGGLE_VIEW_MODE";
 
 export type Payload = {
-  viewMode: string
+  viewMode: TMode;
 };
 
 export type ScheduleToggleViewModeAction = {
@@ -40,6 +41,6 @@ export class ScheduleToggleViewMode extends ReducibleActionManagerBase
   }
 
   handle(state: any, action: ScheduleToggleViewModeAction): void {
-    state.viewMode = state.viewMode === "user" ? "job" : "user";
+    state.viewMode = state.viewMode === "job" ? "user" : "job";
   }
 }
