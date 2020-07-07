@@ -10,6 +10,9 @@ import Timeline, {
 } from "react-calendar-timeline";
 
 import "react-calendar-timeline/lib/Timeline.css";
+import {ConnectedTimeLineItem} from "./connected/TimeLineItem";
+import Channelizer from "duckies/dist/utility/channelizer";
+import Resource from "duckies/dist/resource/Resource";
 
 const keys = {
   groupIdKey: "id",
@@ -24,34 +27,39 @@ const keys = {
   groupLabelKey: "title"
 };
 
+export interface OwnProps {
+  defaultGroupQuery: QueryInterface;
+  defaultTimeEntryQuery: QueryInterface;
+}
+
 export interface StateProps {
-  groups: []; // Will be either a Jobs or Users array
-  timeEntries: []; // Will be a TimeEntries array
+  groups: Resource[]; // Will be either a Jobs or Users array
+  timeEntries: Resource[]; // Will be a TimeEntries array
   viewMode: TMode;
   defaultTimeStart: Moment;
   defaultTimeEnd: Moment;
+  channelizer: Channelizer;
 }
 
 export interface DispatchProps {
-  defaultQuery: (query: QueryInterface) => void;
+  defaultQuery: (query: QueryInterface, channelizer: Channelizer) => void;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps;
 
 export  class Schedule extends React.Component<Props, {}> {
 
   // These need to be worked out when GraphQL queries are completed.
-  defaultGroupQuery?: QueryInterface;
-  defaultTimeEntryQuery?: QueryInterface;
+
 
   componentDidMount() {
-    const {defaultQuery} = this.props;
+    const {defaultQuery, defaultGroupQuery, channelizer} = this.props;
     // Run the groupQuery
     // Provides a groups(jobs/users) resource[]
     // Provides a timeEntries resource[] based on dates and groups.
     // Provides timeStartDate and timeEndDate for TimeLine
 
-    // defaultQuery(this.defaultGroupQuery);
+    defaultQuery(defaultGroupQuery, channelizer);
   }
 
   onTimelineDateChange() {
@@ -65,13 +73,40 @@ export  class Schedule extends React.Component<Props, {}> {
     // claims outside of range.
   }
 
-  render() {
-    const { groups, timeEntries, defaultTimeStart, defaultTimeEnd } = this.props;
+  render(): React.ReactNode {
+    const { groups, timeEntries, viewMode,  defaultTimeStart, defaultTimeEnd } = this.props;
+
+    // Format Groups[] to work with the timeLine
+    let newGroups: any[] = [];
+    Object.keys(groups).forEach((key) => {
+      const group = groups[parseInt(key)];
+      newGroups.push({
+        value: group.get("id"),
+        label: group.get("name"),
+        data: group
+      })
+    });
+
+    // Format the timeEntries Resource[] to work with the timeline as an item[]
+    let timeEntryItems: any[] = [];
+    Object.keys(timeEntries).forEach((key: string) => {
+      const timeEntry = timeEntries[parseInt(key)];
+      const timeEntryGroup = timeEntry.get(viewMode);
+
+      timeEntryItems.push({
+        id: timeEntry.get("id"),
+        group: timeEntryGroup.id,
+        title: <ConnectedTimeLineItem timeEntry={timeEntry}/>,
+        start: timeEntry.get("start") * 1000,
+        end: (timeEntry.get("end") + 900) * 1000,
+        itemProps: {}
+      });
+    });
 
     return (
       <Timeline
-        groups={groups}
-        items={timeEntries}
+        groups={newGroups}
+        items={timeEntryItems}
         keys={keys}
         itemTouchSendsClick={false}
         stackItems
@@ -94,4 +129,3 @@ export  class Schedule extends React.Component<Props, {}> {
     );
   }
 }
-
