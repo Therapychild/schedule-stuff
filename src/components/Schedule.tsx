@@ -25,11 +25,11 @@ const keys = {
 };
 
 export interface StateProps {
-  groupResources: []; // Will be either a Jobs or Users array
-  itemResources: []; // Will be a TimeEntries array
+  groups: []; // Will be either a Jobs or Users array
+  timeEntries: []; // Will be a TimeEntries array
   viewMode: TMode;
-  visibleTimeStart: Moment;
-  visibleTimeEnd: Moment;
+  defaultTimeStart: Moment;
+  defaultTimeEnd: Moment;
 }
 
 export interface DispatchProps {
@@ -51,7 +51,7 @@ export  class Schedule extends React.Component<Props, {}> {
     // Provides a timeEntries resource[] based on dates and groups.
     // Provides timeStartDate and timeEndDate for TimeLine
 
-    defaultQuery(this.defaultGroupQuery);
+    // defaultQuery(this.defaultGroupQuery);
   }
 
   onTimelineDateChange() {
@@ -66,20 +66,20 @@ export  class Schedule extends React.Component<Props, {}> {
   }
 
   render() {
-    const { groupResources, itemResources, visibleTimeStart, visibleTimeEnd } = this.props;
+    const { groups, timeEntries, defaultTimeStart, defaultTimeEnd } = this.props;
 
     return (
       <Timeline
-        groups={groupResources}
-        items={itemResources}
+        groups={groups}
+        items={timeEntries}
         keys={keys}
         itemTouchSendsClick={false}
         stackItems
         itemHeightRatio={0.75}
         canMove={true}
         canResize={true}
-        visibleTimeStart={visibleTimeStart}
-        visibleTimeEnd={visibleTimeEnd}
+        defaultTimeStart={defaultTimeStart}
+        defaultTimeEnd={defaultTimeEnd}
       >
         <TimelineHeaders className="sticky">
           <SidebarHeader>
