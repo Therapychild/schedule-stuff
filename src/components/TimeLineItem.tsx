@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from "primereact/button";
+import TimeEntryCard from "time-entry/dist/components/Card";
 import {TMode} from "../types/mode";
 import Resource from "duckies/dist/resource/Resource";
 
@@ -52,13 +53,24 @@ export class TimeLineItem extends React.Component<Props, {}> {
       viewMode
     } = this.props;
     const id = timeEntry.get("id");
-    const title = viewMode === "job" ? timeEntry.get("user.displayName") : timeEntry.get("job.name");
+    let setActive = <></>;
+
+    if (viewMode === "job") {
+      const user = timeEntry.get("user");
+      if (user) {
+        setActive = <Button className="time-entry" onClick={this.onSetActive} label={timeEntry.get("user.displayName")} />
+      }
+    }
+    else {
+      setActive = <Button className="time-entry" onClick={this.onSetActive} label={timeEntry.get("job.name")} />
+    }
 
     return (
       <div id={id} >
-        <Button className="time-entry" onClick={this.onSetActive} label={title} />
+        {setActive}
         <Button className="assign" label="Assign" onClick={this.onAssign} />
         <Button className="more-info" label="info" onClick={this.onViewTimeEntry} />
+        <TimeEntryCard data={timeEntry}/>
       </div>
     );
   }
