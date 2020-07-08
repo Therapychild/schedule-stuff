@@ -1,4 +1,3 @@
-import React from "react";
 import QueryInterface from "duckies/dist/interfaces/QueryInterface";
 import { DefaultQueryAction } from "duckies/dist/action_managers/resource/DefaultQuery";
 import Channelizer from "duckies/dist/utility/channelizer";
@@ -12,10 +11,9 @@ import {
   DispatchProps
 } from "../Schedule";
 
+// Get claims via defaultQuery)
 const mapStateToProps = (state: any): StateProps => {
-
   const channelizer: Channelizer = state.services.channelizer;
-  // Get claims via defaultGroupQuery(defaultQuery)
   const claims: string[] = state.claims["schedule"];
   const viewMode = state.viewMode;
   let groups: any[] = [];
