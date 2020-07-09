@@ -33,8 +33,8 @@ export interface OwnProps {
 }
 
 export interface StateProps {
-  groups: Resource[]; // Will be either a Jobs or Users array
-  timeEntries: Resource[]; // Will be a TimeEntries array
+  groups: Resource[]; // Jobs or Users array
+  timeEntries: Resource[]; // TimeEntries array
   viewMode: TMode;
   defaultTimeStart: Moment;
   defaultTimeEnd: Moment;
@@ -49,28 +49,36 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 export  class Schedule extends React.Component<Props, {}> {
 
-  // These need to be worked out when GraphQL queries are completed.
-
-
+  /**
+   * Runs the defaultGroupQuery.
+   * Provides defaultTimeStart and defaultTimeEnd for the TimeLine.
+   * Provides a groups[], based on Start/End Dates. for the
+   * defaultTimeEntryQuery.
+   */
   componentDidMount() {
     const {defaultQuery, defaultGroupQuery, channelizer} = this.props;
-    // Run the groupQuery
-    // Provides a groups(jobs/users) resource[]
-    // Provides a timeEntries resource[] based on dates and groups.
-    // Provides timeStartDate and timeEndDate for TimeLine
 
     defaultQuery(defaultGroupQuery, channelizer);
   }
 
+  /**
+   * Updates the defaultGroupQuery with new date range.
+   * Updates the defaultTimeEntryQuery based on new defaultGroupQuery.
+   * Affected by manual date change, button + MouseWheel zoom, and pinch-zoom.
+   * Ctrl/Shift/Alt have different zoom levels.
+   */
   onTimelineDateChange() {
-    // Updates the groupQuery with new date range
-    // Returns "timeStart" and "timeEnd"
-    // Affected by manual date change, and CTRL zoom
   }
 
+  /**
+   * Updates defaultGroupQuery with new a groups[] based on max number of
+   * viewable groups.
+   * Updates the defaultTimeEntryQuery based on new defaultGroupQuery.
+   * Lazy loads N number of groups.
+   * Releases group claims outside of range. (performance optimization,
+   * low priority)
+   */
   onScrollVertical() {
-    // Updates groupQuery, lazy loads N number of groups and releases group
-    // claims outside of range.
   }
 
   render(): React.ReactNode {
