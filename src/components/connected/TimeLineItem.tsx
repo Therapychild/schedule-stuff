@@ -1,22 +1,9 @@
-import {
-  scheduleSetActiveTimeEntry,
-  ScheduleSetActiveTimeEntryAction
-} from "../../action_managers/resource/ScheduleSetActiveTimeEntry";
-
-import {
-  scheduleSetActiveGroup,
-  ScheduleSetActiveGroupAction
-} from "../../action_managers/resource/ScheduleSetActiveGroup";
+import {KeyValueAction} from "duckies/dist/action_managers/utility/KeyValue"
 
 import {
   scheduleAssign,
   ScheduleAssignAction
 } from "../../action_managers/resource/ScheduleAssign";
-
-import {
-  scheduleViewTimeEntry,
-  ScheduleViewTimeEntryAction
-} from "../../action_managers/resource/ScheduleViewTimeEntry";
 
 import {
   TimeLineItem,
@@ -27,51 +14,53 @@ import {
 import Resource from "duckies/dist/resource/Resource";
 import {connect} from "react-redux";
 
-// @todo get groups from resources, see List.tsx from erp_client.
 const mapStateToProps = (state: any): StateProps => {
-  const { viewMode, activeGroup} = state;
+  const { viewMode, activeResource, activeTimeEntry, activeViewedTimeEntry} = state;
 
   return {
     viewMode,
-    activeGroup
+    activeResource,
+    activeTimeEntry,
+    activeViewedTimeEntry
   };
 };
 
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
-    scheduleSetActiveGroup: (group: string): void => {
-      dispatch({
-        type: scheduleSetActiveGroup,
-        payload: {
-          group,
-          override: true
-        },
-      } as ScheduleSetActiveGroupAction);
-    },
-    scheduleSetActiveTimeEntry: (timeEntry: Resource): void => {
-      dispatch({
-        type: scheduleSetActiveTimeEntry,
-        payload: {
-          timeEntry,
-          override: true
-        },
-      } as ScheduleSetActiveTimeEntryAction);
-    },
-    scheduleViewTimeEntry: (timeEntry: Resource): void => {
-      dispatch({
-        type: scheduleViewTimeEntry,
-        payload: {
-          timeEntry: timeEntry.get("id"),
-          override: true
-        },
-      } as ScheduleViewTimeEntryAction);
-    },
-    scheduleAssign: (group: Resource, timeEntry: Resource ): void => {
+    scheduleAssign: (resource?: Resource, timeEntry?: Resource ): void => {
       dispatch({
         type: scheduleAssign,
-        payload: { group, timeEntry },
+        payload: { resource, timeEntry },
       } as ScheduleAssignAction);
-    }
+    },
+    scheduleSetActiveResource: (timeEntry: string): void => {
+      dispatch({
+        type: "KEY_VALUE",
+        payload: {
+          key: "scheduleSetActiveResource",
+          value: timeEntry
+        },
+      } as KeyValueAction);
+    },
+    scheduleSetActiveTimeEntry: (timeEntry: string): void => {
+      dispatch({
+        type: "KEY_VALUE",
+        payload: {
+          key: "scheduleSetActiveTimeEntry",
+          value: timeEntry
+        },
+      } as KeyValueAction);
+    },
+    scheduleViewTimeEntry: (timeEntry: string): void => {
+      dispatch({
+        type: "KEY_VALUE",
+        payload: {
+          key: "scheduleViewTimeEntry",
+          value: timeEntry
+        },
+      } as KeyValueAction);
+    },
+
   };
 };
 
