@@ -58,6 +58,6 @@ export class ScheduleAssign extends ReducibleActionManagerBase
     if (!timeEntry) {
       timeEntry = state.resources.timeEntry[state.activeTimeEntry];
     }
-    timeEntry.set(group.type, group)
+    // timeEntry.set(group.type, group)
   }
 }
