@@ -1,49 +1,55 @@
 import React, {Component} from "react";
 import {TMode} from "../types/mode";
 import {ListBox} from "primereact/listbox";
-import {UserListItem} from "./UserListItem";
-import {JobListItem} from "./JobListItem";
+import {ConnectedUserListItem} from "./connected/UserListItem";
+import {ConnectedJobListItem} from "./connected/JobListItem";
 import {ListItemProps} from "./ListItemProps";
-import cloneDeep from "lodash/cloneDeep";
 import Resource from "duckies/dist/resource/Resource";
 
 export interface DispatchProps {
-  scheduleSetActiveGroup: Function;
-  scheduleAssign: Function;
+  scheduleSetActiveResource: (resource: string) => void;
 }
 
 export interface StateProps {
-  groups: ListItemProps[];
+  resources: Resource[];
   viewMode: TMode;
-  activeGroup: Resource;
+  activeResource: string;
+  activeTimeEntry: string;
 }
 
 type Props = StateProps & DispatchProps;
 
 export class BaseListBox extends Component<Props, {}> {
 
-  // Take the value of the item clicked and pass it to the scheduleActiveGroup function.
-  onChange(event: {originalEvent: Event, value: any, target: {name: string, id: string, value: any}}): void {
-    const { scheduleSetActiveGroup } = this.props;
-    scheduleSetActiveGroup(event.value);
+  doChange = (event: {originalEvent: Event, value: any, target: {name: string, id: string, value: string}}): void => {
+    const { scheduleSetActiveResource } = this.props;
+
+    scheduleSetActiveResource(event.value);
   }
 
   render(): React.ReactNode {
-    const { activeGroup, scheduleAssign, viewMode, groups } = this.props;
-    const itemTemplate = viewMode === "job" ? UserListItem.listItemTemplate : JobListItem.listItemTemplate;
-    const newGroups = cloneDeep(groups);
+    const { resources, activeResource, viewMode } = this.props;
+    const itemTemplate = viewMode === "job" ? ConnectedUserListItem.listItemTemplate : ConnectedJobListItem.listItemTemplate;
+    const options: ListItemProps[] = [];
 
-    newGroups.forEach((value: any, index: number): void => {
-      newGroups[index].scheduleAssign = scheduleAssign as any;
+    /**
+     * Format resources as options for the ListBox.
+    */
+    resources.forEach((resource: any, index: number): void => {
+      options.push({
+        label: resource.get("name"),
+        value: resource.get("id"),
+        resource,
+      })
     })
 
     return (
       <ListBox
-        value={activeGroup}
+        value={activeResource}
         filter={true}
         filterPlaceholder="Search"
-        options={newGroups}
-        onChange={this.onChange}
+        options={options}
+        onChange={this.doChange}
         itemTemplate={itemTemplate}
         style={{width: "15em"}}
         listStyle={{maxHeight: "250px"}}
