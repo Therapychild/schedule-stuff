@@ -1,41 +1,34 @@
-import {scheduleSetActiveGroup, ScheduleSetActiveGroupAction} from "../../action_managers/resource/ScheduleSetActiveGroup";
-import {scheduleAssign, ScheduleAssignAction} from "../../action_managers/resource/ScheduleAssign";
+import {KeyValueAction} from "duckies/dist/action_managers/utility/KeyValue"
+
 import {connect} from "react-redux";
 import {
   BaseListBox,
   StateProps,
   DispatchProps
 } from "../BaseListBox";
-import Resource from "duckies/dist/resource/Resource";
 
-// @todo get groups from resources, see List.tsx from erp_client.
 const mapStateToProps = (state: any): StateProps => {
-  const { groups, viewMode, activeGroup } = state;
+  const { viewMode, resources, activeResource, activeTimeEntry  } = state;
 
   return {
-    groups,
     viewMode,
-    activeGroup
+    resources,
+    activeResource,
+    activeTimeEntry
   };
 };
 
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
-    scheduleSetActiveGroup: (group: string): void => {
+    scheduleSetActiveResource: (resource: string): void => {
       dispatch({
-        type: scheduleSetActiveGroup,
+        type: "KEY_VALUE",
         payload: {
-          group,
-          override: true
+          key: "scheduleSetActiveResource",
+          value: resource
         },
-      } as ScheduleSetActiveGroupAction);
+      } as KeyValueAction);
     },
-    scheduleAssign: (group: Resource, timeEntry: Resource ): void => {
-      dispatch({
-        type: scheduleAssign,
-        payload: { group, timeEntry },
-      } as ScheduleAssignAction);
-    }
   };
 };
 
