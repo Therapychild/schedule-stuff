@@ -11,12 +11,12 @@ import {
   DispatchProps
 } from "../Schedule";
 
-// Get claims via defaultQuery)
+// Get claims via defaultQuery
 const mapStateToProps = (state: any): StateProps => {
   const channelizer: Channelizer = state.services.channelizer;
   const claims: string[] = state.claims["schedule"];
   const viewMode = state.viewMode;
-  let groups: any[] = [];
+  let resources: any[] = [];
   let timeEntries: any[] = [];
   let defaultTimeStart: Moment = moment();
   let defaultTimeEnd: Moment = moment();
@@ -28,7 +28,7 @@ const mapStateToProps = (state: any): StateProps => {
 
     return {
       channelizer,
-      groups: [],
+      resources: [],
       timeEntries: [],
       viewMode: state.viewMode,
       defaultTimeStart: moment(),
@@ -40,11 +40,11 @@ const mapStateToProps = (state: any): StateProps => {
   // @ Make a helper function that returns claimed documents
   // Process group claims depending on job or user
   if (claims) {
-    groups = claims.map(item => {
+    resources = claims.map(item => {
       return state.resources[viewMode][item]
     })
 
-    groups = compact(groups);
+    resources = compact(resources);
 
     timeEntries = claims.map(item => {
       return state.resources.timeEntry[item]
@@ -55,7 +55,7 @@ const mapStateToProps = (state: any): StateProps => {
 
   return {
     channelizer,
-    groups,
+    resources,
     timeEntries,
     viewMode,
     defaultTimeStart,

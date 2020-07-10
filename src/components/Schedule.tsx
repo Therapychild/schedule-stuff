@@ -33,7 +33,7 @@ export interface OwnProps {
 }
 
 export interface StateProps {
-  groups: Resource[]; // Jobs or Users array
+  resources: Resource[]; // Jobs or Users array
   timeEntries: Resource[]; // TimeEntries array
   viewMode: TMode;
   defaultTimeStart: Moment;
@@ -82,13 +82,13 @@ export  class Schedule extends React.Component<Props, {}> {
   }
 
   render(): React.ReactNode {
-    const { groups, timeEntries, viewMode,  defaultTimeStart, defaultTimeEnd } = this.props;
+    const { resources, timeEntries, viewMode,  defaultTimeStart, defaultTimeEnd } = this.props;
 
     // Format Groups[] to work with the timeLine
-    let newGroups: any[] = [];
-    Object.keys(groups).forEach((key) => {
-      const group = groups[parseInt(key)];
-      newGroups.push({
+    let groups: any[] = [];
+    Object.keys(resources).forEach((key) => {
+      const group = resources[parseInt(key)];
+      groups.push({
         value: group.get("id"),
         label: group.get("name"),
         data: group
@@ -113,7 +113,7 @@ export  class Schedule extends React.Component<Props, {}> {
 
     return (
       <Timeline
-        groups={newGroups}
+        groups={groups}
         items={timeEntryItems}
         keys={keys}
         itemTouchSendsClick={false}
