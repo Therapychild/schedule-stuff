@@ -30,6 +30,7 @@
     "react-scripts": "3.4.1",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
+    "time-entry": "^0.0.10",
     "typescript": "^3.9.5"
   },
   "scripts": {
