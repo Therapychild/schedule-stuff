@@ -287,9 +287,7 @@ export function getTimeEntries(start: number, end: number): {[index: string]: Re
         const timeEntryId = `${jobId}${current}-${numberOfTimeEntries}`;
 
         // Derive a user id.
-        console.log({current, jobSeed: jobSeeds[jobId], numberOfTimeEntries});
         let userId: number = Math.floor(badRandom(current + jobSeeds[jobId] + numberOfTimeEntries) * userNames.length * 3);
-        console.log(badRandom(current + jobSeeds[jobId] + numberOfTimeEntries));
         if (userId >= userNames.length) {
           userId = -1;
         }

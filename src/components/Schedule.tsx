@@ -17,7 +17,7 @@ import {
   getJobResources,
   getUserResources
 } from "../js/resources";
-import {TimeLineItemCard} from "./TimeLineItemCard";
+import {ConnectedTimeLineItem} from "./connected/TimeLineItem";
 // @todo Remove
 
 var keys = {
@@ -86,6 +86,7 @@ export class Schedule extends React.Component<Props, {}> {
 
       // @Todo remove
     const jobs: any = getJobResources();
+    console.log(jobs);
     let jobResources: any[] = [];
     Object.keys(jobs).forEach((key: string) => {
       const job: any = jobs[key]
@@ -144,7 +145,7 @@ export class Schedule extends React.Component<Props, {}> {
       itemResources.push({
         id: timeEntry.get("id"),
         group: timeEntryGroup.id,
-        title: <TimeLineItemCard data={timeEntry}/>,
+        title: <ConnectedTimeLineItem timeEntry={timeEntry}/>,
         start: timeEntry.get("start") * 1000,
         end: (timeEntry.get("end")+ 900) * 1000,
         itemProps: {
@@ -153,7 +154,6 @@ export class Schedule extends React.Component<Props, {}> {
     });
     // @todo Remove
 
-    console.log(itemResources);
     return (
       <Timeline
         groups={groups}

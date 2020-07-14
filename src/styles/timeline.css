@@ -23,6 +23,7 @@
   border: 1px black solid;
 }
 
-.boo {
-  border: 1px solid black;
+.rct-item {
+  display: flex;
+  flex-direction: row;
 }
