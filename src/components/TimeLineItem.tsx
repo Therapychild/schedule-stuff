@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from "primereact/button";
-import TimeEntryCard from "time-entry/dist/components/Card";
+import {Card as TimeEntryCard} from "time-entry/dist/components/Card";
 import {TMode} from "../types/mode";
 import Resource from "duckies/dist/resource/Resource";
 
