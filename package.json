@@ -33,7 +33,7 @@
     "react-scripts": "3.4.1",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
-    "seedrandom": "^3.0.5",
+    "seedrandom": "^3.0",
     "time-entry": "^0.0",
     "typescript": "^3.9.5"
   },
