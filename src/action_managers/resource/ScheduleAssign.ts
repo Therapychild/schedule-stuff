@@ -6,7 +6,7 @@ import Resource from "duckies/dist/resource/Resource";
 export const scheduleAssign = "SCHEDULE_ASSIGN";
 
 export type Payload = {
-  group?: Resource;
+  resource?: Resource;
   timeEntry?: Resource;
 };
 
@@ -20,6 +20,11 @@ export type ScheduleAssignAction = {
  */
 export class ScheduleAssign extends ReducibleActionManagerBase
   implements ReducibleActionManagerInterface<Payload, ScheduleAssignAction> {
+
+  defaultState = {
+    resource: {},
+    timeEntry: {}
+  }
 
   /* istanbul ignore next */
   constructor() {
@@ -35,29 +40,24 @@ export class ScheduleAssign extends ReducibleActionManagerBase
   }
 
   handle(state: any, action: ScheduleAssignAction): void {
-    let { group, timeEntry } = action.payload;
+    /**
+     * If a timeEntry is provided, use it, otherwise get the activeTimeEntry
+     * from state.
+     */
+    const timeEntry: Resource = action.payload.timeEntry ? action.payload.timeEntry : state.resources.timeEntry[state.keyValue.activeTimeEntry];
 
-    // If payload does not provide a group or a timeEntry, do nothing.
-    if (!(group && timeEntry)) {
+    /**
+     * If a resource is provided, first check the vieMode to determine the type,
+     * and use it, otherwise, get the activeResource from state.
+     */
+    const activeType = state.keyValue.viewMode === "job" ? "user" : "job";
+    const resource: Resource = action.payload.resource ? action.payload.resource : state.resources[activeType][state.keyValue.activeResource];
+
+    // If payload does not provide a resource or a timeEntry, do nothing.
+    if (!resource || !timeEntry) {
       return;
     }
 
-    // If no group is provided from payload, get the activeGroup from state.
-    if (!group) {
-      const mode = state.viewMode;
-      const activeGroup = state.activeGroup;
-      if (mode === "user") {
-        group = state.resources.job[activeGroup]
-      }
-      else {
-        group = state.resources.user[activeGroup];
-      }
-    }
-
-    // If no timeEntry is provided in the payload, get the activeTimeEntry from state.
-    if (!timeEntry) {
-      timeEntry = state.resources.timeEntry[state.activeTimeEntry];
-    }
-    // timeEntry.set(group.type, group)
+    timeEntry.set(resource.type, resource)
   }
 }

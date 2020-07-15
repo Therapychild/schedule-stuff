@@ -1,15 +1,11 @@
-import React from "react";
+import Resource from "duckies/dist/resource/Resource";
 
 /**
- * Interface for a Group.
+ * Interface for a ListItem.
  */
 export interface ListItemProps {
   label: string;
   value: string | number;
-  data: {
-    id: string,
-    name: string
-  };
-  scheduleSetActiveGroup: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  scheduleAssign: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  resource: Resource;
+  // scheduleSetActiveResource: (resource: string) => void;
 }

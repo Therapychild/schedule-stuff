@@ -5,21 +5,20 @@ import {UserListItem} from "./UserListItem";
 import {JobListItem} from "./JobListItem";
 import {ListItemProps} from "./ListItemProps";
 import Resource from "duckies/dist/resource/Resource";
-import {scheduleSetActiveGroup} from "../action_managers/resource/ScheduleSetActiveGroup";
 
 // @Todo remove
 import {getJobResources, getUserResources} from "../js/resources";
 // @Todo remove
 
 export interface DispatchProps {
-  scheduleSetActiveGroup: Function;
-  scheduleAssign: Function;
+  // scheduleSetActiveResource: (resource: string) => void;
 }
 
 export interface StateProps {
-  groups: ListItemProps[];
+  // resources: Resource[];
   viewMode: TMode;
-  activeGroup: Resource;
+  // activeResource: string;
+//   activeTimeEntry: string;
 }
 
 type Props = StateProps & DispatchProps;
@@ -27,13 +26,15 @@ type Props = StateProps & DispatchProps;
 export class BaseListBox extends Component<Props, {}> {
 
   // Pass the value of the clicked group to the scheduleActiveGroup function.
-  onChange(event: {originalEvent: Event, value: any, target: {name: string, id: string, value: any}}): void {
-    const { scheduleSetActiveGroup } = this.props;
-    scheduleSetActiveGroup(event.value);
+  doChange = (event: {originalEvent: Event, value: any, target: {name: string, id: string, value: string}}): void => {
+    // const { scheduleSetActiveResource } = this.props;
+    //
+    // scheduleSetActiveResource(event.value);
   }
 
   render(): React.ReactNode {
-    const { activeGroup, scheduleAssign, viewMode } = this.props;
+    // const { activeResource, viewMode, scheduleSetActiveResource } = this.props;
+    const { viewMode } = this.props;
     // @Todo remove
     // Data will eventually be retrieved from state as props.
     const users: any = getUserResources();
@@ -41,21 +42,20 @@ export class BaseListBox extends Component<Props, {}> {
 
     Object.keys(users).forEach((key) =>
     {
-      const group = users[key];
+      const group: Resource = users[key];
       userResources.push({
         value: group.get("id"),
-        label: group.get("displayName"),
-        data: group
+        label: group.get("name"),
+        resource: group
       })
     });
     /**
      * Add the scheduleAssign and scheduleActiveGroup props to the user/job
      * groups object.
      */
-    userResources.forEach((value: any, index: number): void => {
-      userResources[index].scheduleAssign = scheduleAssign as any;
-      userResources[index].scheduleSetActiveGroup = scheduleSetActiveGroup as any;
-    })
+    // userResources.forEach((value: any, index: number): void => {
+    //   userResources[index].scheduleSetActiveResource = scheduleSetActiveResource as (resource: string) => void
+    // })
 
     const jobs: any = getJobResources();
     let jobResources: any[] = [];
@@ -66,7 +66,7 @@ export class BaseListBox extends Component<Props, {}> {
       jobResources.push({
         value: group.get("id"),
         label: group.get("name.name"),
-        data: group
+        resource: group
       })
     });
     // @Todo remove
@@ -76,11 +76,11 @@ export class BaseListBox extends Component<Props, {}> {
 
     return (
       <ListBox
-        value={activeGroup}
+        value={"Hello"}
         filter={true}
         filterPlaceholder="Search"
         options={groups}
-        onChange={this.onChange}
+        onChange={this.doChange}
         itemTemplate={itemTemplate}
         style={{width: "15em"}}
         listStyle={{maxHeight: "250px"}}

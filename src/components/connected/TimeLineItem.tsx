@@ -15,33 +15,33 @@ import Resource from "duckies/dist/resource/Resource";
 import {connect} from "react-redux";
 
 const mapStateToProps = (state: any): StateProps => {
-  const { viewMode, activeResource, activeTimeEntry, activeViewedTimeEntry} = state;
+  const { viewMode, activeTimeEntry } = state;
 
   return {
     viewMode,
-    activeResource,
+    // activeResource,
     activeTimeEntry,
-    activeViewedTimeEntry
+    // activeViewedTimeEntry
   };
 };
 
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
-    scheduleAssign: (resource?: Resource, timeEntry?: Resource ): void => {
-      dispatch({
-        type: scheduleAssign,
-        payload: { resource, timeEntry },
-      } as ScheduleAssignAction);
-    },
-    scheduleSetActiveResource: (timeEntry: string): void => {
-      dispatch({
-        type: "KEY_VALUE",
-        payload: {
-          key: "scheduleSetActiveResource",
-          value: timeEntry
-        },
-      } as KeyValueAction);
-    },
+    // scheduleAssign: (resource?: Resource, timeEntry?: Resource ): void => {
+    //   dispatch({
+    //     type: scheduleAssign,
+    //     payload: { resource, timeEntry },
+    //   } as ScheduleAssignAction);
+    // },
+    // scheduleSetActiveResource: (timeEntry: string): void => {
+    //   dispatch({
+    //     type: "KEY_VALUE",
+    //     payload: {
+    //       key: "scheduleSetActiveResource",
+    //       value: timeEntry
+    //     },
+    //   } as KeyValueAction);
+    // },
     scheduleSetActiveTimeEntry: (timeEntry: string): void => {
       dispatch({
         type: "KEY_VALUE",
@@ -51,16 +51,15 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
         },
       } as KeyValueAction);
     },
-    scheduleViewTimeEntry: (timeEntry: string): void => {
-      dispatch({
-        type: "KEY_VALUE",
-        payload: {
-          key: "scheduleViewTimeEntry",
-          value: timeEntry
-        },
-      } as KeyValueAction);
-    },
-
+    // scheduleViewTimeEntry: (timeEntry: string): void => {
+    //   dispatch({
+    //     type: "KEY_VALUE",
+    //     payload: {
+    //       key: "scheduleViewTimeEntry",
+    //       value: timeEntry
+    //     },
+    //   } as KeyValueAction);
+    // },
   };
 };
 

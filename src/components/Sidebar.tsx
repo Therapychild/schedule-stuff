@@ -11,7 +11,7 @@ export interface SidebarState {
   visible: boolean;
 }
 
-export default class Sidebar extends Component<SidebarProps, SidebarState> {
+export class Sidebar extends Component<SidebarProps, SidebarState> {
   constructor(props: SidebarProps) {
     super(props);
 

@@ -8,10 +8,8 @@ import App from "./App";
 
 import "./index.css";
 
-import {ScheduleSetActiveTimeEntry} from "./action_managers/resource/ScheduleSetActiveTimeEntry";
-import {ScheduleSetActiveGroup} from "./action_managers/resource/ScheduleSetActiveGroup";
 import {ScheduleToggleViewMode} from  "./action_managers/resource/ScheduleToggleViewMode";
-import {ScheduleViewTimeEntry} from "./action_managers/resource/ScheduleViewTimeEntry";
+import {ScheduleAssign} from "./action_managers/resource/ScheduleAssign";
 
 import ReducingActionRegistry from "duckies/dist/action_registries/ReducingActionRegistry";
 import ActionRegistry from "duckies/dist/action_registries/ActionRegistry";
@@ -23,10 +21,8 @@ const actionRegistry = new ReducingActionRegistry(
 const store = createStore(actionRegistry.reducer);
 window.store = store;
 
-actionRegistry.register(ScheduleSetActiveTimeEntry);
-actionRegistry.register(ScheduleSetActiveGroup);
 actionRegistry.register(ScheduleToggleViewMode);
-actionRegistry.register(ScheduleViewTimeEntry);
+actionRegistry.register(ScheduleAssign);
 
 store.dispatch({ type: "@duckies/initialize" });
 

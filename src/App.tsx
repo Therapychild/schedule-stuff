@@ -2,8 +2,7 @@ import React from "react";
 import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 import Sidebar from "components/dist/common/Sidebar";
 import {ConnectedBaseListBox} from "./components/connected/BaseListBox";
-// replaced ConnectedSchedule for demo
-import {Schedule} from "./components/Schedule";
+import {ConnectedSchedule} from "./components/connected/Schedule";
 
 import "./App.css";
 import "primeicons/primeicons.css";
@@ -19,11 +18,10 @@ export default class App extends React.Component<{}, {}> {
 
   render() {
     const viewMode = "user";
-
     return (
       <div className="App">
         <ConnectedToggleButton label="Toggle" />
-        <Schedule viewMode={viewMode} />
+        <ConnectedSchedule />
         <Sidebar>
         <ConnectedBaseListBox />
       </Sidebar>

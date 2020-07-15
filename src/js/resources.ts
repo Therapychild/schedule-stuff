@@ -147,7 +147,7 @@ function badRandom(seed: number): number {
  */
 export interface User {
   id: number
-  displayName: string,
+  name: string,
   skills: string[],
 }
 
@@ -165,7 +165,7 @@ export function getUser(id: number): User {
 
   return {
     id,
-    displayName: userNames[id],
+    name: userNames[id],
     skills: userSkills
   }
 }
@@ -262,7 +262,7 @@ export interface TimeEntry {
   user?: number
   job?: string
   start: number,
-    end: number,
+  end: number,
 }
 
 // start and end are dates.
@@ -287,7 +287,9 @@ export function getTimeEntries(start: number, end: number): {[index: string]: Re
         const timeEntryId = `${jobId}${current}-${numberOfTimeEntries}`;
 
         // Derive a user id.
+        // console.log({current, jobSeed: jobSeeds[jobId], numberOfTimeEntries});
         let userId: number = Math.floor(badRandom(current + jobSeeds[jobId] + numberOfTimeEntries) * userNames.length * 3);
+        // console.log(badRandom(current + jobSeeds[jobId] + numberOfTimeEntries));
         if (userId >= userNames.length) {
           userId = -1;
         }
@@ -315,17 +317,17 @@ export function getTimeEntries(start: number, end: number): {[index: string]: Re
         occupied[userId].push([current, end]);
 
         timeEntries[timeEntryId] = new Resource({
-          id: timeEntryId,
-          type: "timeEntry",
-          attributes: {
             id: timeEntryId,
             type: "timeEntry",
-            job: jobNames[jobId],
-            user: userId === -1 ? undefined : getUser(userId),
-            start: current,
-            end,
-          }
-        },
+            attributes: {
+              id: timeEntryId,
+              type: "timeEntry",
+              job: jobNames[jobId],
+              user: userId === -1 ? undefined : getUser(userId),
+              start: current,
+              end,
+            }
+          },
           () => {}
         );
       }
