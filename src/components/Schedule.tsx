@@ -9,10 +9,9 @@ import Timeline, {
   DateHeader
 } from "react-calendar-timeline";
 import {ConnectedTimeLineItem} from "./connected/TimeLineItem";
-
+import {ConnectedToggleButton} from "./connected/ToggleButton";
 
 import "react-calendar-timeline/lib/Timeline.css";
-// import {ConnectedTimeLineItem} from "./connected/TimeLineItem";
 // import Channelizer from "duckies/dist/utility/channelizer";
 import Resource from "duckies/dist/resource/Resource";
 
@@ -122,9 +121,6 @@ export class Schedule extends React.Component<Props, {}> {
         data: user,
         group: users[key].id
       });
-      // console.log(index);
-      // console.log(key);
-      // console.log(user);
     })
 
 
@@ -153,13 +149,10 @@ export class Schedule extends React.Component<Props, {}> {
       const timeEntry: Resource = timeEntries[key];
       const timeEntryGroup = viewMode === "job" ? timeEntry.get("job") : timeEntry.get("user");
       if (timeEntryGroup) {
-        // console.log(timeEntry);
-        // console.log(timeEntry.get("user.id"));
       }
 
       if (!timeEntryGroup) {
         return;
-        console.log("skip me");
       }
       else {
         console.log(timeEntryGroup);
@@ -193,7 +186,9 @@ export class Schedule extends React.Component<Props, {}> {
         <TimelineHeaders className="sticky">
           <SidebarHeader>
             {({ getRootProps }) => {
-              return <div {...getRootProps()}>Left</div>;
+              return <div {...getRootProps()}>
+                <ConnectedToggleButton label="Toggle" />
+              </div>;
             }}
           </SidebarHeader>
           <DateHeader unit="primaryHeader" />

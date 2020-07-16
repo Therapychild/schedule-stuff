@@ -1,5 +1,4 @@
 import React from "react";
-import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 import Sidebar from "components/dist/common/Sidebar";
 import {ConnectedBaseListBox} from "./components/connected/BaseListBox";
 import {ConnectedSchedule} from "./components/connected/Schedule";
@@ -13,18 +12,18 @@ import "./styles/sidebar.css";
 import "./styles/sidebar-toggle.css"
 import "./styles/timeline.css"
 import "./index.css"
+import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 
 export default class App extends React.Component<{}, {}> {
 
   render() {
-    const viewMode = "user";
     return (
       <div className="App">
-        <ConnectedToggleButton label="Toggle" />
         <ConnectedSchedule />
         <Sidebar>
-        <ConnectedBaseListBox />
-      </Sidebar>
+          <ConnectedToggleButton label="Toggle" />
+          <ConnectedBaseListBox />
+        </Sidebar>
       </div>
     );
   }
