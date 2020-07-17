@@ -17,7 +17,7 @@ import {connect} from "react-redux";
 const mapStateToProps = (state: any, ownProps: OwnProps): StateProps => {
   const { viewMode, activeTimeEntry, viewedTimeEntry } = state;
   const isActive = state.keyValue.activeTimeEntry === ownProps.timeEntry.get("id");
-  const isViewed = state.keyValue.viewedTimeEntry === ownProps.timeEntry.get("id");
+  const isViewed = state.keyValue.scheduleViewTimeEntry === ownProps.timeEntry.get("id");
 
   return {
     viewMode,

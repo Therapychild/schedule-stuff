@@ -29,20 +29,27 @@ body .p-button.p-button-text-only .p-button-text {
   border-left: 2px white solid;
 }
 
+.react-calendar-timeline .rct-item .rct-item-content {
+  overflow: visible;
+}
+
 .time-line-item {
   position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  min-width: 100%;
+  width: 100%;
   left: 0;
+  overflow: hidden;
 }
 
 .time-line-item .card {
   border: 1px black solid;
   position: absolute;
-  left: -7px;
-  top: 21px
+  left: -2px;
+  top: 21px;
+  background-color: white;
+  color: black;
 }
 
 .time-line-item button {

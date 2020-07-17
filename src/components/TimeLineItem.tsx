@@ -31,7 +31,7 @@ export class TimeLineItem extends React.Component<Props, {}> {
   /**
    * Sends the clicked timeEntry to have the activeResource assigned to it.
    */
-  onAssign() {
+  onAssign = () => {
     // const {scheduleAssign, timeEntry} = this.props;
     //
     // scheduleAssign(timeEntry);
@@ -42,7 +42,7 @@ export class TimeLineItem extends React.Component<Props, {}> {
    * If a resource is already assigned to the timeEntry, it is set to the
    * activeResource.
    */
-  onSetActive() {
+  onSetActive = () => {
     const {
       // scheduleSetActiveResource,
       // scheduleSetActiveTimeEntry,
@@ -59,10 +59,10 @@ export class TimeLineItem extends React.Component<Props, {}> {
     // }
   }
 
-  onViewTimeEntry() {
-    const {scheduleViewTimeEntry, timeEntry} = this.props;
+  onViewTimeEntry = () => {
+    const {scheduleViewTimeEntry, timeEntry, isViewed} = this.props;
 
-    scheduleViewTimeEntry(timeEntry.get("id"));
+    scheduleViewTimeEntry(isViewed ? "" : timeEntry.get("id"));
   }
 
   render(): React.ReactNode {
@@ -102,8 +102,9 @@ export class TimeLineItem extends React.Component<Props, {}> {
       timeEntryCard = <TimeEntryCard data={timeEntry}/>
     }
 
+    // add || isActive to overflow when active is available;
     return (
-      <div id={id} className="time-line-item" >
+      <div id={id} className="time-line-item" style={{overflow: isViewed ? "visible" : "hidden"}}>
         {setActive}
         <Button className="assign" label="Assign" onClick={this.onAssign} />
         <Button className="more-info" label="Info" onClick={this.onViewTimeEntry} />
