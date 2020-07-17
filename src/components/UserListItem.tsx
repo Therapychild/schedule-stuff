@@ -38,8 +38,8 @@ export class UserListItem extends React.Component<Props, {}> {
     const { label } = this.props
     return (
       <div className="p-clearfix">
-        <Button style={{fontSize:'1em',float:'right',margin:'1em .5em 0 0'}} label={label} onClick={this.onSetActive} />
-        <Button className="assign" label="Assign" onClick={this.onAssign} />
+        <Button className="set-active" label={label} onClick={this.onSetActive} />
+        <Button className="assign" label=">>" onClick={this.onAssign} />
       </div>
     );
   }

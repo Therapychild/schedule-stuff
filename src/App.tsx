@@ -11,6 +11,7 @@ import "primeflex/primeflex.css";
 import "./styles/sidebar.css";
 import "./styles/sidebar-toggle.css"
 import "./styles/timeline.css"
+import "./styles/demo.css"
 import "./index.css"
 import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 
@@ -21,7 +22,7 @@ export default class App extends React.Component<{}, {}> {
       <div className="App">
         <ConnectedSchedule />
         <Sidebar>
-          <ConnectedToggleButton label="Toggle" />
+          <ConnectedToggleButton className="view-mode-toggle" label="Toggle" />
           <ConnectedBaseListBox />
         </Sidebar>
       </div>

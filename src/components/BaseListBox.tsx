@@ -82,8 +82,7 @@ export class BaseListBox extends Component<Props, {}> {
         options={groups}
         onChange={this.doChange}
         itemTemplate={itemTemplate}
-        style={{width: "15em"}}
-        listStyle={{maxHeight: "250px"}}
+        listStyle={{maxHeight: "50vh"}}
       />
     );
   }

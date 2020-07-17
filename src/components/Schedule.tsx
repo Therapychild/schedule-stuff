@@ -106,7 +106,7 @@ export class Schedule extends React.Component<Props, {}> {
       let job: any = jobs[key];
       jobGroups.push({
         id: job.get("id"),
-        title: job.get("name.name"),
+        title: <span className="group-name">{job.get("name.name")}</span>,
         data: job
       });
     })
@@ -117,7 +117,7 @@ export class Schedule extends React.Component<Props, {}> {
       const user = users[key];
       userGroups.push({
         id: user.get("id"),
-        title: user.get("name"),
+        title: <span className="group-name">{user.get("name")}</span>,
         data: user,
         group: users[key].id
       });
@@ -155,7 +155,6 @@ export class Schedule extends React.Component<Props, {}> {
         return;
       }
       else {
-        console.log(timeEntryGroup);
         items.push({
           id: timeEntry.get("id"),
           group: timeEntryGroup.id,
@@ -182,16 +181,17 @@ export class Schedule extends React.Component<Props, {}> {
         canResize={true}
         defaultTimeStart={defaultTimeStart}
         defaultTimeEnd={defaultTimeEnd}
+        sidebarWidth={208}
       >
         <TimelineHeaders className="sticky">
           <SidebarHeader>
             {({ getRootProps }) => {
               return <div {...getRootProps()}>
-                <ConnectedToggleButton label="Toggle" />
+                <ConnectedToggleButton className="view-mode-toggle" label="Toggle" />
               </div>;
             }}
           </SidebarHeader>
-          <DateHeader unit="primaryHeader" />
+          <DateHeader unit="primaryHeader" height={40}/>
           <DateHeader />
         </TimelineHeaders>
       </Timeline>
