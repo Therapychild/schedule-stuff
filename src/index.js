@@ -10,6 +10,7 @@ import "./index.css";
 
 import {ScheduleToggleViewMode} from  "./action_managers/resource/ScheduleToggleViewMode";
 import {ScheduleAssign} from "./action_managers/resource/ScheduleAssign";
+import KeyValue from "duckies/dist/action_managers/utility/KeyValue";
 
 import ReducingActionRegistry from "duckies/dist/action_registries/ReducingActionRegistry";
 import ActionRegistry from "duckies/dist/action_registries/ActionRegistry";
@@ -23,9 +24,12 @@ window.store = store;
 
 actionRegistry.register(ScheduleToggleViewMode);
 actionRegistry.register(ScheduleAssign);
+actionRegistry.register(KeyValue);
 
+console.log(actionRegistry.initialized);
 store.dispatch({ type: "@duckies/initialize" });
-
+console.log(store.getState());
+console.log(actionRegistry.initialized);
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>

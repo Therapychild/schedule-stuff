@@ -8,20 +8,24 @@ import {
 import {
   TimeLineItem,
   DispatchProps,
-  StateProps
+  StateProps, OwnProps
 } from "../TimeLineItem";
 
 import Resource from "duckies/dist/resource/Resource";
 import {connect} from "react-redux";
 
-const mapStateToProps = (state: any): StateProps => {
-  const { viewMode, activeTimeEntry } = state;
+const mapStateToProps = (state: any, ownProps: OwnProps): StateProps => {
+  const { viewMode, activeTimeEntry, viewedTimeEntry } = state;
+  const isActive = state.keyValue.activeTimeEntry === ownProps.timeEntry.get("id");
+  const isViewed = state.keyValue.viewedTimeEntry === ownProps.timeEntry.get("id");
 
   return {
     viewMode,
     // activeResource,
     activeTimeEntry,
-    // activeViewedTimeEntry
+    viewedTimeEntry,
+    isActive,
+    isViewed,
   };
 };
 
@@ -42,28 +46,28 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
     //     },
     //   } as KeyValueAction);
     // },
-    scheduleSetActiveTimeEntry: (timeEntry: string): void => {
-      dispatch({
-        type: "KEY_VALUE",
-        payload: {
-          key: "scheduleSetActiveTimeEntry",
-          value: timeEntry
-        },
-      } as KeyValueAction);
-    },
-    // scheduleViewTimeEntry: (timeEntry: string): void => {
+    // scheduleSetActiveTimeEntry: (timeEntry: string): void => {
     //   dispatch({
     //     type: "KEY_VALUE",
     //     payload: {
-    //       key: "scheduleViewTimeEntry",
+    //       key: "scheduleSetActiveTimeEntry",
     //       value: timeEntry
     //     },
     //   } as KeyValueAction);
     // },
+    scheduleViewTimeEntry: (timeEntry: string): void => {
+      dispatch({
+        type: "KEY_VALUE",
+        payload: {
+          key: "scheduleViewTimeEntry",
+          value: timeEntry
+        },
+      } as KeyValueAction);
+    },
   };
 };
 
-export const ConnectedTimeLineItem = connect<StateProps, DispatchProps>(
+export const ConnectedTimeLineItem = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(TimeLineItem);

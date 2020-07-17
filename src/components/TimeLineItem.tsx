@@ -7,8 +7,8 @@ import Resource from "duckies/dist/resource/Resource";
 export interface DispatchProps {
   // scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
   // scheduleSetActiveResource: (timeEntry: string) => void;
-  scheduleSetActiveTimeEntry: (timeEntry: string) => void;
-  // scheduleViewTimeEntry: (timeEntry: string) => void;
+  // scheduleSetActiveTimeEntry: (timeEntry: string) => void;
+  scheduleViewTimeEntry: (timeEntry: string) => void;
 }
 
 export interface OwnProps {
@@ -19,7 +19,9 @@ export interface StateProps {
   viewMode: TMode;
   // activeResource: string;
   activeTimeEntry: string;
-  // activeViewedTimeEntry: string;
+  viewedTimeEntry: string;
+  isActive: boolean;
+  isViewed: boolean;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -43,7 +45,7 @@ export class TimeLineItem extends React.Component<Props, {}> {
   onSetActive() {
     const {
       // scheduleSetActiveResource,
-      scheduleSetActiveTimeEntry,
+      // scheduleSetActiveTimeEntry,
       timeEntry,
       // viewMode
     } = this.props;
@@ -53,21 +55,23 @@ export class TimeLineItem extends React.Component<Props, {}> {
     //   scheduleSetActiveTimeEntry(timeEntry.get("id"));
     // }
     // else {
-      scheduleSetActiveTimeEntry(timeEntry.get("id"));
+    //   scheduleSetActiveTimeEntry(timeEntry.get("id"));
     // }
   }
 
   onViewTimeEntry() {
-    // const {scheduleViewTimeEntry, timeEntry} = this.props;
-    //
-    // scheduleViewTimeEntry(timeEntry.get("id"));
-    alert("I'm viewing a timeEntry!");
+    const {scheduleViewTimeEntry, timeEntry} = this.props;
+
+    scheduleViewTimeEntry(timeEntry.get("id"));
   }
 
   render(): React.ReactNode {
     const {
       timeEntry,
-      viewMode
+      viewMode,
+      viewedTimeEntry,
+      isActive,
+      isViewed
     } = this.props;
     const id = timeEntry.get("id");
     let setActive = <></>;
@@ -77,7 +81,7 @@ export class TimeLineItem extends React.Component<Props, {}> {
      *  always be true in "user" viewMode because every timeEntry must have a
      *  job assigned to it, not necessarily a user.
      */
-    // This isn't correct, fix this
+    // This isn't correct, fix this? should not return null, but?
     if (!timeEntry.get("job")) {
       return null;
     }
@@ -86,19 +90,24 @@ export class TimeLineItem extends React.Component<Props, {}> {
       const user = timeEntry.get("user");
 
       if (user) {
-        setActive = <Button className="time-entry" onClick={this.onSetActive} label={timeEntry.get("user.name")} />
+        setActive = <Button className="set-active" onClick={this.onSetActive} label={timeEntry.get("user.name")} />
       }
     }
     else {
-      setActive = <Button className="time-entry" onClick={this.onSetActive} label={timeEntry.get("job.name")} />
+      setActive = <Button className="set-active" onClick={this.onSetActive} label={timeEntry.get("job.name")} />
+    }
+
+    let timeEntryCard= <></>;
+    if (isViewed) {
+      timeEntryCard = <TimeEntryCard data={timeEntry}/>
     }
 
     return (
-      <div id={id} >
+      <div id={id} className="time-line-item" >
         {setActive}
         <Button className="assign" label="Assign" onClick={this.onAssign} />
-        <Button className="more-info" label="info" onClick={this.onViewTimeEntry} />
-        <TimeEntryCard data={timeEntry}/>
+        <Button className="more-info" label="Info" onClick={this.onViewTimeEntry} />
+        {timeEntryCard}
       </div>
     );
   }
