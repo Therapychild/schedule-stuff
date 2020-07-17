@@ -2765,9 +2765,9 @@
   integrity sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
 
 "@types/node@^13.9.1":
-  version "13.13.12"
-  resolved "http://verdaccio:4873/@types%2fnode/-/node-13.13.12.tgz#9c72e865380a7dc99999ea0ef20fc9635b503d20"
-  integrity sha512-zWz/8NEPxoXNT9YyF2osqyA9WjssZukYpgI4UYZpOjcyqwIUqWGkcCionaEb9Ki+FULyPyvNFpg/329Kd2/pbw==
+  version "13.13.14"
+  resolved "http://verdaccio:4873/@types%2fnode/-/node-13.13.14.tgz#20cd7d2a98f0c3b08d379f4ea9e6b315d2019529"
+  integrity sha512-Az3QsOt1U/K1pbCQ0TXGELTuTkPLOiFIQf3ILzbOyo0FqgV9SxRnxbxM5QlAveERZMHpZY+7u3Jz2tKyl+yg6g==
 
 "@types/node@^14.0.13":
   version "14.0.13"
@@ -4255,10 +4255,15 @@ caniuse-lite@^1.0.30001035:
   resolved "http://verdaccio:4873/caniuse-lite/-/caniuse-lite-1.0.30001081.tgz#40615a3c416a047c5a4d45673e5257bf128eb3b5"
   integrity sha512-iZdh3lu09jsUtLE6Bp8NAbJskco4Y3UDtkR3GTCJGsbMowBU5IWDFF79sV2ws7lSqTzWyKazxam2thasHymENQ==
 
-caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001093:
+caniuse-lite@^1.0.30001043:
   version "1.0.30001099"
   resolved "http://verdaccio:4873/caniuse-lite/-/caniuse-lite-1.0.30001099.tgz#540118fcc6842d1fde62f4ee5521d1ec6afdb40e"
   integrity sha512-sdS9A+sQTk7wKoeuZBN/YMAHVztUfVnjDi4/UV3sDE8xoh7YR12hKW+pIdB3oqKGwr9XaFL2ovfzt9w8eUI5CA==
+
+caniuse-lite@^1.0.30001093:
+  version "1.0.30001100"
+  resolved "http://verdaccio:4873/caniuse-lite/-/caniuse-lite-1.0.30001100.tgz#2a58615e0c01cf716ab349b20ca4d86ef944aa4e"
+  integrity sha512-0eYdp1+wFCnMlCj2oudciuQn2B9xAFq3WpgpcBIZTxk/1HNA/O2YA7rpeYhnOqsqAJq1AHUgx6i1jtafg7m2zA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -5533,9 +5538,9 @@ dotenv@8.2.0:
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 duckies@^0.0:
-  version "0.0.44"
-  resolved "http://verdaccio:4873/duckies/-/duckies-0.0.44.tgz#fcdd5fbcf85b0a51b69716520a9733700bbd8203"
-  integrity sha512-t4EPks5rn4ZA+GlcZcY/22Fi99KD1HQ4lMkbfdz4tu1b6/qhdly7Q5i2zJ2LNQKFJDRw9xvzCdznMf1GhN11nQ==
+  version "0.0.45"
+  resolved "http://verdaccio:4873/duckies/-/duckies-0.0.45.tgz#f219b094fb5386e6cef6a51e98c7744b7dc9dd65"
+  integrity sha512-uIBRcTo8mBaYvzByxSX8soK5tys7DHMC8XWPfG6NFl5RYulmBV2buEZcBQCVnSnhyJrtmvhxuPjKzBkg7CetXg==
   dependencies:
     "@babel/cli" "^7.0"
     "@babel/core" "^7.0"
@@ -5593,10 +5598,15 @@ electron-to-chromium@^1.3.378:
   resolved "http://verdaccio:4873/electron-to-chromium/-/electron-to-chromium-1.3.467.tgz#84eeb332134d49f0e49b88588824e56b20af9e27"
   integrity sha512-U+QgsL8TZDU/n+rDnYDa3hY5uy3C4iry9mrJS0PNBBGwnocuQ+aHSfgY44mdlaK9744X5YqrrGUvD9PxCLY1HA==
 
-electron-to-chromium@^1.3.413, electron-to-chromium@^1.3.488:
+electron-to-chromium@^1.3.413:
   version "1.3.497"
   resolved "http://verdaccio:4873/electron-to-chromium/-/electron-to-chromium-1.3.497.tgz#de00f2f2f44c258c4577fbfbd5124b94c18bfa44"
   integrity sha512-sPdW5bUDZwiFtoonuZCUwRGzsZmKzcLM0bMVhp6SMCfUG+B3faENLx3cE+o+K0Jl+MPuNA9s9cScyFjOlixZpQ==
+
+electron-to-chromium@^1.3.488:
+  version "1.3.498"
+  resolved "http://verdaccio:4873/electron-to-chromium/-/electron-to-chromium-1.3.498.tgz#fd7188c8a49d6d0b5df1df55a1f1a4bf2c177457"
+  integrity sha512-W1hGwaQEU8j9su2jeAr3aabkPuuXw+j8t73eajGAkEJWbfWiwbxBwQN/8Qmv2qCy3uCDm2rOAaZneYQM8VGC4w==
 
 element-resize-detector@^1.1.12:
   version "1.2.1"
@@ -9131,12 +9141,12 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-"lodash@>=3.5 <5", lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.5, lodash@^4.2.1:
+"lodash@>=3.5 <5", lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.5:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
-lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19:
+lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.2.1:
   version "4.17.19"
   resolved "http://verdaccio:4873/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
@@ -12032,9 +12042,9 @@ redent@^3.0.0:
     strip-indent "^3.0.0"
 
 redux-saga-tester@^1.0.742:
-  version "1.0.813"
-  resolved "http://verdaccio:4873/redux-saga-tester/-/redux-saga-tester-1.0.813.tgz#bc235b07894265cb13f18ece32974afb64963434"
-  integrity sha512-s6JRemnGoPkqUBr2KQjFakAktxM6/rdMySRJRVhzEYACzpZRSpSewGVyqdME/bXvQhuTl8JWT7wdqD+PJB/pzA==
+  version "1.0.836"
+  resolved "http://verdaccio:4873/redux-saga-tester/-/redux-saga-tester-1.0.836.tgz#8518e5a635964b7096f2c205232e1ff6f5ff7d75"
+  integrity sha512-jxnt0Sf+9qjQ+um+XyymgJ5L35ec8JW0125GFpCLc1v4nc14QRWaYpD1shDBvo5+dj6Z14pHK1EFv/ZufBy+Dw==
   dependencies:
     babel-runtime "^6.11.6"
 
@@ -13707,9 +13717,9 @@ typescript-tuple@^2.2.1:
     typescript-compare "^0.0.2"
 
 typescript@^3.8.2:
-  version "3.9.6"
-  resolved "http://verdaccio:4873/typescript/-/typescript-3.9.6.tgz#8f3e0198a34c3ae17091b35571d3afd31999365a"
-  integrity sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
+  version "3.9.7"
+  resolved "http://verdaccio:4873/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typescript@^3.9.5:
   version "3.9.5"
