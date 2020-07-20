@@ -123,7 +123,6 @@ export class Schedule extends React.Component<Props, {}> {
       });
     })
 
-
     // Provide a range of dates to view with defaultTimeStart and defaultTimeEnd.
     // This will be updated via a query through use of filters.
     const defaultTimeStart = moment()
@@ -148,23 +147,28 @@ export class Schedule extends React.Component<Props, {}> {
     timeEntries = Object.keys(timeEntries).forEach((key: string) => {
       const timeEntry: Resource = timeEntries[key];
       const timeEntryGroup = viewMode === "job" ? timeEntry.get("job") : timeEntry.get("user");
-      if (timeEntryGroup) {
-      }
 
-      if (!timeEntryGroup) {
+      // This check is probably not necessary in the final code because
+      // timeEntries will not exist without a Job.
+      if (!timeEntryGroup || (viewMode === "user" && !timeEntry.get("job"))) {
         return;
       }
-      else {
-        items.push({
-          id: timeEntry.get("id"),
-          group: timeEntryGroup.id,
-          title: <ConnectedTimeLineItem timeEntry={timeEntry}/>,
-          start: timeEntry.get("start") * 1000,
-          end: (timeEntry.get("end")+ 900) * 1000,
-          itemProps: {
-          }
-        })
-      }
+
+      // This is the code that will most likely work, since it only has to check
+      // for a (user).
+      // if (!timeEntryGroup) {
+      //   return;
+      // }
+
+      items.push({
+        id: timeEntry.get("id"),
+        group: timeEntryGroup.id,
+        title: <ConnectedTimeLineItem timeEntry={timeEntry}/>,
+        start: timeEntry.get("start") * 1000,
+        end: (timeEntry.get("end")+ 900) * 1000,
+        itemProps: {
+        }
+      })
     });
 
     const groups = viewMode === "job" ? jobGroups : userGroups;

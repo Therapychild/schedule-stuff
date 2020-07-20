@@ -26,10 +26,7 @@ actionRegistry.register(ScheduleToggleViewMode);
 actionRegistry.register(ScheduleAssign);
 actionRegistry.register(KeyValue);
 
-console.log(actionRegistry.initialized);
 store.dispatch({ type: "@duckies/initialize" });
-console.log(store.getState());
-console.log(actionRegistry.initialized);
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
