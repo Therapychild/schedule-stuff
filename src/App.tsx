@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "components/dist/common/Sidebar";
 import {ConnectedBaseListBox} from "./components/connected/BaseListBox";
 import {ConnectedSchedule} from "./components/connected/Schedule";
+import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 
 import "./App.css";
 import "primeicons/primeicons.css";
@@ -13,7 +14,6 @@ import "./styles/sidebar-toggle.css"
 import "./styles/timeline.css"
 import "./styles/demo.css"
 import "./index.css"
-import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 
 export default class App extends React.Component<{}, {}> {
 
@@ -29,4 +29,3 @@ export default class App extends React.Component<{}, {}> {
     );
   }
 }
-
