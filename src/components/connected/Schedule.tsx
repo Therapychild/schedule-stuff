@@ -27,12 +27,12 @@ const mapStateToProps = (state: any): StateProps => {
     !(viewMode in state.resources)) {
 
     return {
-      channelizer,
       resources: [],
       timeEntries: [],
       viewMode: state.viewMode,
       defaultTimeStart: moment(),
-      defaultTimeEnd: moment()
+      defaultTimeEnd: moment(),
+      channelizer
     };
   }
 
