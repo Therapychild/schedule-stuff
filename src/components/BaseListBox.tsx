@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React from "react";
 import {TMode} from "../types/mode";
 import {ListBox} from "primereact/listbox";
-import {UserListItem} from "./UserListItem";
-import {JobListItem} from "./JobListItem";
+import {ConnectedUserListItem} from "./connected/UserListItem";
+import {ConnectedJobListItem} from "./connected/JobListItem";
 import {ListItemProps} from "./ListItemProps";
 import Resource from "duckies/dist/resource/Resource";
 
@@ -11,34 +11,32 @@ import {getJobResources, getUserResources} from "../js/resources";
 // @Todo remove
 
 export interface DispatchProps {
-  // scheduleSetActiveResource: (resource: string) => void;
+  scheduleSetActiveResource: (resource: string) => void;
 }
 
 export interface StateProps {
   // resources: Resource[];
   viewMode: TMode;
-  // activeResource: string;
-//   activeTimeEntry: string;
+  activeResource: string;
 }
 
 type Props = StateProps & DispatchProps;
 
-export class BaseListBox extends Component<Props, {}> {
+export class BaseListBox extends React.Component<Props, {}> {
 
   // Pass the value of the clicked group to the scheduleActiveGroup function.
   doChange = (event: {originalEvent: Event, value: any, target: {name: string, id: string, value: string}}): void => {
-    // const { scheduleSetActiveResource } = this.props;
-    //
-    // scheduleSetActiveResource(event.value);
+    const { scheduleSetActiveResource } = this.props;
+
+    scheduleSetActiveResource(event.value);
   }
 
   render(): React.ReactNode {
     // const { activeResource, viewMode, scheduleSetActiveResource } = this.props;
-    const { viewMode } = this.props;
-    // @Todo remove
+    const { viewMode, activeResource } = this.props;
     // Data will eventually be retrieved from state as props.
     const users: any = getUserResources();
-    let userResources: any[] = [];
+    let userResources: ListItemProps[] = [];
 
     Object.keys(users).forEach((key) =>
     {
@@ -49,16 +47,9 @@ export class BaseListBox extends Component<Props, {}> {
         resource: group
       })
     });
-    /**
-     * Add the scheduleAssign and scheduleActiveGroup props to the user/job
-     * groups object.
-     */
-    // userResources.forEach((value: any, index: number): void => {
-    //   userResources[index].scheduleSetActiveResource = scheduleSetActiveResource as (resource: string) => void
-    // })
 
     const jobs: any = getJobResources();
-    let jobResources: any[] = [];
+    let jobResources: ListItemProps[] = [];
 
     Object.keys(jobs).forEach((key) =>
     {
@@ -69,20 +60,19 @@ export class BaseListBox extends Component<Props, {}> {
         resource: group
       })
     });
-    // @Todo remove
 
-    const itemTemplate = viewMode === "job" ? UserListItem.listItemTemplate : JobListItem.listItemTemplate;
-    const groups = viewMode === "job" ? userResources : jobResources;
+    let resources = viewMode === "job" ? userResources : jobResources;
+    let Template = viewMode === "job" ? ConnectedUserListItem : ConnectedJobListItem;
 
     return (
       <ListBox
-        value={"Hello"}
+        value={activeResource}
         filter={true}
         filterPlaceholder="Search"
-        options={groups}
+        options={resources}
         onChange={this.doChange}
-        itemTemplate={itemTemplate}
         listStyle={{maxHeight: "50vh"}}
+        itemTemplate={Template as React.JSXElementConstructor<any>}
       />
     );
   }

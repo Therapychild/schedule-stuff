@@ -1,11 +1,10 @@
 import Resource from "duckies/dist/resource/Resource";
 
 /**
- * Interface for a ListItem.
+ * Interface for a User/JobListItem.
  */
 export interface ListItemProps {
   label: string;
   value: string | number;
   resource: Resource;
-  // scheduleSetActiveResource: (resource: string) => void;
 }

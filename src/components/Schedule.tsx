@@ -144,7 +144,7 @@ export class Schedule extends React.Component<Props, {}> {
       Math.floor(defaultTimeStart.getTime()/1000),
       Math.floor(defaultTimeEnd.getTime()/1000)
     );
-    timeEntries = Object.keys(timeEntries).forEach((key: string) => {
+    Object.keys(timeEntries).forEach((key: string, index: number) => {
       const timeEntry: Resource = timeEntries[key];
       const timeEntryGroup = viewMode === "job" ? timeEntry.get("job") : timeEntry.get("user");
 

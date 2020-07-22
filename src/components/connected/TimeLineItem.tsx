@@ -1,5 +1,4 @@
 import {KeyValueAction} from "duckies/dist/action_managers/utility/KeyValue"
-
 import {
   scheduleAssign,
   ScheduleAssignAction
@@ -8,7 +7,8 @@ import {
 import {
   TimeLineItem,
   DispatchProps,
-  StateProps, OwnProps
+  StateProps,
+  OwnProps
 } from "../TimeLineItem";
 
 import Resource from "duckies/dist/resource/Resource";

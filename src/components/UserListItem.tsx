@@ -4,28 +4,19 @@ import {Button} from "primereact/button";
 import Resource from "duckies/dist/resource/Resource";
 
 export interface DispatchProps {
-  scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
   scheduleSetActiveResource: (resource: string) => void;
 }
 
 type Props = ListItemProps & DispatchProps;
 
 export class UserListItem extends React.Component<Props, {}> {
-  /**
-   * ListBox requires a template
-   */
-  static listItemTemplate(group: any): JSX.Element {
-    const item = new UserListItem(group);
-    return item.render();
-  }
 
   onAssign() {
-    const {scheduleAssign, resource} = this.props;
-
-    scheduleAssign(resource.get("id"));
+    // const {scheduleAssign, resource} = this.props;
+    // scheduleAssign(resource.get("id"));
   }
 
-  onSetActive() {
+  onSetActive = () => {
     const {
       scheduleSetActiveResource,
       resource
