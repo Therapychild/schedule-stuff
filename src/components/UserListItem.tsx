@@ -11,21 +11,14 @@ export interface DispatchProps {
 type Props = ListItemProps & DispatchProps;
 
 export class UserListItem extends React.Component<Props, {}> {
-  /**
-   * ListBox requires a template
-   */
-  static listItemTemplate(group: any): JSX.Element {
-    const item = new UserListItem(group);
-    return item.render();
-  }
 
-  onAssign() {
+  onAssign = () => {
     const {scheduleAssign, resource} = this.props;
 
     scheduleAssign(resource.get("id"));
   }
 
-  onSetActive() {
+  onSetActive = () => {
     const {
       scheduleSetActiveResource,
       resource
@@ -38,8 +31,8 @@ export class UserListItem extends React.Component<Props, {}> {
     const { label } = this.props
     return (
       <div className="p-clearfix">
-        <Button style={{fontSize:'1em',float:'right',margin:'1em .5em 0 0'}} label={label} onClick={this.onSetActive} />
-        <Button className="assign" label="Assign" onClick={this.onAssign} />
+        <Button className="set-active" label={label} onClick={this.onSetActive} />
+        <Button className="assign" label=">>" onClick={this.onAssign} />
       </div>
     );
   }
