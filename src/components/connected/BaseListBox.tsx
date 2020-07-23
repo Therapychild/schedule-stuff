@@ -1,6 +1,6 @@
 import {KeyValueAction} from "duckies/dist/action_managers/utility/KeyValue"
-
 import {connect} from "react-redux";
+
 import {
   BaseListBox,
   StateProps,
@@ -8,13 +8,12 @@ import {
 } from "../BaseListBox";
 
 const mapStateToProps = (state: any): StateProps => {
-  const { viewMode, resources, activeResource, activeTimeEntry  } = state;
+  const { resources, viewMode, activeResource } = state;
 
   return {
-    viewMode,
     resources,
+    viewMode,
     activeResource,
-    activeTimeEntry
   };
 };
 

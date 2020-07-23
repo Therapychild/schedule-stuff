@@ -6,15 +6,14 @@ import {ConnectedJobListItem} from "./connected/JobListItem";
 import {ListItemProps} from "./ListItemProps";
 import Resource from "duckies/dist/resource/Resource";
 
-export interface DispatchProps {
-  scheduleSetActiveResource: (resource: string) => void;
-}
-
 export interface StateProps {
   resources: Resource[];
   viewMode: TMode;
   activeResource: string;
-  activeTimeEntry: string;
+}
+
+export interface DispatchProps {
+  scheduleSetActiveResource: (resource: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -28,20 +27,36 @@ export class BaseListBox extends Component<Props, {}> {
   }
 
   render(): React.ReactNode {
-    const { resources, activeResource, viewMode } = this.props;
-    const itemTemplate = viewMode === "job" ? ConnectedUserListItem.listItemTemplate : ConnectedJobListItem.listItemTemplate;
-    const options: ListItemProps[] = [];
+    const { resources, viewMode, activeResource } = this.props;
+    let options: ListItemProps[] = [];
 
     /**
      * Format resources as options for the ListBox.
     */
-    resources.forEach((resource: any, index: number): void => {
-      options.push({
-        label: resource.get("name"),
-        value: resource.get("id"),
-        resource,
-      })
-    })
+    if (viewMode === "job") {
+      Object.keys(resources).forEach((key: string, index: number) =>
+      {
+        const user: Resource = resources[key];
+        options.push({
+          value: user.get("id"),
+          label: user.get("name"),
+          resource: user
+        })
+      });
+    }
+    else {
+      Object.keys(resources).forEach((key: string, index: number) =>
+      {
+        const job = resources[key];
+        options.push({
+          value: job.get("id"),
+          label: job.get("name.name"),
+          resource: job
+        })
+      });
+    }
+
+    let Template = viewMode === "job" ? ConnectedUserListItem : ConnectedJobListItem;
 
     return (
       <ListBox
@@ -50,9 +65,8 @@ export class BaseListBox extends Component<Props, {}> {
         filterPlaceholder="Search"
         options={options}
         onChange={this.doChange}
-        itemTemplate={itemTemplate}
-        style={{width: "15em"}}
-        listStyle={{maxHeight: "250px"}}
+        listStyle={{maxHeight: "50vh"}}
+        itemTemplate={Template as React.JSXElementConstructor<any>}
       />
     );
   }
