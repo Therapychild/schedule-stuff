@@ -1,5 +1,4 @@
 import {KeyValueAction} from "duckies/dist/action_managers/utility/KeyValue"
-
 import {
   scheduleAssign,
   ScheduleAssignAction
@@ -8,20 +7,32 @@ import {
 import {
   TimeLineItem,
   DispatchProps,
-  StateProps
+  StateProps,
+  OwnProps
 } from "../TimeLineItem";
 
 import Resource from "duckies/dist/resource/Resource";
 import {connect} from "react-redux";
 
-const mapStateToProps = (state: any): StateProps => {
-  const { viewMode, activeResource, activeTimeEntry, activeViewedTimeEntry} = state;
+const mapStateToProps = (state: any, ownProps: OwnProps): StateProps => {
+  const { viewMode } = state;
+  const isActive = state.keyValue.scheduleSetActiveTimeEntry === ownProps.timeEntry.get("id");
+  const isViewed = state.keyValue.scheduleViewTimeEntry === ownProps.timeEntry.get("id");
+  const selectionType = viewMode === "job" ? "user" : "job";
+  let inActiveSelection;
+
+  if (ownProps.timeEntry.get(selectionType)) {
+    inActiveSelection = state.keyValue.scheduleSetActiveResource === ownProps.timeEntry.get(`${selectionType}.id`);
+  }
+  else {
+    inActiveSelection = state.keyValue.scheduleSetActiveResource === "";
+  }
 
   return {
     viewMode,
-    activeResource,
-    activeTimeEntry,
-    activeViewedTimeEntry
+    isActive,
+    isViewed,
+    inActiveSelection
   };
 };
 
@@ -60,11 +71,10 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
         },
       } as KeyValueAction);
     },
-
   };
 };
 
-export const ConnectedTimeLineItem = connect<StateProps, DispatchProps>(
+export const ConnectedTimeLineItem = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(TimeLineItem);

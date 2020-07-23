@@ -4,6 +4,17 @@ import {Card as TimeEntryCard} from "time-entry/dist/components/Card";
 import {TMode} from "../types/mode";
 import Resource from "duckies/dist/resource/Resource";
 
+export interface OwnProps {
+  timeEntry: Resource;
+}
+
+export interface StateProps {
+  viewMode: TMode;
+  isActive: boolean;
+  isViewed: boolean;
+  inActiveSelection: boolean;
+}
+
 export interface DispatchProps {
   scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
   scheduleSetActiveResource: (timeEntry: string) => void;
@@ -11,23 +22,12 @@ export interface DispatchProps {
   scheduleViewTimeEntry: (timeEntry: string) => void;
 }
 
-export interface OwnProps {
-  timeEntry: Resource;
-}
-
-export interface StateProps {
-  viewMode: TMode;
-  activeResource: string;
-  activeTimeEntry: string;
-  activeViewedTimeEntry: string;
-}
-
 type Props = OwnProps & StateProps & DispatchProps;
 
 export class TimeLineItem extends React.Component<Props, {}> {
 
   /**
-   * Sends the clicked timeEntry to have the activeResource assigned to it.
+   * Assigns the selected resource the activeTimeEntry.
    */
   onAssign() {
     const {scheduleAssign, timeEntry} = this.props;
@@ -40,11 +40,12 @@ export class TimeLineItem extends React.Component<Props, {}> {
    * If a resource is already assigned to the timeEntry, it is set to the
    * activeResource.
    */
-  onSetActive() {
+  onSetActive = () => {
     const {
       scheduleSetActiveResource,
       scheduleSetActiveTimeEntry,
       timeEntry,
+      isActive,
       viewMode
     } = this.props;
 
@@ -53,20 +54,22 @@ export class TimeLineItem extends React.Component<Props, {}> {
       scheduleSetActiveTimeEntry(timeEntry.get("id"));
     }
     else {
-      scheduleSetActiveTimeEntry(timeEntry.get("id"));
+      scheduleSetActiveTimeEntry( isActive ? "" : timeEntry.get("id"));
     }
   }
 
-  onViewTimeEntry() {
-    const {scheduleViewTimeEntry, timeEntry} = this.props;
+  onViewTimeEntry = () => {
+    const {scheduleViewTimeEntry, timeEntry, isViewed} = this.props;
 
-    scheduleViewTimeEntry(timeEntry.get("id"));
+    scheduleViewTimeEntry(isViewed ? "" : timeEntry.get("id"));
   }
 
   render(): React.ReactNode {
     const {
       timeEntry,
-      viewMode
+      viewMode,
+      isActive,
+      isViewed
     } = this.props;
     const id = timeEntry.get("id");
     let setActive = <></>;
@@ -78,20 +81,32 @@ export class TimeLineItem extends React.Component<Props, {}> {
      */
     if (viewMode === "job") {
       const user = timeEntry.get("user");
+
       if (user) {
-        setActive = <Button className="time-entry" onClick={this.onSetActive} label={timeEntry.get("user.name")} />
+        setActive = <Button className="set-active" onClick={this.onSetActive} label={timeEntry.get("user.name")} />
       }
     }
     else {
-      setActive = <Button className="time-entry" onClick={this.onSetActive} label={timeEntry.get("job.name")} />
+      setActive = <Button className="set-active" onClick={this.onSetActive} label={timeEntry.get("job.name")} />
+    }
+
+    let timeEntryCard= <></>;
+    if (isViewed) {
+      timeEntryCard = <TimeEntryCard data={timeEntry}/>
     }
 
     return (
-      <div id={id} >
+      /**
+       * overflow: isActive allows any hidden part of the three buttons to
+       * become visible if the timeEntry is too short to display it all.
+       * overFlow: isViewed allows hidden buttons to become visible, as well as
+       * the TimeEntryCard.
+       */
+      <div id={id} className="time-line-item" style={{overflow: isViewed || isActive ? "visible" : "hidden"}}>
         {setActive}
         <Button className="assign" label="Assign" onClick={this.onAssign} />
-        <Button className="more-info" label="info" onClick={this.onViewTimeEntry} />
-        <TimeEntryCard data={timeEntry}/>
+        <Button className="more-info" label="Info" onClick={this.onViewTimeEntry} />
+        {timeEntryCard}
       </div>
     );
   }
