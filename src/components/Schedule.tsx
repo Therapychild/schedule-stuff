@@ -89,22 +89,22 @@ export class Schedule extends React.Component<Props, {}> {
 
     if (viewMode === "job") {
       Object.keys(resources).forEach((key: string, index: number) => {
+        let job: Resource = resources[key];
+        groups.push({
+          id: job.get("id"),
+          title: <span className="group-name">{job.get("name.name")}</span>,
+          data: job
+        });
+      })
+    }
+    else {
+      Object.keys(resources).forEach((key: string, index: number) => {
         const user: Resource = resources[key];
         groups.push({
           id: user.get("id"),
           title: <span className="group-name">{user.get("name")}</span>,
           data: user,
           group: user.id
-        });
-      })
-    }
-    else {
-      Object.keys(resources).forEach((key: string, index: number) => {
-        let job: Resource = resources[key];
-        groups.push({
-          id: job.get("id"),
-          title: <span className="group-name">{job.get("name.name")}</span>,
-          data: job
         });
       })
     }
