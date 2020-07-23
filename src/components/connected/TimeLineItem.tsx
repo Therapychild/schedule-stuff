@@ -3,6 +3,8 @@ import {
   scheduleAssign,
   ScheduleAssignAction
 } from "../../action_managers/resource/ScheduleAssign";
+import Resource from "duckies/dist/resource/Resource";
+import {connect} from "react-redux";
 
 import {
   TimeLineItem,
@@ -10,9 +12,6 @@ import {
   StateProps,
   OwnProps
 } from "../TimeLineItem";
-
-import Resource from "duckies/dist/resource/Resource";
-import {connect} from "react-redux";
 
 const mapStateToProps = (state: any, ownProps: OwnProps): StateProps => {
   const { viewMode } = state;
