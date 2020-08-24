@@ -11,7 +11,7 @@ const mapStateToProps = (state: any): StateProps => {
   const { resources, viewMode, activeResource } = state;
 
   return {
-    resources,
+    // resources,
     viewMode,
     activeResource,
   };
