@@ -4,7 +4,7 @@ import {Button} from "primereact/button";
 import Resource from "duckies/dist/resource/Resource";
 
 export interface DispatchProps {
-  scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
+  // scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
   scheduleSetActiveResource: (resource: string) => void;
 }
 
@@ -13,9 +13,9 @@ type Props = ListItemProps & DispatchProps;
 export class JobListItem extends React.Component<Props, {}> {
 
   onAssign = () => {
-    const {scheduleAssign, resource} = this.props;
-
-    scheduleAssign(resource.get("id"));
+    // const {scheduleAssign, resource} = this.props;
+    //
+    // scheduleAssign(resource.get("id"));
   }
 
   onSetActive = () => {

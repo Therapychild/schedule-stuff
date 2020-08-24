@@ -1,0 +1,119 @@
+/**
+ * These are here for the demo and will need to be broken out into seperate files*/
+/*the proper components are completed.*/
+
+body .p-button {
+  border-radius: 0;
+  border: 2px solid white;
+  letter-spacing: 1px;
+}
+
+body .p-button.p-button-text-only .p-button-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.25rem;
+}
+
+.p-button.view-mode-toggle {
+  margin: 1.2rem;
+}
+
+/* Item styles */
+.rct-item {
+}
+
+.rct-item-content {
+  width: 100%;
+  border-right: 2px white solid;
+  border-left: 2px white solid;
+}
+
+.react-calendar-timeline .rct-item .rct-item-content {
+  overflow: visible;
+}
+
+.time-line-item {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  left: 0;
+  overflow: hidden;
+}
+
+.time-line-item .card {
+  border: 1px black solid;
+  position: absolute;
+  left: -2px;
+  top: 21px;
+  background-color: white;
+  color: black;
+}
+
+.time-line-item button {
+  border: 0;
+  border-left: 2px white solid;
+}
+
+.time-line-item button.set-active {
+  text-align: left;
+  width: 100%;
+  min-width: 100px;
+  border-left: 0;
+}
+
+.time-line-item .p-button.p-button-text-only {
+  text-overflow: ellipsis;
+}
+
+.time-line-item .p-button.p-button-text-only .p-button-text {
+  padding: 0 0.75rem;
+}
+
+/* TimeLine Sidebar styles */
+.react-calendar-timeline .rct-sidebar {
+  box-shadow: 8px 0 6px #5f5e5e
+}
+
+/* TimeLine Header styles */
+.react-calendar-timeline .rct-calendar-header {
+  box-shadow: 2px 7px 6px #5f5e5e
+}
+
+.react-calendar-timeline .rct-dateHeader-primary {
+  font-size: 1.25rem;
+}
+
+/* Sidebar styles */
+body .p-sidebar {
+  width: 13rem;
+  padding: 0.5rem;
+}
+
+/* ListBox styles */
+.p-listbox.p-inputtext.p-component {
+  width: 100%;
+}
+
+body .p-listbox .p-listbox-list .p-listbox-item {
+  width: 100%;
+  padding: 0;
+}
+
+body .p-listbox .p-listbox-list .p-listbox-item button {
+  margin: 0;
+}
+
+body .p-listbox .p-listbox-list .p-listbox-item button.set-active {
+  width: 70%;
+}
+
+body .p-listbox .p-listbox-list .p-listbox-item button.assign {
+  width: 25%;
+}
+body .p-listbox .p-listbox-list-wrapper {
+  overflow-x: hidden;
+  width: 100%;
+}
