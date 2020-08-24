@@ -1,9 +1,9 @@
 import React from "react";
-import QueryInterface from "duckies/dist/interfaces/QueryInterface";
-import Channelizer from "duckies/dist/utility/channelizer";
+// import QueryInterface from "duckies/dist/interfaces/QueryInterface";
+// import Channelizer from "duckies/dist/utility/channelizer";
 import Resource from "duckies/dist/resource/Resource";
 import {TMode} from "../types/mode";
-import {Moment} from "moment";
+import moment, {Moment} from "moment";
 
 import Timeline, {
   TimelineHeaders,
@@ -14,6 +14,14 @@ import {ConnectedTimeLineItem} from "./connected/TimeLineItem";
 import {ConnectedToggleButton} from "./connected/ToggleButton";
 
 import "react-calendar-timeline/lib/Timeline.css";
+
+// @todo Remove
+import {
+  getTimeEntries,
+  getJobResources,
+  getUserResources
+} from "../js/resources";
+// @todo Remove
 
 const keys = {
   groupIdKey: "id",
@@ -29,21 +37,21 @@ const keys = {
 };
 
 export interface OwnProps {
-  defaultGroupQuery: QueryInterface;
-  defaultTimeEntryQuery: QueryInterface;
+  // defaultGroupQuery: QueryInterface;
+  // defaultTimeEntryQuery: QueryInterface;
 }
 
 export interface StateProps {
-  resources: Resource[]; // Jobs or Users depending on viewMode
-  timeEntries: Resource[];
+  // resources: Resource[]; // Jobs or Users depending on viewMode
+  // timeEntries: Resource[];
   viewMode: TMode;
-  defaultTimeStart: Moment;
-  defaultTimeEnd: Moment;
-  channelizer: Channelizer;
+  // defaultTimeStart: Moment;
+  // defaultTimeEnd: Moment;
+  // channelizer: Channelizer;
 }
 
 export interface DispatchProps {
-  defaultQuery: (query: QueryInterface, channelizer: Channelizer) => void;
+  // defaultQuery: (query: QueryInterface, channelizer: Channelizer) => void;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -56,9 +64,9 @@ export class Schedule extends React.Component<Props, {}> {
    * defaultTimeEntryQuery.
    */
   componentDidMount() {
-    const {defaultQuery, defaultGroupQuery, channelizer} = this.props;
-
-    defaultQuery(defaultGroupQuery, channelizer);
+    // const {defaultQuery, defaultGroupQuery, channelizer} = this.props;
+    //
+    // defaultQuery(defaultGroupQuery, channelizer);
   }
 
   /**
@@ -82,44 +90,122 @@ export class Schedule extends React.Component<Props, {}> {
   }
 
   render(): React.ReactNode {
-    const { resources, timeEntries, viewMode,  defaultTimeStart, defaultTimeEnd } = this.props;
+    // const { resources, timeEntries, viewMode,  defaultTimeStart, defaultTimeEnd } = this.props;
+    //
+    // // Format Groups[] to work with the timeLine
+    // let groups: any[] = [];
+    //
+    // if (viewMode === "job") {
+    //   Object.keys(resources).forEach((key: string, index: number) => {
+    //     let job: Resource = resources[key];
+    //     groups.push({
+    //       id: job.get("id"),
+    //       title: <span className="group-name">{job.get("name.name")}</span>,
+    //       data: job
+    //     });
+    //   })
+    // }
+    // else {
+    //   Object.keys(resources).forEach((key: string, index: number) => {
+    //     const user: Resource = resources[key];
+    //     groups.push({
+    //       id: user.get("id"),
+    //       title: <span className="group-name">{user.get("name")}</span>,
+    //       data: user,
+    //       group: user.id
+    //     });
+    //   })
+    // }
+    //
+    // // Format the timeEntries Resource[] to work with the timeline as an item[]
+    // let items: any[] = []
+    // Object.keys(timeEntries).forEach((key: string, index: number) => {
+    //   const timeEntry: Resource = timeEntries[key];
+    //   const timeEntryGroup = viewMode === "job" ? timeEntry.get("job") : timeEntry.get("user");
+    //
+    //   // @todo This check is probably not necessary in the final code because
+    //   // timeEntries will not exist without a Job.
+    //   if (!timeEntryGroup || (viewMode === "user" && !timeEntry.get("job"))) {
+    //     return;
+    //   }
+    //
+    //   items.push({
+    //     id: timeEntry.get("id"),
+    //     group: timeEntryGroup.id,
+    //     title: <ConnectedTimeLineItem timeEntry={timeEntry}/>,
+    //     start: timeEntry.get("start") * 1000,
+    //     end: (timeEntry.get("end")+ 900) * 1000,
+    //     itemProps: {
+    //     }
+    //   })
+    // });
 
-    // Format Groups[] to work with the timeLine
-    let groups: any[] = [];
 
-    if (viewMode === "job") {
-      Object.keys(resources).forEach((key: string, index: number) => {
-        let job: Resource = resources[key];
-        groups.push({
-          id: job.get("id"),
-          title: <span className="group-name">{job.get("name.name")}</span>,
-          data: job
-        });
-      })
-    }
-    else {
-      Object.keys(resources).forEach((key: string, index: number) => {
-        const user: Resource = resources[key];
-        groups.push({
-          id: user.get("id"),
-          title: <span className="group-name">{user.get("name")}</span>,
-          data: user,
-          group: user.id
-        });
-      })
-    }
+    // @Todo remove
+    const {viewMode } = this.props;
 
-    // Format the timeEntries Resource[] to work with the timeline as an item[]
-    let items: any[] = []
+    /** Convert the groups object (jobs/users) to an array with the correct
+     * mapped. Will be turned into groupResources in mapStateToProps.
+     */
+    const jobs: any = getJobResources();
+    let jobGroups: any[] = [];
+    Object.keys(jobs).forEach((key: string, index:number) => {
+      let job: any = jobs[key];
+      jobGroups.push({
+        id: job.get("id"),
+        title: <span className="group-name">{job.get("name.name")}</span>,
+        data: job
+      });
+    })
+
+    let users: any = getUserResources();
+    let userGroups: any[] = [];
+    Object.keys(users).forEach((key: string, index:number) => {
+      const user = users[key];
+      userGroups.push({
+        id: user.get("id"),
+        title: <span className="group-name">{user.get("name")}</span>,
+        data: user,
+        group: users[key].id
+      });
+    })
+
+    // Provide a range of dates to view with defaultTimeStart and defaultTimeEnd.
+    // This will be updated via a query through use of filters.
+    const defaultTimeStart = moment()
+      .startOf("day")
+      .toDate();
+    const defaultTimeEnd = moment()
+      .startOf("day")
+      .add(1, "day")
+      .toDate();
+
+    /**
+     * The Timeline component requires an array for its items prop.
+     * Data received from the query comes in th form of an object.
+     */
+    let items: any[] = [];
+
+    // Get list of timeEntries. (This will be replaced by a query)
+    let timeEntries: any = getTimeEntries(
+      Math.floor(defaultTimeStart.getTime()/1000),
+      Math.floor(defaultTimeEnd.getTime()/1000)
+    );
     Object.keys(timeEntries).forEach((key: string, index: number) => {
       const timeEntry: Resource = timeEntries[key];
       const timeEntryGroup = viewMode === "job" ? timeEntry.get("job") : timeEntry.get("user");
 
-      // @todo This check is probably not necessary in the final code because
+      // This check is probably not necessary in the final code because
       // timeEntries will not exist without a Job.
       if (!timeEntryGroup || (viewMode === "user" && !timeEntry.get("job"))) {
         return;
       }
+
+      // This is the code that will most likely work, since it only has to check
+      // for a (user).
+      // if (!timeEntryGroup) {
+      //   return;
+      // }
 
       items.push({
         id: timeEntry.get("id"),
@@ -131,6 +217,9 @@ export class Schedule extends React.Component<Props, {}> {
         }
       })
     });
+
+    const groups = viewMode === "job" ? jobGroups : userGroups;
+    // @Todo
 
     return (
       <Timeline

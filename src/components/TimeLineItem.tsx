@@ -16,7 +16,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
+  // scheduleAssign: (resource?: Resource, timeEntry?: Resource) => void;
   scheduleSetActiveResource: (timeEntry: string) => void;
   scheduleSetActiveTimeEntry: (timeEntry: string) => void;
   scheduleViewTimeEntry: (timeEntry: string) => void;
@@ -30,9 +30,9 @@ export class TimeLineItem extends React.Component<Props, {}> {
    * Assigns the selected resource the activeTimeEntry.
    */
   onAssign() {
-    const {scheduleAssign, timeEntry} = this.props;
-
-    scheduleAssign(timeEntry);
+    // const {scheduleAssign, timeEntry} = this.props;
+    //
+    // scheduleAssign(timeEntry);
   }
 
   /**
