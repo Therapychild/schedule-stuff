@@ -4,6 +4,7 @@ import {ConnectedSchedule} from "./components/connected/Schedule";
 import {ConnectedToggleButton} from "./components/connected/ToggleButton";
 import {ConnectedBaseListBox} from "./components/connected/BaseListBox";
 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import "./App.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/nova-light/theme.css"
