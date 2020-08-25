@@ -15,6 +15,11 @@ import "./styles/timeline.css"
 import "./styles/demo.css"
 import "./index.css"
 
+import "fontsource-roboto/300.css"
+import "fontsource-roboto/400.css"
+import "fontsource-roboto/500.css"
+import "fontsource-roboto/700.css"
+
 export default class App extends React.Component<{}, {}> {
 
   render() {
