@@ -15,22 +15,27 @@ import "./styles/timeline.css"
 import "./styles/demo.css"
 import "./index.css"
 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import "fontsource-roboto/300.css"
 import "fontsource-roboto/400.css"
 import "fontsource-roboto/500.css"
 import "fontsource-roboto/700.css"
+import "material-icons-font/material-icons-font.css"
 
 export default class App extends React.Component<{}, {}> {
 
   render() {
     return (
-      <div className="App">
-        <ConnectedSchedule />
-        <Sidebar>
-          <ConnectedToggleButton className="view-mode-toggle" label="Toggle" />
-          <ConnectedBaseListBox />
-        </Sidebar>
-      </div>
+      <>
+        <CssBaseline />
+        <div className="App">
+          <ConnectedSchedule />
+          <Sidebar>
+            <ConnectedToggleButton className="view-mode-toggle" label="Toggle" />
+            <ConnectedBaseListBox />
+          </Sidebar>
+        </div>
+      </>
     );
   }
 }
