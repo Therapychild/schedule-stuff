@@ -11185,11 +11185,6 @@ primeicons@^4.0.0-rc.2:
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.0.0-rc.2.tgz#af77e84176d9447826de0710ffead9bbd6e9b3f7"
   integrity sha512-0D7HTNuFC1gp14NRl/CEolerIPWHqiT5P/m5BiUqyPVralIhXRuuAWaw5aahvSQxEiR+y7YJextvT3S6f/hxkw==
 
-primereact@^4.2.2:
-  version "4.2.2"
-  resolved "http://verdaccio:4873/primereact/-/primereact-4.2.2.tgz#9671cdf62f782712359b8acb10570c16da5cfdc2"
-  integrity sha512-7IfNGRqTUKSWCCbTKeeMLKOShShUmUm0rV0DfsPn0vw0SeT+HQ7HA1cDhdfCuc+bbAK9cLts8j6O8oFOXMDJ7A==
-
 primereact@^5.0:
   version "5.0.4"
   resolved "http://verdaccio:4873/primereact/-/primereact-5.0.4.tgz#78bb39863e3cf580b2bada39693330587740fa2e"
