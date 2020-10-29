@@ -1,6 +1,7 @@
 import React from "react";
 import {ListItemProps} from "./ListItemProps";
-import {Button} from "primereact/button";
+import Button from "@material-ui/core/Button";
+import ChevronRight from "@material-ui/icons/ChevronRight";
 import Resource from "duckies/dist/resource/Resource";
 
 export interface DispatchProps {
@@ -30,10 +31,14 @@ export class JobListItem extends React.Component<Props, {}> {
   render() {
     const { label } = this.props
     return (
-      <div className="p-clearfix">
-        <Button className="set-active" label={label} onClick={this.onSetActive} />
-        <Button className="assign" label=">>" onClick={this.onAssign} />
-      </div>
+      <>
+        <Button className="set-to-active" variant="text" color="primary" size="small">
+          {label}
+        </Button>
+        <Button className="assign-to" variant="text" color="primary" size="small" endIcon={<ChevronRight/>}/>
+        {/*<Button className="set-active" label={label} onClick={this.onSetActive} />*/}
+        {/*<Button className="assign" label=">>" onClick={this.onAssign} />*/}
+      </>
     );
   }
 }

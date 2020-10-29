@@ -13,7 +13,7 @@ import Timeline, {
 import {ConnectedTimeLineItem} from "./connected/TimeLineItem";
 import {ConnectedToggleButton} from "./connected/ToggleButton";
 
-import "react-calendar-timeline/lib/Timeline.css";
+import "../styles/timeline.css";
 
 // @todo Remove
 import {
@@ -235,7 +235,7 @@ export class Schedule extends React.Component<Props, {}> {
         defaultTimeEnd={defaultTimeEnd}
         sidebarWidth={208}
       >
-        <TimelineHeaders className="sticky">
+        <TimelineHeaders>
           <SidebarHeader>
             {({ getRootProps }) => {
               return <div {...getRootProps()}>
