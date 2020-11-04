@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export interface Props {
 }
 
-export function TimeLineItem(props: Props) {
+export function SidebarToggleButton(props: Props) {
   const {} = props;
 
   return (
@@ -11,4 +11,3 @@ export function TimeLineItem(props: Props) {
     </div>
   );
 }
-
