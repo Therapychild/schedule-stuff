@@ -1,1 +1,1 @@
-export type TMode = "user" | "job";
+export type TMode = "users" | "jobs";
