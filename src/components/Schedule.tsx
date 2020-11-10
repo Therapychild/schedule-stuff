@@ -14,20 +14,22 @@ import Timeline, {
   SidebarHeader,
   DateHeader
 } from "react-calendar-timeline";
-import CircularProgress from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import 'react-calendar-timeline/lib/Timeline.css';
+
 
 // Keys needed for Timeline.
 const keys = {
-  groupIdKey: "id",
-  groupTitleKey: "title",
-  groupRightTitleKey: "rightTitle",
-  itemIdKey: "id",
-  itemTitleKey: "title",
-  itemDivTitleKey: "title",
-  itemGroupKey: "group",
-  itemTimeStartKey: "start",
-  itemTimeEndKey: "end",
-  groupLabelKey: "title"
+  groupIdKey: 'id',
+  groupTitleKey: 'title',
+  groupRightTitleKey: 'rightTitle',
+  itemIdKey: 'id',
+  itemTitleKey: 'title',    // key for item div content
+  itemDivTitleKey: 'title', // key for item div title (<div title="text"/>)
+  itemGroupKey: 'group',
+  itemTimeStartKey: 'start_time',
+  itemTimeEndKey: 'end_time',
 };
 
 export interface Props {
@@ -72,10 +74,7 @@ export function Schedule(props: Props) {
 
   // function initialize(data: ScheduleData) {
   //   formatGroups(data);
-  //   Set groups to global state
   //   formatTimeEntries(data);
-  //   Set timeEntries to global state
-  //   Set altGroups to global state, Formatting takes place on BaseListBox
   // }
 
   // function onScrollVertical() {
