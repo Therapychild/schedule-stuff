@@ -6,7 +6,11 @@ import {
   useQuery,
   makeVar
 } from "@apollo/client";
-// import {GET_SCHEDULE_DATA} from "../util/schema";
+import {
+  GET_JOBS,
+  SCHEDULE_GET_USERS,
+  SCHEDULE_GET_TIME_ENTRIES
+} from "../util/clientSchema";
 import {TMode} from "../types/mode";
 import moment from "moment";
 import Timeline, {
@@ -36,7 +40,7 @@ export interface Props {
 }
 
 // Data Shape Returned from query.
-interface ScheduleData {
+interface usersData {
 }
 
 export function Schedule(props: Props) {
@@ -53,20 +57,38 @@ export function Schedule(props: Props) {
   // Run query to get initial data, based on viewMode (default is "jobs").
   // Data from queries will have to be kept in global state so each component
   // that needs it has access to it.
-  // const { loading, error, data }: QueryResult = useQuery(GET_SCHEDULE_DATA, {
-  //   onCompleted: (data) => {
-  //     // Set data to global state/
-  //   },
-  //   // Look in to getting these to display.
-  //   onError: (error: ApolloError) => {
-  //     console.log("ERROR on Autocomplete", error);
-  //   },
-  // });
-  // if (loading) return <CircularProgress>;
+  const { loading: jobsLoading, error: jobsError, data: jobsData }: QueryResult = useQuery(GET_JOBS, {
+    onCompleted: (data) => {
+      // Save data to cache.
+    },
+    onError: (error: ApolloError) => {
+      console.log("ERROR on jobsData", error);
+    },
+  });
 
-  // function formatGroups(data) {
-  //   data.groups...
-  // }
+  const { loading: usersLoading, error: usersError, data }: QueryResult = useQuery(SCHEDULE_GET_USERS, {
+    onCompleted: (data) => {
+      // Save data to cache.
+      formatGroups(data)
+    },
+    onError: (error: ApolloError) => {
+      console.log("ERROR on userData", error);
+    },
+  });
+
+  const { loading: entriesLoading, error: entriesError, data: entriesData }: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
+    onCompleted: (data) => {
+      // Save data to cache.
+    },
+    onError: (error: ApolloError) => {
+      console.log("ERROR on entriesData", error);
+    },
+  });
+
+  if (jobsLoading || usersLoading || entriesLoading) return <CircularProgress />;
+
+  function formatGroups(data: usersData) {
+  }
 
   // function formatTimeEntries(data) {
   //   data.timeEntries...

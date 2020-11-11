@@ -5,7 +5,10 @@ export const GET_JOBS = gql`
     getJobs(skillIds: $skillIds) {
       uid
       name
-      skills
+      skills {
+        uid
+        name
+      }
       releaseDate
       dueDate
       estimatedTime
@@ -25,23 +28,47 @@ export const GET_SKILLS = gql`
 `;
 
 export const SCHEDULE_GET_USERS = gql`
-  query ScheduleGetUsers($startTime: String!, $endTime: String!, $skillIds: String, $userName: String) {
+  query scheduleGetUsers($startTime: String, $endTime: String, $skillIds: [String], $userName: String) {
     scheduleGetUsers(startTime: $startTime, endTime: $endTime, skillIds: $skillIds, userName: $userName) {
       uid
       userName
-      skills
-      hoursScheduled
-      hoursWorked
+      skills {
+        uid
+        name
+      }
+      scheduledTime
+      workedTime
     }
   }
 `;
 
 export const SCHEDULE_GET_TIME_ENTRIES = gql`
-  query ScheduleGetTimeEntries($startTime: String!, $endTime: String!, $userIds: String, $jobIds: String) {
+  query scheduleGetTimeEntries($startTime: String, $endTime: String, $userIds: [String], $jobIds: [String]) {
     scheduleGetTimeEntries(startTime: $startTime, endTime: $endTime, userIds: $userIds, jobIds: $jobIds) {
       uid
-      job
-      user
+      job {
+        uid
+        name
+        skills {
+          uid
+          name
+        }
+        releaseDate
+        dueDate
+        estimatedTime
+        scheduledTime
+        workedTime
+      }
+      user {
+        uid
+        userName
+        skills {
+          uid
+          name
+        }
+        scheduledTime
+        workedTime
+      }
       startTime
       duration
       releaseDate
@@ -54,8 +81,29 @@ export const NEW_TIME_ENTRY_JOB = gql`
   mutation NewTimeEntryForJob($startTime: String!, $endTime: String!, $jobId: String!) {
     newTimeEntryForJob(startTime: $startTime, endTime: $endTime, jobId: $jobId) {
       uid
-      job
-      user
+      job {
+        uid
+        name
+        skills {
+          uid
+          name
+        }
+        releaseDate
+        dueDate
+        estimatedTime
+        scheduledTime
+        workedTime
+      }
+      user {
+        uid
+        userName
+        skills {
+          uid
+          name
+        }
+        scheduledTime
+        workedTime
+      }
       startTime
       duration
       releaseDate
@@ -68,8 +116,29 @@ export const NEW_TIME_ENTRY_USER = gql`
   mutation NewTimeEntryForUser($startTime: String!, $endTime: String!, $userId: String!) {
     newTimeEntryForUser(startTime: $startTime, endTime: $endTime, userId: $userId) {
       uid
-      job
-      user
+      job {
+        uid
+        name
+        skills {
+          uid
+          name
+        }
+        releaseDate
+        dueDate
+        estimatedTime
+        scheduledTime
+        workedTime
+      }
+      user {
+        uid
+        userName
+        skills {
+          uid
+          name
+        }
+        scheduledTime
+        workedTime
+      }
       startTime
       duration
       releaseDate
@@ -82,8 +151,29 @@ export const MOVE_TIME_ENTRY = gql`
   mutation MoveTimeEntry($startTime: String!, $endTime: String!, $timeEntryId: String!) {
     moveTimeEntry(startTime: $startTime, endTime: $endTime, timeEntryId: $timeEntryId) {
       uid
-      job
-      user
+      job {
+        uid
+        name
+        skills {
+          uid
+          name
+        }
+        releaseDate
+        dueDate
+        estimatedTime
+        scheduledTime
+        workedTime
+      }
+      user {
+        uid
+        userName
+        skills {
+          uid
+          name
+        }
+        scheduledTime
+        workedTime
+      }
       startTime
       duration
       releaseDate
@@ -96,8 +186,29 @@ export const SET_USER = gql`
   mutation SetUser($userId: String!, $timeEntryId: String!) {
     setUser(userId: $userId, timeEntryId: $timeEntryId) {
       uid
-      job
-      user
+      job {
+        uid
+        name
+        skills {
+          uid
+          name
+        }
+        releaseDate
+        dueDate
+        estimatedTime
+        scheduledTime
+        workedTime
+      }
+      user {
+        uid
+        userName
+        skills {
+          uid
+          name
+        }
+        scheduledTime
+        workedTime
+      }
       startTime
       duration
       releaseDate
@@ -106,12 +217,33 @@ export const SET_USER = gql`
   }
 `;
 
-export const SET_Job = gql`
+export const SET_JOB = gql`
   mutation SetJob($jobId: String!, $timeEntryId: String!) {
     setJob(jobId: $jobId, timeEntryId: $timeEntryId) {
       uid
-      job
-      user
+      job {
+        uid
+        name
+        skills {
+          uid
+          name
+        }
+        releaseDate
+        dueDate
+        estimatedTime
+        scheduledTime
+        workedTime
+      }
+      user {
+        uid
+        userName
+        skills {
+          uid
+          name
+        }
+        scheduledTime
+        workedTime
+      }
       startTime
       duration
       releaseDate

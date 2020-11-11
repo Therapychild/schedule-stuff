@@ -6,37 +6,38 @@ import {
 } from "@apollo/client";
 
 export interface User {
-  id: string;
-  userName: string;
-  skills: Skill[];
-  hoursScheduled: number;
-  hoursWorked: number;
+  uid: string,
+  userName: string,
+  skills: [Skill],
+  scheduledTime: number,
+  workedTime: number,
 }
 
 export interface Job {
-  id: String;
-  name: String;
+  uid: string;
+  name: string;
   skills: Skill[];
   releaseDate: string;
   dueDate: string;
-  estimatedHours: number;
-  scheduledHours: number;
-  workedHours: number;
+  estimatedTime: number;
+  scheduledTime: number;
+  workedTime: number;
 }
 
 export interface Skill {
-  id: string;
+  uid: string;
   name: string;
 }
 
-export interface timeEntry {
-  id: string;
-  job: Job;
-  user: User;
-  startTime: string;
-  duration: number;
-  releaseDate: string;
-  dueDate: string;
+export interface TimeEntry {
+  uid: string,
+  job: Job,
+  user: User,
+  startTime: string,
+  endTime: string,
+  duration: number,
+  releaseDate: string,
+  dueDate: string,
 }
 
 const cache = new InMemoryCache();
@@ -46,7 +47,6 @@ const httpLink = createHttpLink({
 });
 const myLink = new ApolloLink((operation: Operation, forward: NextLink) => {
   return forward(operation).map((data) => {
-    console.log(data);
     return data;
   })
 })
@@ -55,4 +55,3 @@ export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache: cache,
   link: ApolloLink.from([myLink, httpLink]),
 });
-
