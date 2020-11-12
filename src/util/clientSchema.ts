@@ -70,6 +70,7 @@ export const SCHEDULE_GET_TIME_ENTRIES = gql`
         workedTime
       }
       startTime
+      endTime
       duration
       releaseDate
       dueDate
@@ -105,6 +106,7 @@ export const NEW_TIME_ENTRY_JOB = gql`
         workedTime
       }
       startTime
+      endTime
       duration
       releaseDate
       dueDate
@@ -140,6 +142,7 @@ export const NEW_TIME_ENTRY_USER = gql`
         workedTime
       }
       startTime
+      endTime
       duration
       releaseDate
       dueDate
@@ -175,6 +178,7 @@ export const MOVE_TIME_ENTRY = gql`
         workedTime
       }
       startTime
+      endTime
       duration
       releaseDate
       dueDate
@@ -210,6 +214,7 @@ export const SET_USER = gql`
         workedTime
       }
       startTime
+      endTime
       duration
       releaseDate
       dueDate
@@ -245,6 +250,7 @@ export const SET_JOB = gql`
         workedTime
       }
       startTime
+      endTime
       duration
       releaseDate
       dueDate
