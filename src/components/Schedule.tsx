@@ -1,7 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   ApolloError,
-  DocumentNode,
   QueryResult,
   useQuery,
   makeVar
@@ -21,7 +20,8 @@ import Timeline, {
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import 'react-calendar-timeline/lib/Timeline.css';
-
+// @todo: Add types to the queried data objects
+import {Job, User} from "../util/apolloStore";
 
 // Keys needed for Timeline.
 const keys = {
@@ -37,76 +37,114 @@ const keys = {
 };
 
 export interface Props {
-}
-
-// Data Shape Returned from query.
-interface usersData {
+  viewMode: TMode;
+  setViewMode: Function;
 }
 
 export function Schedule(props: Props) {
-  // Add ApolloClient here in order to access state.
+  const { viewMode } = props;
+  // @todo:Add ApolloClient here in order to access the cache.
 
-  // Find out default value of start time, for now set it to Monday of current week.
+  // @todo: Find out default value of start/end time.
   const defaultTimeStart = makeVar(moment().add(-12, 'hour'));
-  // Find out default value of end time, for now set it for Sunday of following week.
   const defaultTimeEnd = makeVar(moment(12, 'hour'));
-  // const groups = makeVar(data.groups);
+  const [groups, setGroups] = useState([]);
+  const [timeEntries, setTimeEntries] = useState([]);
   // const items = makeVar(data.timeEntryItems);
   // const altGroups = makeVar(data.altGroups);
 
-  // Run query to get initial data, based on viewMode (default is "jobs").
-  // Data from queries will have to be kept in global state so each component
-  // that needs it has access to it.
+  // Run query to get initial data, based on viewMode (default is "job").
+  // @todo: Data will have to be saved to local state, as well as cache.
   const { loading: jobsLoading, error: jobsError, data: jobsData }: QueryResult = useQuery(GET_JOBS, {
     onCompleted: (data) => {
-      // Save data to cache.
+      formatJobs(data);
     },
     onError: (error: ApolloError) => {
       console.log("ERROR on jobsData", error);
     },
   });
 
-  const { loading: usersLoading, error: usersError, data }: QueryResult = useQuery(SCHEDULE_GET_USERS, {
+  const { loading: usersLoading, error: usersError, data: usersData }: QueryResult = useQuery(SCHEDULE_GET_USERS, {
     onCompleted: (data) => {
-      // Save data to cache.
-      formatGroups(data)
+      formatUsers(data);
     },
     onError: (error: ApolloError) => {
       console.log("ERROR on userData", error);
     },
   });
 
-  const { loading: entriesLoading, error: entriesError, data: entriesData }: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
+  const { loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData }: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
     onCompleted: (data) => {
-      // Save data to cache.
+      formatTimeEntries(data);
     },
     onError: (error: ApolloError) => {
-      console.log("ERROR on entriesData", error);
+      console.log("ERROR on timeEntriesData", error);
     },
   });
 
-  if (jobsLoading || usersLoading || entriesLoading) return <CircularProgress />;
+  if (jobsLoading || usersLoading || timeEntriesLoading) return <CircularProgress />;
 
-  function formatGroups(data: usersData) {
+  function formatUsers(usersData: any) {
+    let users: any = [];
+    // @todo: Add custom groups for more functionality.
+    Object.keys(usersData.scheduleGetUsers).forEach((key, index) => {
+      const user = usersData.scheduleGetUsers[index];
+      users.push({
+        id: user.uid,
+        title: user.userName,
+      })
+    });
+
+    setGroups(users);
   }
 
-  // function formatTimeEntries(data) {
-  //   data.timeEntries...
-  // }
+  function formatJobs(jobsData: any) {
+    let jobs: any = [];
+    // @todo: Add custom groups for more functionality.
+    Object.keys(jobsData.getJobs).forEach((key, index) => {
+      const job = jobsData.getJobs[index];
+      jobs.push({
+        id: job.uid,
+        title: job.name,
+      })
+    });
 
-  // function initialize(data: ScheduleData) {
-  //   formatGroups(data);
-  //   formatTimeEntries(data);
-  // }
+    setGroups(jobs);
+  }
+
+  function formatTimeEntries(timeEntriesData: any) {
+    let entries: any = [];
+    // @todo: Add custom items for more functionality.
+    Object.keys(timeEntriesData.scheduleGetTimeEntries).forEach((key, index) => {
+      const timeEntry = timeEntriesData.scheduleGetTimeEntries[index];
+      const timeEntryGroup = timeEntry[viewMode];
+      // prettier-ignore
+      entries.push({
+        id: timeEntry.uid,
+        group: timeEntryGroup.uid,
+        // @todo: Add the TimeLineItem to title when completed.
+        title: timeEntry.job.name,
+        start_time: timeEntry.startTime,
+        end_time: timeEntry.endTime,
+        canMove: true,
+        canResize: true,
+        canChangeGroup: true,
+      });
+    });
+
+    setTimeEntries(entries);
+  }
 
   // function onScrollVertical() {
   //   ...update query based on scrolling
   // }
 
+  // Add error handling.
+
   return (
     <Timeline
-      groups={[]}
-      items={[]}
+      groups={groups}
+      items={timeEntries}
       keys={keys}
       itemTouchSendsClick={false}
       stackItems
