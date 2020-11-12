@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {
   makeVar
 } from "@apollo/client";
+import {Sidebar} from "./components/Sidebar";
 import {Schedule} from "./components/Schedule";
 import {TMode} from "./types/mode";
 
@@ -10,7 +11,8 @@ export default function ScheduleApp() {
 
   return (
     <>
-      <Schedule viewMode={viewMode} setViewMode={setViewMode}/>
+      <Sidebar />
+      <Schedule viewMode={viewMode} setViewMode={setViewMode} />
     </>
   );
 }
