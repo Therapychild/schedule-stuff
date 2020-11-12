@@ -4,7 +4,7 @@
       "@babel/preset-env",
       {
         "useBuiltIns": "usage",
-        "corejs": "2.x",
+        "corejs": "3.x",
         "targets": {
           "edge": "17",
           "firefox": "60",
