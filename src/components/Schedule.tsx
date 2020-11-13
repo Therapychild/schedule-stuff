@@ -42,7 +42,7 @@ export interface Props {
 }
 
 export function Schedule(props: Props) {
-  const { viewMode } = props;
+  const {viewMode} = props;
   // @todo:Add ApolloClient here in order to access the cache.
 
   // @todo: Find out default value of start/end time.
@@ -52,37 +52,6 @@ export function Schedule(props: Props) {
   const [timeEntries, setTimeEntries] = useState([]);
   // const items = makeVar(data.timeEntryItems);
   // const altGroups = makeVar(data.altGroups);
-
-  // Run query to get initial data, based on viewMode (default is "job").
-  // @todo: Data will have to be saved to local state, as well as cache.
-  const { loading: jobsLoading, error: jobsError, data: jobsData }: QueryResult = useQuery(GET_JOBS, {
-    onCompleted: (data) => {
-      formatJobs(data);
-    },
-    onError: (error: ApolloError) => {
-      console.log("ERROR on jobsData", error);
-    },
-  });
-
-  const { loading: usersLoading, error: usersError, data: usersData }: QueryResult = useQuery(SCHEDULE_GET_USERS, {
-    onCompleted: (data) => {
-      formatUsers(data);
-    },
-    onError: (error: ApolloError) => {
-      console.log("ERROR on userData", error);
-    },
-  });
-
-  const { loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData }: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
-    onCompleted: (data) => {
-      formatTimeEntries(data);
-    },
-    onError: (error: ApolloError) => {
-      console.log("ERROR on timeEntriesData", error);
-    },
-  });
-
-  if (jobsLoading || usersLoading || timeEntriesLoading) return <CircularProgress />;
 
   function formatUsers(usersData: any) {
     let users: any = [];
@@ -112,27 +81,89 @@ export function Schedule(props: Props) {
     setGroups(jobs);
   }
 
+  // Run query to get initial data, based on viewMode (default is "job").
+  // @todo: Data will have to be saved to local state, as well as cache.
+
+  let loading = null;
+  if (viewMode === "job") {
+    const {loading: jobsLoading, error: jobsError, data: jobsData}: QueryResult = useQuery(GET_JOBS, {
+      onCompleted: (data) => {
+        formatJobs(data);
+      },
+      onError: (error: ApolloError) => {
+        console.log("ERROR on jobsData", error);
+      },
+    });
+    if (jobsLoading) {
+      loading = jobsLoading
+    }
+  } else if (viewMode === "user") {
+    const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
+      onCompleted: (data) => {
+        formatUsers(data);
+      },
+      onError: (error: ApolloError) => {
+        console.log("ERROR on userData", error);
+      },
+    });
+    if (usersLoading) {
+      loading = usersLoading
+    }
+  }
+
+  const {loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData}: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
+    onCompleted: (data) => {
+      formatTimeEntries(data);
+      console.log("query", data);
+    },
+    onError: (error: ApolloError) => {
+      console.log("ERROR on timeEntriesData", error);
+    },
+  });
+  if (loading || timeEntriesLoading) return <CircularProgress/>;
+
   function formatTimeEntries(timeEntriesData: any) {
     let entries: any = [];
     // @todo: Add custom items for more functionality.
-    Object.keys(timeEntriesData.scheduleGetTimeEntries).forEach((key, index) => {
-      const timeEntry = timeEntriesData.scheduleGetTimeEntries[index];
-      const timeEntryGroup = timeEntry[viewMode];
-      // prettier-ignore
-      entries.push({
-        id: timeEntry.uid,
-        group: timeEntryGroup.uid,
-        // @todo: Add the TimeLineItem to title when completed.
-        title: timeEntry.job.name,
-        start_time: timeEntry.startTime,
-        end_time: timeEntry.endTime,
-        canMove: true,
-        canResize: true,
-        canChangeGroup: true,
+    if (viewMode === "user") {
+      Object.keys(timeEntriesData.scheduleGetTimeEntries).forEach((key, index) => {
+        const timeEntry = timeEntriesData.scheduleGetTimeEntries[index];
+        const timeEntryGroup = timeEntry[viewMode];
+        // prettier-ignore (The _ triggers prettier, but is a component prop).
+        entries.push({
+          id: timeEntry.uid,
+          group: timeEntryGroup.uid,
+          // @todo: Add the TimeLineItem to title when completed.
+          title: timeEntry.job.name,
+          start_time: timeEntry.startTime,
+          end_time: timeEntry.endTime,
+          canMove: true,
+          canResize: true,
+          canChangeGroup: true,
+        });
       });
-    });
 
-    setTimeEntries(entries);
+      setTimeEntries(entries);
+    } else if (viewMode === "job") {
+      Object.keys(timeEntriesData.scheduleGetTimeEntries).forEach((key, index) => {
+        const timeEntry = timeEntriesData.scheduleGetTimeEntries[index];
+        const timeEntryGroup = timeEntry[viewMode];
+        // prettier-ignore
+        entries.push({
+          id: timeEntry.uid,
+          group: timeEntryGroup.uid,
+          // @todo: Add the TimeLineItem to title when completed.
+          title: timeEntry.user.userName,
+          start_time: timeEntry.startTime,
+          end_time: timeEntry.endTime,
+          canMove: true,
+          canResize: true,
+          canChangeGroup: true,
+        });
+      });
+
+      setTimeEntries(entries);
+    }
   }
 
   // function onScrollVertical() {
@@ -156,12 +187,12 @@ export function Schedule(props: Props) {
     >
       <TimelineHeaders className="sticky">
         <SidebarHeader>
-          {({ getRootProps }) => {
+          {({getRootProps}) => {
             return <div {...getRootProps()}>Left</div>;
           }}
         </SidebarHeader>
-        <DateHeader unit="primaryHeader" />
-        <DateHeader />
+        <DateHeader unit="primaryHeader"/>
+        <DateHeader/>
       </TimelineHeaders>
     </Timeline>
   );

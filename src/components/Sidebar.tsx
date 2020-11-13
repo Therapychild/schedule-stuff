@@ -1,17 +1,19 @@
 import React, {useState, Fragment} from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import Slide from '@material-ui/core/Slide';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-// import List from '@material-ui/core/List'; // BaseListBox
+import Slide from "@material-ui/core/Slide";
+import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
+import {VirtualizedList} from "./VirtualizedList";
+import {TMode} from "../types/mode";
 
 // Drill unused props with lodash.
 export interface Props {
   children?: any;
+  viewMode: TMode;
+  setViewMode: Function;
 }
 
 export function Sidebar(props: Props) {
-  const { children } = props;
+  const {children, viewMode} = props;
   const [open, setOpen] = useState(false);
 
   const toggleSidebar = (): void => {
@@ -25,6 +27,8 @@ export function Sidebar(props: Props) {
   // @todo: If window width > xxx, variant is persistent, otherwise temporary.
   const variant = "temporary";
 
+  // @todo: When mode is saved to cache, move button off of Sidebar to somewhere
+  // better suited.
   return (
     <Fragment>
       <Button
@@ -38,15 +42,17 @@ export function Sidebar(props: Props) {
         anchor={"left"}
         open={open}
         onClose={() => {
-         toggleSidebar();
+          toggleSidebar();
         }}
         transitionDuration={{enter: 1.5, exit: .5}}
         variant={variant}
       >
-        <div style={{width: 250, backgroundColor: "red", textAlign: "center"}}>
-          Hello
+        <div
+          style={{width: "100%", backgroundColor: "red", textAlign: "center"}}>
+          Filters
         </div>
         {children}
+        <VirtualizedList viewMode={viewMode}/>
       </Drawer>
     </Fragment>
   );

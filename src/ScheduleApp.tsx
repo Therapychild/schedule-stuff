@@ -7,12 +7,12 @@ import {Schedule} from "./components/Schedule";
 import {TMode} from "./types/mode";
 
 export default function ScheduleApp() {
-  const [{viewMode}, setViewMode] = useState<{viewMode: TMode}>({viewMode: "user"});
+  const [{viewMode}, setViewMode] = useState<{ viewMode: TMode }>({viewMode: "job"});
 
   return (
     <>
-      <Sidebar />
-      <Schedule viewMode={viewMode} setViewMode={setViewMode} />
+      <Sidebar viewMode={viewMode} setViewMode={setViewMode}/>
+      <Schedule viewMode={viewMode} setViewMode={setViewMode}/>
     </>
   );
 }
