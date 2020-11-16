@@ -1,9 +1,11 @@
 import React, {useState, Fragment} from "react";
+import {TMode} from "../types/mode";
 import Slide from "@material-ui/core/Slide";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
-import {VirtualizedList} from "./VirtualizedList";
-import {TMode} from "../types/mode";
+import {IconButton} from "@material-ui/core";
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import {WindowedListBox} from "./WindowedListBox";
 
 // Drill unused props with lodash.
 export interface Props {
@@ -31,20 +33,18 @@ export function Sidebar(props: Props) {
   // better suited.
   return (
     <Fragment>
-      <Button
-        onClick={() => {
-          toggleSidebar();
-        }}
-      >
-        Toggle
-      </Button>
+      <IconButton onClick={() => {
+        toggleSidebar();
+      }}>
+        {!open ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+      </IconButton>
       <Drawer
         anchor={"left"}
         open={open}
         onClose={() => {
           toggleSidebar();
         }}
-        transitionDuration={{enter: 1.5, exit: .5}}
+        transitionDuration={{enter: 500, exit: 300}}
         variant={variant}
       >
         <div
@@ -52,7 +52,7 @@ export function Sidebar(props: Props) {
           Filters
         </div>
         {children}
-        <VirtualizedList viewMode={viewMode}/>
+        <WindowedListBox viewMode={viewMode}/>
       </Drawer>
     </Fragment>
   );
