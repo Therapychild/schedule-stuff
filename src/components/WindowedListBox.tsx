@@ -1,70 +1,104 @@
 import React, {useState} from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import {JobListItem} from "./JobListItem";
-import {FixedSizeList, ListChildComponentProps} from 'react-window';
+import {AssignableListItem} from "./AssignableListItem";
+import List from "@material-ui/core/List";
 import {ApolloError, makeVar, QueryResult, useQuery} from "@apollo/client";
-import {SCHEDULE_GET_USERS} from "../util/clientSchema";
+import {GET_JOBS, SCHEDULE_GET_USERS} from "../util/clientSchema";
 import {TMode} from "../types/mode";
 
-// import "../styles/list.css";
+import "../styles/list.scss";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface Props {
   viewMode: TMode;
 }
 
 export function WindowedListBox(props: Props) {
+  const {viewMode} = props;
   const [count, setCount] = useState(0);
   const [rows, setRows] = useState([]);
   const [activeId, setActiveId] = useState();
-  // const assignToActive = makeVar();
+  const assignToActive = makeVar("User_1_name");
+  // get active item id
 
-  const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
-    onCompleted: (data) => {
-      setCount(data.scheduleGetUsers.length);
-    },
-    onError: (error: ApolloError) => {
-      console.log("ERROR on userData", error);
-    },
-  });
+  let loading = null;
+  if (viewMode === "user") {
+    const {loading: jobsLoading, error: jobsError, data: jobsData}: QueryResult = useQuery(GET_JOBS, {
+      onCompleted: (data) => {
+        formatListItems(data);
+      },
+      onError: (error: ApolloError) => {
+        console.log("ERROR on jobsData", error);
+      },
+    });
+    if (jobsLoading) {
+      loading = jobsLoading
+    }
+  } else if (viewMode === "job") {
+    const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
+      onCompleted: (data) => {
+        formatListItems(data);
+      },
+      onError: (error: ApolloError) => {
+        console.log("ERROR on userData", error);
+      },
+    });
+    if (usersLoading) {
+      loading = usersLoading
+    }
+  }
+  if (loading) return <CircularProgress/>;
 
   const onSetActive = (id: any) => {
     setActiveId(id);
   }
 
   const onAssign = (id: string | number) => {
-    // assignToActive(id);
+    assignToActive("id");
   }
 
-  function renderRow(props: ListChildComponentProps) {
-    const {index, style} = props;
-    let id = index;
-    return (
-      <ListItem button={true} onClick={() => {
-        onSetActive(id)
-      }} style={style} key={index}>
-        <JobListItem id={"id"} primaryText={"Text"} buttonText={"Assign"}
-                     execute={onAssign}/>
-      </ListItem>
-    );
+  function formatListItems(data: any) {
+    let listItems: any = [];
+
+    // @todo: Find a way to replace the name value based on viewMode so this can
+    // be shortened to a single method.
+    if (viewMode === "user") {
+      Object.keys(data.getJobs).forEach((key: string, index: number) => {
+        const jobItem = data.getJobs[index];
+        listItems.push(
+          <AssignableListItem
+            className={"job"}
+            id={jobItem.uid}
+            primaryText={jobItem.name}
+            buttonText={"Assign"}
+            executePrimary={onSetActive}
+            executeSecondary={onAssign}
+            key={key}
+          />
+        );
+      });
+    } else if (viewMode === "job") {
+      Object.keys(data.scheduleGetUsers).forEach((key: string, index: number) => {
+        const userItem = data.scheduleGetUsers[index];
+        listItems.push(
+          <AssignableListItem
+            className={"user"}
+            id={userItem.uid}
+            primaryText={userItem.userName}
+            buttonText={"Assign"}
+            executePrimary={onSetActive}
+            executeSecondary={onAssign}
+            key={key}
+          />
+        );
+      });
+    }
+
+    setRows(listItems);
   }
 
   return (
-    <div>
-      <FixedSizeList
-        height={300}
-        itemCount={count}
-        itemSize={35}
-        width={300}
-      >
-        {renderRow}
-      </FixedSizeList>
-    </div>
+    <List className="window-list">
+      {rows}
+    </List>
   );
 }
-
-
-
-
-
-
