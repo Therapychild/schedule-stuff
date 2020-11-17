@@ -8,6 +8,7 @@ networks:
 services:
   node:
     environment:
+      NODE_ENV: development
       npm_config_registry: http://verdaccio:4873
     image: node
     networks:
