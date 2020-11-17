@@ -3,7 +3,6 @@ import {
   ApolloError,
   QueryResult,
   useQuery,
-  makeVar
 } from "@apollo/client";
 import {
   GET_JOBS,
@@ -22,6 +21,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import 'react-calendar-timeline/lib/Timeline.css';
 // @todo: Add types to the queried data objects
 import {Job, User} from "../util/apolloStore";
+import {Button} from "@material-ui/core";
 
 // Keys needed for Timeline.
 const keys = {
@@ -43,29 +43,13 @@ export interface Props {
 
 export function Schedule(props: Props) {
   const {viewMode} = props;
-  // @todo:Add ApolloClient here in order to access the cache.
-
   // @todo: Find out default value of start/end time.
-  const defaultTimeStart = makeVar(moment().add(-12, 'hour'));
-  const defaultTimeEnd = makeVar(moment(12, 'hour'));
   const [groups, setGroups] = useState([]);
   const [timeEntries, setTimeEntries] = useState([]);
-  // const items = makeVar(data.timeEntryItems);
-  // const altGroups = makeVar(data.altGroups);
-
-  function formatUsers(usersData: any) {
-    let users: any = [];
-    // @todo: Add custom groups for more functionality.
-    Object.keys(usersData.scheduleGetUsers).forEach((key, index) => {
-      const user = usersData.scheduleGetUsers[index];
-      users.push({
-        id: user.uid,
-        title: user.userName,
-      })
-    });
-
-    setGroups(users);
-  }
+  const [{startTime}, setStartTime] = useState({startTime: moment().add(-12, 'hour')});
+  const [{endTime}, setEndTime] = useState({endTime: moment().add(12, 'hour')});
+  const [ids, setIds] = useState([]);
+  const [prevMode, setPrevMode] = useState("");
 
   function formatJobs(jobsData: any) {
     let jobs: any = [];
@@ -81,8 +65,52 @@ export function Schedule(props: Props) {
     setGroups(jobs);
   }
 
-  // Run query to get initial data, based on viewMode (default is "job").
-  // @todo: Data will have to be saved to local state, as well as cache.
+  function formatUsers(usersData: any) {
+    let users: any = [];
+    // @todo: Add custom groups for more functionality.
+    Object.keys(usersData.scheduleGetUsers).forEach((key, index) => {
+      const user = usersData.scheduleGetUsers[index];
+      users.push({
+        id: user.uid,
+        title: user.username,
+      })
+    });
+
+    setGroups(users);
+  }
+
+  function formatTimeEntries(timeEntriesData: any) {
+    console.log(timeEntriesData);
+    let entries: any = [];
+
+    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any, index: number) => {
+      const title = viewMode === "job" ? timeEntry.user.username : timeEntry.job.name;
+      // prettier-ignore
+      entries.push({
+        id: timeEntry.uid,
+        group: timeEntry[viewMode].uid,
+        // @todo: Add the TimeLineItem to title when completed.
+        title: title,
+        start_time: timeEntry.startTime,
+        end_time: timeEntry.endTime,
+        canMove: true,
+        canResize: true,
+        canChangeGroup: true,
+      });
+    });
+
+    setTimeEntries(entries);
+  }
+
+  function createIds() {
+    let updatedIds: any = [];
+
+    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any, index: number) => {
+      updatedIds.push(timeEntry.uid);
+    });
+
+    return updatedIds;
+  }
 
   let loading = null;
   if (viewMode === "job") {
@@ -97,7 +125,7 @@ export function Schedule(props: Props) {
     if (jobsLoading) {
       loading = jobsLoading
     }
-  } else if (viewMode === "user") {
+  } else {
     const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
       onCompleted: (data) => {
         formatUsers(data);
@@ -111,66 +139,35 @@ export function Schedule(props: Props) {
     }
   }
 
-  const {loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData}: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
+  const {loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData, refetch}: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
     onCompleted: (data) => {
       formatTimeEntries(data);
-      console.log("query", data);
     },
     onError: (error: ApolloError) => {
       console.log("ERROR on timeEntriesData", error);
     },
   });
-  if (loading || timeEntriesLoading) return <CircularProgress/>;
+  if (timeEntriesLoading) {
+    loading = timeEntriesLoading
+  }
+  if (loading) return <CircularProgress/>;
 
-  function formatTimeEntries(timeEntriesData: any) {
-    let entries: any = [];
-    // @todo: Add custom items for more functionality.
-    if (viewMode === "user") {
-      Object.keys(timeEntriesData.scheduleGetTimeEntries).forEach((key, index) => {
-        const timeEntry = timeEntriesData.scheduleGetTimeEntries[index];
-        const timeEntryGroup = timeEntry[viewMode];
-        // prettier-ignore (The _ triggers prettier, but is a component prop).
-        entries.push({
-          id: timeEntry.uid,
-          group: timeEntryGroup.uid,
-          // @todo: Add the TimeLineItem to title when completed.
-          title: timeEntry.job.name,
-          start_time: timeEntry.startTime,
-          end_time: timeEntry.endTime,
-          canMove: true,
-          canResize: true,
-          canChangeGroup: true,
-        });
-      });
-
-      setTimeEntries(entries);
-    } else if (viewMode === "job") {
-      Object.keys(timeEntriesData.scheduleGetTimeEntries).forEach((key, index) => {
-        const timeEntry = timeEntriesData.scheduleGetTimeEntries[index];
-        const timeEntryGroup = timeEntry[viewMode];
-        // prettier-ignore
-        entries.push({
-          id: timeEntry.uid,
-          group: timeEntryGroup.uid,
-          // @todo: Add the TimeLineItem to title when completed.
-          title: timeEntry.user.userName,
-          start_time: timeEntry.startTime,
-          end_time: timeEntry.endTime,
-          canMove: true,
-          canResize: true,
-          canChangeGroup: true,
-        });
-      });
-
-      setTimeEntries(entries);
-    }
+  if (viewMode !== prevMode) {
+    setPrevMode(viewMode);
+    updateTimeEntries();
   }
 
-  // function onScrollVertical() {
+  async function updateTimeEntries() {
+    const data = await refetch();
+    formatTimeEntries(data.data);
+  }
+
+// function onScrollVertical() {
   //   ...update query based on scrolling
   // }
 
   // Add error handling.
+
 
   return (
     <Timeline
@@ -182,8 +179,8 @@ export function Schedule(props: Props) {
       itemHeightRatio={0.75}
       canMove={true}
       canResize={true}
-      defaultTimeStart={defaultTimeStart()}
-      defaultTimeEnd={defaultTimeEnd()}
+      defaultTimeStart={startTime}
+      defaultTimeEnd={endTime}
     >
       <TimelineHeaders className="sticky">
         <SidebarHeader>

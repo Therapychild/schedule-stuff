@@ -11,7 +11,7 @@ export default function ScheduleApp() {
   const [{viewMode}, setViewMode] = useState<{ viewMode: TMode }>({viewMode: "job"});
 
   function toggleViewMode() {
-    if(viewMode === "user") {
+    if (viewMode === "user") {
       setViewMode({viewMode: "job"});
     } else {
       setViewMode({viewMode: "user"});
@@ -20,7 +20,9 @@ export default function ScheduleApp() {
 
   return (
     <>
-      <Button onClick={() => {toggleViewMode()}}>{viewMode}</Button>
+      <Button onClick={() => {
+        toggleViewMode()
+      }}>{viewMode}</Button>
       <Sidebar viewMode={viewMode} setViewMode={setViewMode}/>
       <Schedule viewMode={viewMode} setViewMode={setViewMode}/>
     </>
