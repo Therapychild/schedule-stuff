@@ -83,7 +83,7 @@ export function WindowedListBox(props: Props) {
           <AssignableListItem
             className={"user"}
             id={userItem.uid}
-            primaryText={userItem.userName}
+            primaryText={userItem.username}
             buttonText={"Assign"}
             executePrimary={onSetActive}
             executeSecondary={onAssign}

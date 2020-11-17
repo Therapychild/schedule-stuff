@@ -7,7 +7,7 @@ import {
 
 export interface User {
   uid: string,
-  userName: string,
+  username: string,
   skills: [Skill],
   scheduledTime: number,
   workedTime: number,

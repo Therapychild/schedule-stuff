@@ -28,10 +28,10 @@ export const GET_SKILLS = gql`
 `;
 
 export const SCHEDULE_GET_USERS = gql`
-  query scheduleGetUsers($startTime: String, $endTime: String, $skillIds: [String], $userName: String) {
-    scheduleGetUsers(startTime: $startTime, endTime: $endTime, skillIds: $skillIds, userName: $userName) {
+  query scheduleGetUsers($startTime: String, $endTime: String, $skillIds: [String], $username: String) {
+    scheduleGetUsers(startTime: $startTime, endTime: $endTime, skillIds: $skillIds, username: $username) {
       uid
-      userName
+      username
       skills {
         uid
         name
@@ -61,7 +61,7 @@ export const SCHEDULE_GET_TIME_ENTRIES = gql`
       }
       user {
         uid
-        userName
+        username
         skills {
           uid
           name
@@ -97,7 +97,7 @@ export const NEW_TIME_ENTRY_JOB = gql`
       }
       user {
         uid
-        userName
+        username
         skills {
           uid
           name
@@ -133,7 +133,7 @@ export const NEW_TIME_ENTRY_USER = gql`
       }
       user {
         uid
-        userName
+        username
         skills {
           uid
           name
@@ -169,7 +169,7 @@ export const MOVE_TIME_ENTRY = gql`
       }
       user {
         uid
-        userName
+        username
         skills {
           uid
           name
@@ -205,7 +205,7 @@ export const SET_USER = gql`
       }
       user {
         uid
-        userName
+        username
         skills {
           uid
           name
@@ -241,7 +241,7 @@ export const SET_JOB = gql`
       }
       user {
         uid
-        userName
+        username
         skills {
           uid
           name
