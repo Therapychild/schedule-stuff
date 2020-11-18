@@ -10,7 +10,6 @@ export interface Props {
   buttonText: string;
   executePrimary: Function;
   executeSecondary: Function;
-  key: string;
 }
 
 export function AssignableListItem(props: Props): React.ReactElement {
@@ -21,7 +20,6 @@ export function AssignableListItem(props: Props): React.ReactElement {
     buttonText,
     executePrimary,
     executeSecondary,
-    key,
   } = props;
 
   return (
@@ -33,7 +31,6 @@ export function AssignableListItem(props: Props): React.ReactElement {
         onClick={() => {
           executePrimary(id);
         }}
-        key={key}
       >
         <ListItemText primary={primaryText}/>
       </ListItem>
