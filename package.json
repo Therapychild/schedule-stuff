@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "antd": "^4.3.3",
+    "components": "^0.1.1",
     "core-js": "^3.6.5",
     "fontsource-roboto": "^3.0.3",
     "graphql": "^15.4.0",
