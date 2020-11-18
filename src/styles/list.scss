@@ -1,0 +1,15 @@
+.window-list {
+  border: 1px solid black;
+  width: 20rem;
+  height: 30rem;
+  overflow-y: scroll;
+
+  .muiButton-text.assign {
+    padding: 0.375rem 1rem;
+  }
+}
+
+.window-list-item {
+  display: flex;
+  border-bottom: 1px solid black;
+}
