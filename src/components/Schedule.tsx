@@ -9,7 +9,7 @@ import {
   SCHEDULE_GET_USERS,
   SCHEDULE_GET_TIME_ENTRIES
 } from "../util/clientSchema";
-import {TMode} from "../types/mode";
+import {TMode} from "../types/types";
 import moment from "moment";
 import Timeline, {
   TimelineHeaders,
@@ -21,7 +21,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import 'react-calendar-timeline/lib/Timeline.css';
 // @todo: Add types to the queried data objects
 import {Job, User} from "../util/apolloStore";
-import {Button} from "@material-ui/core";
 
 // Keys needed for Timeline.
 const keys = {
@@ -80,10 +79,9 @@ export function Schedule(props: Props) {
   }
 
   function formatTimeEntries(timeEntriesData: any) {
-    console.log(timeEntriesData);
     let entries: any = [];
 
-    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any, index: number) => {
+    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any) => {
       const title = viewMode === "job" ? timeEntry.user.username : timeEntry.job.name;
       // prettier-ignore
       entries.push({
@@ -105,7 +103,7 @@ export function Schedule(props: Props) {
   function createIds() {
     let updatedIds: any = [];
 
-    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any, index: number) => {
+    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any) => {
       updatedIds.push(timeEntry.uid);
     });
 
@@ -138,7 +136,6 @@ export function Schedule(props: Props) {
       loading = usersLoading
     }
   }
-
   const {loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData, refetch}: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
     onCompleted: (data) => {
       formatTimeEntries(data);
@@ -167,7 +164,6 @@ export function Schedule(props: Props) {
   // }
 
   // Add error handling.
-
 
   return (
     <Timeline
