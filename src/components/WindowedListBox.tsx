@@ -3,7 +3,7 @@ import {AssignableListItem} from "./AssignableListItem";
 import List from "@material-ui/core/List";
 import {ApolloError, makeVar, QueryResult, useQuery} from "@apollo/client";
 import {GET_JOBS, SCHEDULE_GET_USERS} from "../util/clientSchema";
-import {TMode} from "../types/mode";
+import {TMode} from "../types/types";
 
 import "../styles/list.scss";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -14,8 +14,8 @@ export interface Props {
 
 export function WindowedListBox(props: Props) {
   const {viewMode} = props;
-  const [count, setCount] = useState(0);
   const [rows, setRows] = useState([]);
+  // @todo: Set active item with a style to show it is active.
   const [activeId, setActiveId] = useState();
   const assignToActive = makeVar("User_1_name");
   // get active item id
