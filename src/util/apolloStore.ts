@@ -6,6 +6,7 @@ import {
 } from "@apollo/client";
 
 export interface User {
+  type: string[],
   uid: string,
   username: string,
   skills: [Skill],
@@ -14,6 +15,7 @@ export interface User {
 }
 
 export interface Job {
+  type: string[],
   uid: string;
   name: string;
   skills: Skill[];
@@ -25,11 +27,13 @@ export interface Job {
 }
 
 export interface Skill {
+  type: string[],
   uid: string;
   name: string;
 }
 
 export interface TimeEntry {
+  type: string[],
   uid: string,
   job: Job,
   user: User,
