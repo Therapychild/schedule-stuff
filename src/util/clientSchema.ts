@@ -82,6 +82,16 @@ export const SCHEDULE_GET_TIME_ENTRIES = gql`
   }
 `;
 
+// Client Queries
+export const GET_ACTIVE_IDS = gql`
+  query GetActiveIds {
+    activeIds @client {
+      timeEntryId
+      entityId
+    }
+  }
+`
+
 export const NEW_TIME_ENTRY_JOB = gql`
   mutation NewTimeEntryForJob($startTime: String!, $endTime: String!, $jobId: String!) {
     newTimeEntryForJob(startTime: $startTime, endTime: $endTime, jobId: $jobId) {

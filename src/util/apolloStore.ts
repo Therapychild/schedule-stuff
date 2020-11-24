@@ -2,20 +2,24 @@ import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
-  createHttpLink, ApolloLink, Operation, NextLink
+  createHttpLink,
+  ApolloLink,
+  Operation,
+  NextLink,
+  makeVar,
 } from "@apollo/client";
 
 export interface User {
-  type: string[],
-  uid: string,
-  username: string,
-  skills: [Skill],
-  scheduledTime: number,
-  workedTime: number,
+  type: string[];
+  uid: string;
+  username: string;
+  skills: [Skill];
+  scheduledTime: number;
+  workedTime: number;
 }
 
 export interface Job {
-  type: string[],
+  type: string[];
   uid: string;
   name: string;
   skills: Skill[];
@@ -27,7 +31,7 @@ export interface Job {
 }
 
 export interface Skill {
-  type: string[],
+  type: string[];
   uid: string;
   name: string;
 }
@@ -44,7 +48,29 @@ export interface TimeEntry {
   dueDate: string,
 }
 
-const cache = new InMemoryCache();
+export interface ActiveIds {
+  timeEntryId?: string;
+  entityId?: string;
+}
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        activeIds: {
+          read () {
+            return setToActiveVar();
+          }
+        }
+      }
+    }
+  }
+});
+
+// Create the reactive variables and initialize with initial value.
+const activeIdsInitialValues: ActiveIds = {timeEntryId: "NotSet", entityId: "NotSet"};
+export const setToActiveVar = makeVar<ActiveIds>(activeIdsInitialValues);
+
 const httpLink = createHttpLink({
   uri: "http://192.168.64.2:3000/graphql",
   headers: {"content-type": "application/json"}
