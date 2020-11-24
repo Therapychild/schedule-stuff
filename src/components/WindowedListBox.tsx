@@ -1,24 +1,29 @@
 import React, {useState} from 'react';
-import {AssignableListItem} from "./AssignableListItem";
-import List from "@material-ui/core/List";
-import {ApolloError, makeVar, QueryResult, useQuery} from "@apollo/client";
-import {GET_JOBS, SCHEDULE_GET_USERS} from "../util/clientSchema";
+import {
+  ApolloError,
+  QueryResult,
+  useQuery,
+} from "@apollo/client";
+import {ActiveIds} from "../util/apolloStore";
+import {
+  GET_JOBS,
+  SCHEDULE_GET_USERS
+} from "../util/clientSchema";
 import {TMode} from "../types/types";
+import List from "@material-ui/core/List";
+import {AssignableListItem} from "./AssignableListItem";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import "../styles/list.scss";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface Props {
   viewMode: TMode;
 }
 
+// @todo: Set active item with a style to show it is active.
 export function WindowedListBox(props: Props) {
   const {viewMode} = props;
-  const [rows, setRows] = useState([]);
-  // @todo: Set active item with a style to show it is active.
-  const [activeId, setActiveId] = useState();
-  const assignToActive = makeVar("User_1_name");
-  // get active item id
+  const [{rows}, setRows] = useState({rows: []});
 
   let loading = null;
   if (viewMode === "user") {
@@ -31,7 +36,7 @@ export function WindowedListBox(props: Props) {
       },
     });
     if (jobsLoading) {
-      loading = jobsLoading
+      loading = jobsLoading;
     }
   } else if (viewMode === "job") {
     const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
@@ -43,17 +48,14 @@ export function WindowedListBox(props: Props) {
       },
     });
     if (usersLoading) {
-      loading = usersLoading
+      loading = usersLoading;
     }
   }
   if (loading) return <CircularProgress/>;
 
-  const onSetActive = (id: any) => {
-    setActiveId(id);
-  }
 
-  const onAssign = (id: string | number) => {
-    assignToActive("id");
+  const onAssign = ({entityId}: ActiveIds) => {
+    // assignToActive("id");
   }
 
   function formatListItems(data: any) {
@@ -66,11 +68,10 @@ export function WindowedListBox(props: Props) {
         const jobItem = data.getJobs[index];
         listItems.push(
           <AssignableListItem
-            className={"job"}
+            className="job"
             id={jobItem.uid}
             primaryText={jobItem.name}
-            buttonText={"Assign"}
-            executePrimary={onSetActive}
+            buttonText="Assign"
             executeSecondary={onAssign}
             key={key}
           />
@@ -81,11 +82,10 @@ export function WindowedListBox(props: Props) {
         const userItem = data.scheduleGetUsers[index];
         listItems.push(
           <AssignableListItem
-            className={"user"}
+            className="user"
             id={userItem.uid}
             primaryText={userItem.username}
-            buttonText={"Assign"}
-            executePrimary={onSetActive}
+            buttonText="Assign"
             executeSecondary={onAssign}
             key={key}
           />
@@ -93,7 +93,7 @@ export function WindowedListBox(props: Props) {
       });
     }
 
-    setRows(listItems);
+    setRows({rows: listItems});
   }
 
   return (

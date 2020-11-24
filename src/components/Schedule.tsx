@@ -3,12 +3,17 @@ import {
   ApolloError,
   QueryResult,
   useQuery,
+  useMutation,
+  useApolloClient,
 } from "@apollo/client";
 import {
   GET_JOBS,
   SCHEDULE_GET_USERS,
-  SCHEDULE_GET_TIME_ENTRIES
+  SCHEDULE_GET_TIME_ENTRIES,
+  NEW_TIME_ENTRY_JOB,
 } from "../util/clientSchema";
+// @todo: Add types to the queried data objects
+import {Job, User} from "../util/apolloStore";
 import {TMode} from "../types/types";
 import moment from "moment";
 import Timeline, {
@@ -16,11 +21,11 @@ import Timeline, {
   SidebarHeader,
   DateHeader
 } from "react-calendar-timeline";
+import {TimeLineItem} from "./TimeLineItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {Button} from "@material-ui/core";
 
 import 'react-calendar-timeline/lib/Timeline.css';
-// @todo: Add types to the queried data objects
-import {Job, User} from "../util/apolloStore";
 
 // Keys needed for Timeline.
 const keys = {
@@ -41,14 +46,16 @@ export interface Props {
 }
 
 export function Schedule(props: Props) {
+  const client = useApolloClient();
   const {viewMode} = props;
   // @todo: Find out default value of start/end time.
-  const [groups, setGroups] = useState([]);
-  const [timeEntries, setTimeEntries] = useState([]);
+  const [{groups}, setGroups] = useState({groups: []});
+  const [{timeEntries}, setTimeEntries] = useState({timeEntries: []});
+  const [{ids}, setIds] = useState({ids: []});
   const [{startTime}, setStartTime] = useState({startTime: moment().add(-12, 'hour')});
   const [{endTime}, setEndTime] = useState({endTime: moment().add(12, 'hour')});
-  const [ids, setIds] = useState([]);
-  const [prevMode, setPrevMode] = useState("");
+  const [{prevMode}, setPrevMode] = useState({prevMode: ""});
+  const [{scheduleViewTimeEntry}, scheduleSetViewTimeEntry] = useState({scheduleViewTimeEntry: ""});
 
   function formatJobs(jobsData: any) {
     let jobs: any = [];
@@ -61,7 +68,7 @@ export function Schedule(props: Props) {
       })
     });
 
-    setGroups(jobs);
+    setGroups({groups: jobs});
   }
 
   function formatUsers(usersData: any) {
@@ -75,7 +82,7 @@ export function Schedule(props: Props) {
       })
     });
 
-    setGroups(users);
+    setGroups({groups: users});
   }
 
   function formatTimeEntries(timeEntriesData: any) {
@@ -87,8 +94,11 @@ export function Schedule(props: Props) {
       entries.push({
         id: timeEntry.uid,
         group: timeEntry[viewMode].uid,
-        // @todo: Add the TimeLineItem to title when completed.
-        title: title,
+        title: <TimeLineItem
+          timeEntry={timeEntry}
+          viewMode={viewMode}
+          scheduleSetViewTimeEntry={scheduleSetViewTimeEntry}
+        />,
         start_time: timeEntry.startTime,
         end_time: timeEntry.endTime,
         canMove: true,
@@ -97,31 +107,31 @@ export function Schedule(props: Props) {
       });
     });
 
-    setTimeEntries(entries);
+    setTimeEntries({timeEntries: entries});
   }
 
-  function createIds() {
-    let updatedIds: any = [];
+  // function createIds() {
+  //   let updatedIds: any = [];
+  //
+  //   timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any) => {
+  //     updatedIds.push(timeEntry.uid);
+  //   });
+  //
+  //   return updatedIds;
+  // }
 
-    timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any) => {
-      updatedIds.push(timeEntry.uid);
-    });
-
-    return updatedIds;
-  }
-
-  let loading = null;
+  let allLoading = null;
   if (viewMode === "job") {
     const {loading: jobsLoading, error: jobsError, data: jobsData}: QueryResult = useQuery(GET_JOBS, {
       onCompleted: (data) => {
         formatJobs(data);
       },
       onError: (error: ApolloError) => {
-        console.log("ERROR on jobsData", error);
+        console.log("ERROR on jobsData Query, Schedule.tsx", error);
       },
     });
     if (jobsLoading) {
-      loading = jobsLoading
+      allLoading = jobsLoading
     }
   } else {
     const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
@@ -129,11 +139,11 @@ export function Schedule(props: Props) {
         formatUsers(data);
       },
       onError: (error: ApolloError) => {
-        console.log("ERROR on userData", error);
+        console.log("ERROR on userData Query, Schedule.tsx", error);
       },
     });
     if (usersLoading) {
-      loading = usersLoading
+      allLoading = usersLoading
     }
   }
   const {loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData, refetch}: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
@@ -141,25 +151,67 @@ export function Schedule(props: Props) {
       formatTimeEntries(data);
     },
     onError: (error: ApolloError) => {
-      console.log("ERROR on timeEntriesData", error);
+      console.log("ERROR on timeEntriesData Query, Schedule.tsx", error);
     },
   });
   if (timeEntriesLoading) {
-    loading = timeEntriesLoading
+    allLoading = timeEntriesLoading
   }
-  if (loading) return <CircularProgress/>;
+
+  const [newTimeEntryForJob, {loading: newTimeEntryLoading}] = useMutation(NEW_TIME_ENTRY_JOB, {
+    onCompleted(data): void {
+    },
+    update(cache, {data}) {
+      const newTimeEntryFromResponse = data.newTimeEntryForJob;
+      let existingTimeEntries: any = cache.readQuery({
+        query: SCHEDULE_GET_TIME_ENTRIES,
+      });
+
+      client.writeQuery({
+        query: SCHEDULE_GET_TIME_ENTRIES,
+        data: {
+          scheduleGetTimeEntries: [
+            ...existingTimeEntries.scheduleGetTimeEntries,
+            newTimeEntryFromResponse
+          ],
+        },
+      });
+      updateTimeEntries();
+    },
+    onError: (error: ApolloError): void => {
+      console.log("ERROR on newTimeEntryForJob Mutation, Schedule.tsx", error);
+    },
+  });
+  if (newTimeEntryLoading) {
+    allLoading = newTimeEntryLoading;
+  }
+  if (allLoading) return <CircularProgress/>;
 
   if (viewMode !== prevMode) {
-    setPrevMode(viewMode);
+    setPrevMode({prevMode: viewMode});
+
     updateTimeEntries();
   }
 
   async function updateTimeEntries() {
+    let existingTimeEntries: any = client.readQuery({
+      query: SCHEDULE_GET_TIME_ENTRIES,
+    });
     const data = await refetch();
-    formatTimeEntries(data.data);
+    formatTimeEntries(existingTimeEntries);
   }
 
-// function onScrollVertical() {
+  const doSubmit = async (startTime: string, endTime: string, jobId: string): Promise<void> => {
+    await newTimeEntryForJob({
+      variables: {
+        startTime,
+        endTime,
+        jobId
+      },
+    });
+  };
+
+  // function onScrollVertical() {
   //   ...update query based on scrolling
   // }
 
@@ -181,7 +233,18 @@ export function Schedule(props: Props) {
       <TimelineHeaders className="sticky">
         <SidebarHeader>
           {({getRootProps}) => {
-            return <div {...getRootProps()}>Left</div>;
+            return <div {...getRootProps()}>
+              <Button onClick={() => {
+                doSubmit(
+                  "12",
+                  "15",
+                  "6"
+                );
+              }}
+              >
+                +
+              </Button>
+            </div>;
           }}
         </SidebarHeader>
         <DateHeader unit="primaryHeader"/>

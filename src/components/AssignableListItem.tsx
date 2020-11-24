@@ -2,14 +2,25 @@ import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
+import {ActiveIds, setToActiveVar} from "../util/apolloStore";
+import {useQuery} from "@apollo/client";
+import {GET_ACTIVE_IDS} from "../util/clientSchema";
 
 export interface Props {
   className: string;
-  id: string | number;
+  id: string;
   primaryText: string;
   buttonText: string;
-  executePrimary: Function;
+  executeSecondary: Function; // AssignToActive
+}
+
+type ListItem = {
+  className: string;
+  id: string;
+  primaryText: string;
+  buttonText: string;
   executeSecondary: Function;
+  key: string;
 }
 
 export function AssignableListItem(props: Props): React.ReactElement {
@@ -18,9 +29,15 @@ export function AssignableListItem(props: Props): React.ReactElement {
     id,
     primaryText,
     buttonText,
-    executePrimary,
     executeSecondary,
   } = props;
+
+  const {data: activeIdsData} = useQuery(GET_ACTIVE_IDS);
+  const activeTimeEntryId = activeIdsData.activeIds.timeEntryId;
+
+  const scheduleSetActiveIds = ({timeEntryId, entityId}: ActiveIds) => {
+    setToActiveVar({timeEntryId, entityId});
+  }
 
   return (
     <div className="window-list-item">
@@ -29,14 +46,14 @@ export function AssignableListItem(props: Props): React.ReactElement {
         alignItems="flex-start"
         button={true}
         onClick={() => {
-          executePrimary(id);
+          scheduleSetActiveIds({timeEntryId: activeTimeEntryId, entityId: id});
         }}
       >
         <ListItemText primary={primaryText}/>
       </ListItem>
       <Button
         className={className}
-        onClick={executeSecondary(id)}>
+        onClick={executeSecondary({entityId: id})}>
         {buttonText}
       </Button>
     </div>
