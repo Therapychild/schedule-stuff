@@ -1,5 +1,6 @@
 import {gql} from "@apollo/client";
 
+// Server Queries
 export const GET_JOBS = gql`
   query GetJobs($skillIds: [String]) {
     getJobs(skillIds: $skillIds) {
@@ -92,6 +93,7 @@ export const GET_ACTIVE_IDS = gql`
   }
 `
 
+// Server Mutations
 export const NEW_TIME_ENTRY_JOB = gql`
   mutation NewTimeEntryForJob($startTime: String!, $endTime: String!, $jobId: String!) {
     newTimeEntryForJob(startTime: $startTime, endTime: $endTime, jobId: $jobId) {
@@ -167,8 +169,8 @@ export const NEW_TIME_ENTRY_USER = gql`
 `;
 
 export const MOVE_TIME_ENTRY = gql`
-  mutation MoveTimeEntry($startTime: String!, $endTime: String!, $timeEntryId: String!) {
-    moveTimeEntry(startTime: $startTime, endTime: $endTime, timeEntryId: $timeEntryId) {
+  mutation MoveTimeEntry($startTime: String!, $endTime: String!, $timeEntryId: String!, $newGroupId: String!) {
+    moveTimeEntry(startTime: $startTime, endTime: $endTime, timeEntryId: $timeEntryId, newGroupId: $newGroupId) {
       type
       uid
       job {

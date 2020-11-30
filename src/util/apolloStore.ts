@@ -53,6 +53,10 @@ export interface ActiveIds {
   entityId?: string;
 }
 
+export interface AssignableId {
+  entityId: string;
+}
+
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -68,9 +72,11 @@ const cache = new InMemoryCache({
 });
 
 // Create the reactive variables and initialize with initial value.
-const activeIdsInitialValues: ActiveIds = {timeEntryId: "NotSet", entityId: "NotSet"};
+const activeIdsInitialValues: ActiveIds = {timeEntryId: "Not Set", entityId: "Not Set"};
 export const setToActiveVar = makeVar<ActiveIds>(activeIdsInitialValues);
 
+const assignableIdInitialValue: AssignableId = {entityId: "Not Set"}
+export const assignToActiveVar = makeVar<AssignableId>(assignableIdInitialValue);
 const httpLink = createHttpLink({
   uri: "http://192.168.64.2:3000/graphql",
   headers: {"content-type": "application/json"}
