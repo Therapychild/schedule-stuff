@@ -32,7 +32,7 @@ export function WindowedListBox(props: Props) {
         formatListItems(data);
       },
       onError: (error: ApolloError) => {
-        console.log("ERROR on jobsData", error);
+        console.log("ERROR on jobsData, WindowedListBox", error);
       },
     });
     if (jobsLoading) {
@@ -44,7 +44,7 @@ export function WindowedListBox(props: Props) {
         formatListItems(data);
       },
       onError: (error: ApolloError) => {
-        console.log("ERROR on userData", error);
+        console.log("ERROR on userData, WindowedListBox", error);
       },
     });
     if (usersLoading) {
@@ -52,7 +52,6 @@ export function WindowedListBox(props: Props) {
     }
   }
   if (loading) return <CircularProgress/>;
-
 
   const onAssign = ({entityId}: ActiveIds) => {
     // assignToActive("id");

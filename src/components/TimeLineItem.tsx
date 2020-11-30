@@ -2,7 +2,7 @@ import React from 'react';
 import Button from "@material-ui/core/Button"
 import {Card as TimeEntryCard} from "time-entry/dist/components/Card";
 import {TMode} from "../types/types";
-import {ActiveIds, setToActiveVar} from "../util/apolloStore";
+import {ActiveIds, setToActiveVar, } from "../util/apolloStore";
 
 export interface Props {
   timeEntry: any;
