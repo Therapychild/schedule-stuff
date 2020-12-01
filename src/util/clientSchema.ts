@@ -206,8 +206,8 @@ export const MOVE_TIME_ENTRY = gql`
 `;
 
 export const SET_USER = gql`
-  mutation SetUser($userId: String!, $timeEntryId: String!) {
-    setUser(userId: $userId, timeEntryId: $timeEntryId) {
+  mutation SetUser($userId: String!, $username: String!, $timeEntryId: String!) {
+    setUser(userId: $userId, username: $username, timeEntryId: $timeEntryId) {
       type
       uid
       job {
@@ -243,8 +243,8 @@ export const SET_USER = gql`
 `;
 
 export const SET_JOB = gql`
-  mutation SetJob($jobId: String!, $timeEntryId: String!) {
-    setJob(jobId: $jobId, timeEntryId: $timeEntryId) {
+  mutation SetJob($jobId: String!, $jobName: String!, $timeEntryId: String!) {
+    setJob(jobId: $jobId, jobName: $jobName, timeEntryId: $timeEntryId) {
       type
       uid
       job {
