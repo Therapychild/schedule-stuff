@@ -9,7 +9,7 @@ import {
   GET_JOBS,
   SCHEDULE_GET_USERS
 } from "../util/clientSchema";
-import {TMode} from "../types/types";
+import {TMode} from "../util/types";
 import List from "@material-ui/core/List";
 import {AssignableListItem} from "./AssignableListItem";
 import CircularProgress from "@material-ui/core/CircularProgress";

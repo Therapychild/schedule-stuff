@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Sidebar} from "./components/Sidebar";
 import {Schedule} from "./components/Schedule";
-import {TMode} from "./types/types";
+import {TMode} from "./util/types";
 import {Button} from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";

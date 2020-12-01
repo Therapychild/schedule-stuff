@@ -1,5 +1,5 @@
 import React from "react";
-import {TMode} from "../types/types";
+import {TMode} from "../util/types";
 import Drawer from "@material-ui/core/Drawer";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';

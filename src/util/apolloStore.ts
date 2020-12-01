@@ -21,8 +21,8 @@ export interface User {
 export interface Job {
   type: string[];
   uid: string;
-  name: string;
   skills: Skill[];
+  name: string;
   releaseDate: string;
   dueDate: string;
   estimatedTime: number;
@@ -48,6 +48,17 @@ export interface TimeEntry {
   dueDate: string,
 }
 
+export interface TimeEntryItem {
+  id: string;
+  group: string;
+  title: any;
+  start_time: string;
+  end_time: string;
+  canMove: boolean;
+  canResize: boolean;
+  canChangeGroup: boolean;
+}
+
 export interface ActiveIds {
   timeEntryId?: string;
   entityId?: string;
@@ -63,7 +74,7 @@ const cache = new InMemoryCache({
       fields: {
         activeIds: {
           read () {
-            return setToActiveVar();
+            return setToActiveIdsVar();
           }
         }
       }
@@ -72,11 +83,9 @@ const cache = new InMemoryCache({
 });
 
 // Create the reactive variables and initialize with initial value.
-const activeIdsInitialValues: ActiveIds = {timeEntryId: "Not Set", entityId: "Not Set"};
-export const setToActiveVar = makeVar<ActiveIds>(activeIdsInitialValues);
+export const setToActiveIdsVar = makeVar<ActiveIds>({timeEntryId: "Not Set", entityId: "Not Set"});
+export const timeEntryItemsVar = makeVar<TimeEntryItem[]>([]);
 
-const assignableIdInitialValue: AssignableId = {entityId: "Not Set"}
-export const assignToActiveVar = makeVar<AssignableId>(assignableIdInitialValue);
 const httpLink = createHttpLink({
   uri: "http://192.168.64.2:3000/graphql",
   headers: {"content-type": "application/json"}
