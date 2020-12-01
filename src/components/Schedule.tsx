@@ -12,16 +12,22 @@ import {
   SCHEDULE_GET_TIME_ENTRIES,
   NEW_TIME_ENTRY_JOB,
   NEW_TIME_ENTRY_USER,
-  MOVE_TIME_ENTRY
+  MOVE_TIME_ENTRY,
 } from "../util/clientSchema";
-// @todo: Add types to the queried data objects
-import {Job, User} from "../util/apolloStore";
-import {TMode} from "../types/types";
+import {
+  Job,
+  User,
+  TimeEntry,
+  TimeEntryItem,
+  timeEntryItemsVar
+} from "../util/apolloStore";
+import {TMode} from "../util/types";
 import moment from "moment";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
-  DateHeader
+  DateHeader,
+  TimelineGroupBase
 } from "react-calendar-timeline";
 import {TimeLineItem} from "./TimeLineItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -51,18 +57,16 @@ export function Schedule(props: Props) {
   const client = useApolloClient();
   const {viewMode} = props;
   // @todo: Find out default value of start/end time.
-  const [{groups}, setGroups] = useState<{groups: any[]}>({groups: []});
-  const [{timeEntries}, setTimeEntries] = useState<{timeEntries: any[]}>({timeEntries: []});
-  const [{ids}, setIds] = useState({ids: []});
+  const [{groups}, setGroups] = useState<{ groups: any[] }>({groups: []});
   const [{startTime}, setStartTime] = useState({startTime: moment().add(-12, 'hour')});
   const [{endTime}, setEndTime] = useState({endTime: moment().add(12, 'hour')});
   const [{prevMode}, setPrevMode] = useState({prevMode: ""});
   const [{scheduleViewTimeEntry}, scheduleSetViewTimeEntry] = useState({scheduleViewTimeEntry: ""});
 
-  function formatJobs(jobsData: any) {
-    let jobs: any = [];
+  function formatJobs(jobsData: Job[]) {
+    let jobs: TimelineGroupBase[] = [];
     // @todo: Add custom groups for more functionality.
-    jobsData.getJobs.forEach((job: Job) => {
+    jobsData.forEach((job: Job) => {
       jobs.push({
         id: job.uid,
         title: job.name,
@@ -72,10 +76,10 @@ export function Schedule(props: Props) {
     setGroups({groups: jobs});
   }
 
-  function formatUsers(usersData: any) {
-    let users: any = [];
+  function formatUsers(usersData: User[]) {
+    let users: TimelineGroupBase[] = [];
     // @todo: Add custom groups for more functionality.
-    usersData.scheduleGetUsers.forEach((user: User) => {
+    usersData.forEach((user: User) => {
       users.push({
         id: user.uid,
         title: user.username,
@@ -85,10 +89,10 @@ export function Schedule(props: Props) {
     setGroups({groups: users});
   }
 
-  function formatTimeEntries(timeEntriesData: any) {
-    let entries: any = [];
+  function formatTimeEntries(timeEntriesData: TimeEntry[]) {
+    let entries: TimeEntryItem[] = [];
 
-    timeEntriesData.forEach((timeEntry: any) => {
+    timeEntriesData.forEach((timeEntry) => {
       // prettier-ignore
       entries.push({
         id: timeEntry.uid,
@@ -106,25 +110,16 @@ export function Schedule(props: Props) {
       });
     });
 
-    setTimeEntries({timeEntries: entries});
+    timeEntryItemsVar(entries);
+    updateTimeEntryItems(entries);
   }
 
-  // @todo: This will be used to check against changes for re-running the query.
-  // function createIds() {
-  //   let updatedIds: any = [];
-  //
-  //   timeEntriesData.scheduleGetTimeEntries.forEach((timeEntry: any) => {
-  //     updatedIds.push(timeEntry.uid);
-  //   });
-  //
-  //   return updatedIds;
-  // }
-
+  // Server Queries
   let anyLoading = null;
   if (viewMode === "job") {
     const {loading: jobsLoading, error: jobsError, data: jobsData}: QueryResult = useQuery(GET_JOBS, {
-      onCompleted: (data) => {
-        formatJobs(data);
+      onCompleted: (jobsData) => {
+        formatJobs(jobsData.getJobs);
       },
       onError: (error: ApolloError) => {
         console.log("ERROR on jobsData Query, Schedule.tsx", error);
@@ -135,8 +130,8 @@ export function Schedule(props: Props) {
     }
   } else {
     const {loading: usersLoading, error: usersError, data: usersData}: QueryResult = useQuery(SCHEDULE_GET_USERS, {
-      onCompleted: (data) => {
-        formatUsers(data);
+      onCompleted: (usersData) => {
+        formatUsers(usersData.scheduleGetUsers);
       },
       onError: (error: ApolloError) => {
         console.log("ERROR on userData Query, Schedule.tsx", error);
@@ -148,8 +143,8 @@ export function Schedule(props: Props) {
   }
 
   const {loading: timeEntriesLoading, error: timeEntriesError, data: timeEntriesData, refetch}: QueryResult = useQuery(SCHEDULE_GET_TIME_ENTRIES, {
-    onCompleted: (data) => {
-      formatTimeEntries(data.scheduleGetTimeEntries);
+    onCompleted: (timeEntriesData) => {
+      formatTimeEntries(timeEntriesData.scheduleGetTimeEntries);
     },
     onError: (error: ApolloError) => {
       console.log("ERROR on timeEntriesData Query, Schedule.tsx", error);
@@ -159,25 +154,10 @@ export function Schedule(props: Props) {
     anyLoading = timeEntriesLoading
   }
 
+  // Server Mutations
   const [newTimeEntryForJob, {loading: newJobTimeEntryLoading}] = useMutation(NEW_TIME_ENTRY_JOB, {
     onCompleted(data): void {
-    },
-    update(cache, {data}) {
-      const newTimeEntryFromResponse = data.newTimeEntryForJob;
-      let existingTimeEntries: any = cache.readQuery({
-        query: SCHEDULE_GET_TIME_ENTRIES,
-      });
-
-      client.writeQuery({
-        query: SCHEDULE_GET_TIME_ENTRIES,
-        data: {
-          scheduleGetTimeEntries: [
-            ...existingTimeEntries.scheduleGetTimeEntries,
-            newTimeEntryFromResponse
-          ],
-        },
-      });
-      updateTimeEntries();
+      formatTimeEntries(data.newTimeEntryForJob);
     },
     onError: (error: ApolloError): void => {
       console.log("ERROR on newTimeEntryForJob Mutation, Schedule.tsx", error);
@@ -189,25 +169,7 @@ export function Schedule(props: Props) {
 
   const [newTimeEntryForUser, {loading: newUserTimeEntryLoading}] = useMutation(NEW_TIME_ENTRY_USER, {
     onCompleted(data): void {
-    },
-    // Caching this probably won't be used since websockets will be pushing
-    // updates.
-    update(cache, {data}) {
-      const newTimeEntryFromResponse = data.newTimeEntryForUser;
-      let existingTimeEntries: any = cache.readQuery({
-        query: SCHEDULE_GET_TIME_ENTRIES,
-      });
-
-      client.writeQuery({
-        query: SCHEDULE_GET_TIME_ENTRIES,
-        data: {
-          scheduleGetTimeEntries: [
-            ...existingTimeEntries.scheduleGetTimeEntries,
-            newTimeEntryFromResponse
-          ],
-        },
-      });
-      updateTimeEntries();
+      formatTimeEntries(data.newTimeEntryForUser);
     },
     onError: (error: ApolloError): void => {
       console.log("ERROR on newTimeEntryForUser Mutation, Schedule.tsx", error);
@@ -217,8 +179,7 @@ export function Schedule(props: Props) {
     anyLoading = newUserTimeEntryLoading;
   }
 
-  // @todo: Add resizing. Might require a new mutation.
-  const [moveTimeEntry, {data: moveTimeEntryData, loading: moveTimeEntryLoading}] = useMutation(MOVE_TIME_ENTRY, {
+  const [moveTimeEntry, {loading: moveTimeEntryLoading}] = useMutation(MOVE_TIME_ENTRY, {
     onCompleted(data): void {
       formatTimeEntries(data.moveTimeEntry);
     },
@@ -231,9 +192,10 @@ export function Schedule(props: Props) {
   }
   if (anyLoading) return <CircularProgress/>;
 
+  // @todo: Add resizing mutation.
+
   if (viewMode !== prevMode) {
     setPrevMode({prevMode: viewMode});
-
     updateTimeEntries();
   }
 
@@ -244,6 +206,10 @@ export function Schedule(props: Props) {
     const data = await refetch();
     formatTimeEntries(existingTimeEntries.scheduleGetTimeEntries);
   }
+  async function updateTimeEntryItems(data: TimeEntryItem[]) {
+    await refetch();
+  }
+
 
   const doSubmit = async (type: string, startTime: string, endTime: string, jobId?: string | null, userId?: string | null): Promise<void> => {
     if (type === "job") {
@@ -254,8 +220,7 @@ export function Schedule(props: Props) {
           jobId
         },
       });
-    }
-    else if (type === "user") {
+    } else if (type === "user") {
       await newTimeEntryForUser({
         variables: {
           startTime,
@@ -266,36 +231,36 @@ export function Schedule(props: Props) {
     }
   };
 
-  const moveSubmit = async (startTime: string, endTime:  string, timeEntryId: string, newGroupId: string): Promise<void> =>  {
+  async function handleItemMove(timeEntryId: string, dragTime: number, newGroupOrder: number) {
+    // Get groups from state in order to get the group id in case the item
+    // changes groups, not just start/end times.
+    const newGroup: any = groups[newGroupOrder];
+
+    // Get time timeEntry from state, based on the timeEntryId.
+    let movedTimeEntryItem: TimeEntryItem | undefined = undefined;
+    for (let timeEntryItem of timeEntryItemsVar()) {
+      if (timeEntryId === timeEntryItem.id) {
+        movedTimeEntryItem = timeEntryItem;
+        break;
+      }
+    }
+    if (!movedTimeEntryItem) {
+      return;
+    }
+
+    const startTime = dragTime.toString();
+    const endTime = (dragTime + (+movedTimeEntryItem.end_time - +movedTimeEntryItem.start_time)).toString();
+    const newGroupId = newGroup.id;
+
     await moveTimeEntry({
       variables: {
         startTime,
         endTime,
         timeEntryId,
-        newGroupId
+        newGroupId,
       },
     });
   }
-
-  const handleItemMove = (timeEntryId: string, dragTime: any, newGroupOrder: any) => {
-    // Get groups from state in order to get the group id in case the item
-    // changes groups, not just start/end times.
-    const newGroup: any = groups[newGroupOrder];
-
-    // Get time timeEntry from state, based on its id
-    let movedTimeEntry;
-    for (let timeEntry of timeEntries) {
-      if (timeEntryId === timeEntry.id) {
-        movedTimeEntry = timeEntry;
-      }
-    }
-
-    const startTime = dragTime.toString();
-    const endTime = (dragTime + (movedTimeEntry.end_time - movedTimeEntry.start_time)).toString();
-    const newGroupId = newGroup.id;
-
-    moveSubmit(startTime, endTime, timeEntryId, newGroupId);
-  };
 
   // function onScrollVertical() {
   //   ...update query based on scrolling
@@ -306,7 +271,7 @@ export function Schedule(props: Props) {
   return (
     <Timeline
       groups={groups}
-      items={timeEntries}
+      items={timeEntryItemsVar()}
       keys={keys}
       itemTouchSendsClick={false}
       stackItems
