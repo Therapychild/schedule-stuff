@@ -1,8 +1,10 @@
 import React from 'react';
-import Button from "@material-ui/core/Button"
+import {useQuery} from "@apollo/client";
+import {GET_ACTIVE_IDS} from "../util/clientSchema";
+import {ActiveIds, setToActiveIdsVar, } from "../util/apolloStore";
+import {TMode} from "../util/types";
 import {Card as TimeEntryCard} from "time-entry/dist/components/Card";
-import {TMode} from "../types/types";
-import {ActiveIds, setToActiveVar, } from "../util/apolloStore";
+import Button from "@material-ui/core/Button"
 
 export interface Props {
   timeEntry: any;
@@ -22,15 +24,17 @@ export function TimeLineItem(props: Props) {
     // -Call assign Mutation to Send id's to database and assign the user/job to
     // the active timeEntry.
     // -Refresh.
-    alert("assigned");
   }
 
   /**
-   * -Set the clicked timeEntry to active.
+   * -Set the clicked TimeEntry to active.
    * -If an Entity is already assigned to it, the Entity becomes active as well.
    */
-  const scheduleSetActiveIds = ({timeEntryId, entityId}: ActiveIds) => {
-    setToActiveVar({timeEntryId, entityId});
+  const {data: activeIdsData} = useQuery(GET_ACTIVE_IDS);
+  const activeTimeEntryId = activeIdsData.activeIds.timeEntryId;
+
+  function scheduleSetActiveIds({timeEntryId, entityId}: ActiveIds) {
+    setToActiveIdsVar({timeEntryId, entityId});
   }
 
   // View the data section of the timeEntry.
@@ -44,26 +48,15 @@ export function TimeLineItem(props: Props) {
    *  job assigned to it, not necessarily a user.
    */
   const entityId = viewMode === "job" ? timeEntry.user.uid : timeEntry.job.uid;
-  let setActive = <></>;
-
-  if (viewMode === "job") {
-    if (timeEntry.user.uid) {
-      setActive = <Button className="time-entry" onClick={() => {
+  const label = viewMode === "job" ? timeEntry.user.username : timeEntry.job.name;
+  let setActive = <Button className="time-entry" onClick={() => {
         scheduleSetActiveIds({
           timeEntryId: timeEntry.uid,
-          entityId: timeEntry.user.uid
+          entityId: entityId
         })
       }}>
-        {timeEntry.user.username}
+        {label}
       </Button>
-    }
-  } else {
-    setActive = <Button className="time-entry" onClick={() => {
-      scheduleSetActiveIds({timeEntryId: timeEntry.uid})
-    }}>
-      {timeEntry.job.name}
-    </Button>
-  }
 
   return (
     <div id={timeEntry.uid}>

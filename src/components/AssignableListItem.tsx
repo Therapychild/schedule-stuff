@@ -2,7 +2,7 @@ import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
-import {ActiveIds, setToActiveVar} from "../util/apolloStore";
+import {ActiveIds, setToActiveIdsVar} from "../util/apolloStore";
 import {useQuery} from "@apollo/client";
 import {GET_ACTIVE_IDS} from "../util/clientSchema";
 
@@ -36,7 +36,7 @@ export function AssignableListItem(props: Props): React.ReactElement {
   const activeTimeEntryId = activeIdsData.activeIds.timeEntryId;
 
   const scheduleSetActiveIds = ({timeEntryId, entityId}: ActiveIds) => {
-    setToActiveVar({timeEntryId, entityId});
+    setToActiveIdsVar({timeEntryId, entityId});
   }
 
   return (
