@@ -64,27 +64,28 @@ export interface ActiveIds {
   entityId?: string;
 }
 
-export interface AssignableId {
+export interface AssignableIds {
   entityId: string;
+  entityName: string;
+  entityType: string,
+  timeEntryId?: string;
 }
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        activeIds: {
-          read () {
-            return setToActiveIdsVar();
-          }
-        }
-      }
-    }
-  }
-});
+const cache = new InMemoryCache({});
 
 // Create the reactive variables and initialize with initial value.
-export const setToActiveIdsVar = makeVar<ActiveIds>({timeEntryId: "Not Set", entityId: "Not Set"});
+export const setToActiveIdsVar = makeVar<ActiveIds>({
+  timeEntryId: "Not Set",
+  entityId: "Not Set"
+});
+// Formatted TimeEntries as Schedule Items.
 export const timeEntryItemsVar = makeVar<TimeEntryItem[]>([]);
+export const assignableIdsVar = makeVar<AssignableIds>({
+  entityId: "Not Set",
+  entityName: "Not Set",
+  entityType: "Not Set",
+  timeEntryId: "Not Set"
+});
 
 const httpLink = createHttpLink({
   uri: "http://192.168.64.2:3000/graphql",

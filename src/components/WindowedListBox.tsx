@@ -62,6 +62,7 @@ export function WindowedListBox(props: Props) {
 
     // @todo: Find a way to replace the name value based on viewMode so this can
     // be shortened to a single method.
+    // @todo: Set the groups in cache from Schedule and retrieve from there.
     if (viewMode === "user") {
       Object.keys(data.getJobs).forEach((key: string, index: number) => {
         const jobItem = data.getJobs[index];
@@ -71,7 +72,7 @@ export function WindowedListBox(props: Props) {
             id={jobItem.uid}
             primaryText={jobItem.name}
             buttonText="Assign"
-            executeSecondary={onAssign}
+            entityType={"job"}
             key={key}
           />
         );
@@ -85,7 +86,7 @@ export function WindowedListBox(props: Props) {
             id={userItem.uid}
             primaryText={userItem.username}
             buttonText="Assign"
-            executeSecondary={onAssign}
+            entityType={"user"}
             key={key}
           />
         );
