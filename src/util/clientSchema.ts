@@ -87,9 +87,44 @@ export const SCHEDULE_GET_TIME_ENTRIES = gql`
 export const GET_ACTIVE_IDS = gql`
   query GetActiveIds {
     activeIds @client {
-      timeEntryId
       entityId
+      timeEntryId
     }
+  }
+`
+
+export const GET_ASSIGNABLE_IDS = gql`
+  query GetAssignableIds {
+    assignableIds @client {
+      entityId
+      entityName
+      entityType
+      timeEntryId
+    }
+  }
+`
+
+export const GET_JOBS_ARRAY = gql`
+  query GetJobsArray {
+    jobsArray @client
+  }
+`
+
+export const GET_JOBS_GROUP = gql`
+  query GetJobsGroup {
+    jobsGroup @client
+  }
+`
+
+export const GET_USERS_ARRAY = gql`
+  query GetUsersArray {
+    usersArray @client
+  }
+`
+
+export const GET_USERS_GROUP = gql`
+  query GetUsersGroup {
+    usersGroup @client
   }
 `
 
