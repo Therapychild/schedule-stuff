@@ -7,10 +7,10 @@ import ScheduleApp from "./ScheduleApp";
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <React.StrictMode>
-      <CssBaseline />
-      <ScheduleApp />
-    </React.StrictMode>
+    {/*<React.StrictMode>*/}
+    <CssBaseline />
+    <ScheduleApp />
+    {/*</React.StrictMode>*/}
   </ApolloProvider>,
   document.getElementById("root")
-)
+);

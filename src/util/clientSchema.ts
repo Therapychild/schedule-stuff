@@ -1,4 +1,4 @@
-import {gql} from "@apollo/client";
+import { gql } from "@apollo/client";
 
 // Server Queries
 export const GET_JOBS = gql`
@@ -31,8 +31,18 @@ export const GET_SKILLS = gql`
 `;
 
 export const SCHEDULE_GET_USERS = gql`
-  query scheduleGetUsers($startTime: String, $endTime: String, $skillIds: [String], $username: String) {
-    scheduleGetUsers(startTime: $startTime, endTime: $endTime, skillIds: $skillIds, username: $username) {
+  query scheduleGetUsers(
+    $startTime: String
+    $endTime: String
+    $skillIds: [String]
+    $username: String
+  ) {
+    scheduleGetUsers(
+      startTime: $startTime
+      endTime: $endTime
+      skillIds: $skillIds
+      username: $username
+    ) {
       type
       uid
       username
@@ -47,8 +57,18 @@ export const SCHEDULE_GET_USERS = gql`
 `;
 
 export const SCHEDULE_GET_TIME_ENTRIES = gql`
-  query scheduleGetTimeEntries($startTime: String, $endTime: String, $userIds: [String], $jobIds: [String]) {
-    scheduleGetTimeEntries(startTime: $startTime, endTime: $endTime, userIds: $userIds, jobIds: $jobIds) {
+  query scheduleGetTimeEntries(
+    $startTime: String
+    $endTime: String
+    $userIds: [String]
+    $jobIds: [String]
+  ) {
+    scheduleGetTimeEntries(
+      startTime: $startTime
+      endTime: $endTime
+      userIds: $userIds
+      jobIds: $jobIds
+    ) {
       type
       uid
       job {
@@ -87,16 +107,49 @@ export const SCHEDULE_GET_TIME_ENTRIES = gql`
 export const GET_ACTIVE_IDS = gql`
   query GetActiveIds {
     activeIds @client {
-      timeEntryId
       entityId
+      entityName
+      entityType
+      timeEntryId
     }
   }
-`
+`;
+
+export const GET_ASSIGNABLE_IDS = gql`
+  query GetAssignableIds {
+    assignableIds @client {
+      entityId
+      entityName
+      entityType
+      timeEntryId
+    }
+  }
+`;
+
+export const GET_JOBS_ARRAY = gql`
+  query GetJobsArray {
+    jobsArray @client
+  }
+`;
+
+export const GET_USERS_ARRAY = gql`
+  query GetUsersArray {
+    usersArray @client
+  }
+`;
 
 // Server Mutations
 export const NEW_TIME_ENTRY_JOB = gql`
-  mutation NewTimeEntryForJob($startTime: String!, $endTime: String!, $jobId: String!) {
-    newTimeEntryForJob(startTime: $startTime, endTime: $endTime, jobId: $jobId) {
+  mutation NewTimeEntryForJob(
+    $startTime: String!
+    $endTime: String!
+    $jobId: String!
+  ) {
+    newTimeEntryForJob(
+      startTime: $startTime
+      endTime: $endTime
+      jobId: $jobId
+    ) {
       type
       uid
       job {
@@ -132,8 +185,16 @@ export const NEW_TIME_ENTRY_JOB = gql`
 `;
 
 export const NEW_TIME_ENTRY_USER = gql`
-  mutation NewTimeEntryForUser($startTime: String!, $endTime: String!, $userId: String!) {
-    newTimeEntryForUser(startTime: $startTime, endTime: $endTime, userId: $userId) {
+  mutation NewTimeEntryForUser(
+    $startTime: String!
+    $endTime: String!
+    $userId: String!
+  ) {
+    newTimeEntryForUser(
+      startTime: $startTime
+      endTime: $endTime
+      userId: $userId
+    ) {
       type
       uid
       job {
@@ -169,8 +230,18 @@ export const NEW_TIME_ENTRY_USER = gql`
 `;
 
 export const MOVE_TIME_ENTRY = gql`
-  mutation MoveTimeEntry($startTime: String!, $endTime: String!, $timeEntryId: String!, $newGroupId: String!) {
-    moveTimeEntry(startTime: $startTime, endTime: $endTime, timeEntryId: $timeEntryId, newGroupId: $newGroupId) {
+  mutation MoveTimeEntry(
+    $startTime: String!
+    $endTime: String!
+    $timeEntryId: String!
+    $newGroupId: String!
+  ) {
+    moveTimeEntry(
+      startTime: $startTime
+      endTime: $endTime
+      timeEntryId: $timeEntryId
+      newGroupId: $newGroupId
+    ) {
       type
       uid
       job {
@@ -206,8 +277,18 @@ export const MOVE_TIME_ENTRY = gql`
 `;
 
 export const SET_USER = gql`
-  mutation SetUser($userId: String!, $username: String!, $entityType: String!, $timeEntryId: String!) {
-    setUser(userId: $userId, username: $username, entityType: $entityType, timeEntryId: $timeEntryId) {
+  mutation SetUser(
+    $userId: String!
+    $username: String!
+    $entityType: String!
+    $timeEntryId: String!
+  ) {
+    setUser(
+      userId: $userId
+      username: $username
+      entityType: $entityType
+      timeEntryId: $timeEntryId
+    ) {
       type
       uid
       job {
@@ -243,8 +324,18 @@ export const SET_USER = gql`
 `;
 
 export const SET_JOB = gql`
-  mutation SetJob($jobId: String!, $jobName: String!, $entityType: String!, $timeEntryId: String!) {
-    setJob(jobId: $jobId, jobName: $jobName, entityType: $entityType, timeEntryId: $timeEntryId) {
+  mutation SetJob(
+    $jobId: String!
+    $jobName: String!
+    $entityType: String!
+    $timeEntryId: String!
+  ) {
+    setJob(
+      jobId: $jobId
+      jobName: $jobName
+      entityType: $entityType
+      timeEntryId: $timeEntryId
+    ) {
       type
       uid
       job {

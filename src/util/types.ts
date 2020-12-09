@@ -1,2 +1,6 @@
 export type TMode = "user" | "job";
-export type SidebarStates = "persistent" | "permanent" | "temporary" | undefined;
+export type SidebarStates =
+  | "persistent"
+  | "permanent"
+  | "temporary"
+  | undefined;
