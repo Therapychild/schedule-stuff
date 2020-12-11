@@ -8,7 +8,6 @@ import {
   NextLink,
   makeVar,
 } from "@apollo/client";
-import { TMode } from "./types";
 
 export interface Entity {
   type: string[];
@@ -84,15 +83,6 @@ export const cache = new InMemoryCache({
         },
       },
     },
-    ViewMode: {
-      fields: {
-        viewMode: {
-          read() {
-            return viewModeVar();
-          },
-        },
-      },
-    },
     ActiveIds: {
       fields: {
         activeIds: {
@@ -118,7 +108,6 @@ export const cache = new InMemoryCache({
 export const jobsArrayVar = makeVar<Job[]>([]);
 export const usersArrayVar = makeVar<User[]>([]);
 export const timeEntriesArrayVar = makeVar<TimeEntry[]>([]);
-export const viewModeVar = makeVar<TMode>("job");
 export const activeIdsVar = makeVar<ActiveIds>({
   entityId: undefined,
   entityName: undefined,

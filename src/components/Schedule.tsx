@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Job,
   User,
   TimeEntry,
-  viewModeVar,
   jobsArrayVar,
   usersArrayVar,
   timeEntriesArrayVar,
   assignIdsVar,
 } from "../util/apolloStore";
-import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
+import {ApolloError, useMutation, useReactiveVar} from "@apollo/client";
 import {
   MOVE_TIME_ENTRY,
   NEW_TIME_ENTRY_JOB,
@@ -23,12 +22,13 @@ import Timeline, {
   TimelineGroupBase,
   TimelineItemBase,
 } from "react-calendar-timeline";
-import { TimeLineItem } from "./TimeLineItem";
-import { Button } from "@material-ui/core";
+import {TimeLineItem} from "./TimeLineItem";
+import {Button} from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import "react-calendar-timeline/lib/Timeline.css";
 import "../styles/timeline.scss";
+import {TMode} from "../util/types";
 
 // Keys required by Timeline.
 const keys = {
@@ -42,6 +42,10 @@ const keys = {
   itemTimeStartKey: "start_time",
   itemTimeEndKey: "end_time",
 };
+
+export interface Props {
+  viewMode: TMode;
+}
 
 /**
  * Composes the Timeline and its child components, and handles graphql data
@@ -61,11 +65,12 @@ const keys = {
  * @returns ReactElement.
  */
 
-export function Schedule(): React.ReactElement {
-  const [{ startTime }, setStartTime] = useState({
+export function Schedule(props: Props): React.ReactElement {
+  const {viewMode} = props;
+  const [{startTime}, setStartTime] = useState({
     startTime: moment().add(-12, "hour"),
   });
-  const [{ endTime }, setEndTime] = useState({
+  const [{endTime}, setEndTime] = useState({
     endTime: moment().add(12, "hour"),
   });
   const timeEntriesArray: TimeEntry[] = useReactiveVar(timeEntriesArrayVar);
@@ -106,7 +111,7 @@ export function Schedule(): React.ReactElement {
       // prettier-ignore
       entries.push({
         id: timeEntry.uid,
-        group: timeEntry[viewModeVar()].uid,
+        group: timeEntry[viewMode].uid,
         title: <TimeLineItem
           timeEntry={timeEntry}
         />,
@@ -125,7 +130,7 @@ export function Schedule(): React.ReactElement {
    * Graphql Mutations.
    */
   let anyLoading = null;
-  const [newTimeEntryForJob, { loading: newJobTimeEntryLoading }] = useMutation(
+  const [newTimeEntryForJob, {loading: newJobTimeEntryLoading}] = useMutation(
     NEW_TIME_ENTRY_JOB,
     {
       onCompleted(data): void {
@@ -145,7 +150,7 @@ export function Schedule(): React.ReactElement {
 
   const [
     newTimeEntryForUser,
-    { loading: newUserTimeEntryLoading },
+    {loading: newUserTimeEntryLoading},
   ] = useMutation(NEW_TIME_ENTRY_USER, {
     onCompleted(data): void {
       timeEntriesArrayVar(data.newTimeEntryForUser);
@@ -158,7 +163,7 @@ export function Schedule(): React.ReactElement {
     anyLoading = newUserTimeEntryLoading;
   }
 
-  const [moveTimeEntry, { loading: moveTimeEntryLoading }] = useMutation(
+  const [moveTimeEntry, {loading: moveTimeEntryLoading}] = useMutation(
     MOVE_TIME_ENTRY,
     {
       onCompleted(data): void {
@@ -172,7 +177,7 @@ export function Schedule(): React.ReactElement {
   if (moveTimeEntryLoading) {
     anyLoading = moveTimeEntryLoading;
   }
-  if (anyLoading) return <CircularProgress />;
+  if (anyLoading) return <CircularProgress/>;
 
   /**
    * Mutation function calls.
@@ -241,7 +246,7 @@ export function Schedule(): React.ReactElement {
     });
   };
 
-  viewModeVar() === "job"
+  viewMode === "job"
     ? formatJobs(jobsArrayVar())
     : formatUsers(usersArrayVar());
   formatTimeEntries(timeEntriesArray);
@@ -264,7 +269,7 @@ export function Schedule(): React.ReactElement {
     >
       <TimelineHeaders className="sticky">
         <SidebarHeader>
-          {({ getRootProps }) => {
+          {({getRootProps}) => {
             return (
               <div {...getRootProps()}>
                 <Button
@@ -286,8 +291,8 @@ export function Schedule(): React.ReactElement {
             );
           }}
         </SidebarHeader>
-        <DateHeader unit="primaryHeader" />
-        <DateHeader />
+        <DateHeader unit="primaryHeader"/>
+        <DateHeader/>
       </TimelineHeaders>
     </Timeline>
   );

@@ -1,11 +1,14 @@
 import React, {useState} from "react";
-import {viewModeVar } from "../util/apolloStore";
-import { useReactiveVar } from "@apollo/client";
+import {TMode} from "../util/types";
 import Drawer from "@material-ui/core/Drawer";
 import { JobList } from "./JobList";
 import { UserList } from "./UserList";
 import Button from "@material-ui/core/Button";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+
+export interface Props {
+  viewMode: TMode;
+}
 
 /**
  * Composes a Drawer in which to display the Lists of job or users, filters for
@@ -18,9 +21,10 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
  *
  * @return ReactElement.
  */
-export function Sidebar(): React.ReactElement {
+export function Sidebar(props: Props): React.ReactElement {
+  const {viewMode} = props;
+
   const [{open}, setOpen] = useState({open: false});
-  useReactiveVar(viewModeVar);
 
   const toggleSidebar = (): void => {
     setOpen({open: !open});
@@ -31,7 +35,7 @@ export function Sidebar(): React.ReactElement {
    */
   let List = <></>;
   if (open) {
-    List = viewModeVar() === "job" ? <UserList /> : <JobList />;
+    List = viewMode === "job" ? <UserList className="entity-list"/> : <JobList className="entity-list"/>;
   }
 
   return (
