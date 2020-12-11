@@ -17,10 +17,10 @@ export interface Props {
  *   jobsArrayVar: A Reactive variable used to set or retrieve the current list
  *   of jobs.
  *
- * @return ReactElement.
+ * @return React.ReactElement.
  */
 export function JobList(props: Props): React.ReactElement {
-  const {className} = props;
+  const { className } = props;
   const jobs: Job[] = useReactiveVar(jobsArrayVar);
   let rows: ReactElement[] = [];
 

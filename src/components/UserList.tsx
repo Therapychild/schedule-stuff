@@ -17,10 +17,10 @@ export interface Props {
  *   jobsArrayVar: A Reactive variable used to set or retrieve the current list
  *   of users.
  *
- * @return ReactElement.
+ * @return React.ReactElement.
  */
 export function UserList(props: Props): React.ReactElement {
-  const {className} = props;
+  const { className } = props;
   const users: User[] = useReactiveVar(usersArrayVar);
   let rows: ReactElement[] = [];
 

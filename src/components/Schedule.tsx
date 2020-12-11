@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   Job,
   User,
@@ -7,8 +7,9 @@ import {
   usersArrayVar,
   timeEntriesArrayVar,
   assignIdsVar,
+  activeIdsVar,
 } from "../util/apolloStore";
-import {ApolloError, useMutation, useReactiveVar} from "@apollo/client";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import {
   MOVE_TIME_ENTRY,
   NEW_TIME_ENTRY_JOB,
@@ -22,13 +23,14 @@ import Timeline, {
   TimelineGroupBase,
   TimelineItemBase,
 } from "react-calendar-timeline";
-import {TimeLineItem} from "./TimeLineItem";
-import {Button} from "@material-ui/core";
+import { JobTimeLineItem } from "./JobTimeLineItem";
+import { UserTimeLineItem } from "./UserTimeLineItem";
+import { Button } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import "react-calendar-timeline/lib/Timeline.css";
 import "../styles/timeline.scss";
-import {TMode} from "../util/types";
+import { TMode } from "../util/types";
 
 // Keys required by Timeline.
 const keys = {
@@ -62,19 +64,20 @@ export interface Props {
  *   startTime: A timestamp representing where the visible Timeline begins.
  *   endTime: A timestamp representing where the visible TimeLine ends.
  *
- * @returns ReactElement.
+ * @returns React.ReactElement
  */
 
 export function Schedule(props: Props): React.ReactElement {
-  const {viewMode} = props;
-  const [{startTime}, setStartTime] = useState({
+  const { viewMode } = props;
+  const [{ startTime }, setStartTime] = useState({
     startTime: moment().add(-12, "hour"),
   });
-  const [{endTime}, setEndTime] = useState({
+  const [{ endTime }, setEndTime] = useState({
     endTime: moment().add(12, "hour"),
   });
   const timeEntriesArray: TimeEntry[] = useReactiveVar(timeEntriesArrayVar);
   useReactiveVar(assignIdsVar);
+  useReactiveVar(activeIdsVar);
 
   /**
    * Format Data from queries/mutations.
@@ -112,9 +115,9 @@ export function Schedule(props: Props): React.ReactElement {
       entries.push({
         id: timeEntry.uid,
         group: timeEntry[viewMode].uid,
-        title: <TimeLineItem
-          timeEntry={timeEntry}
-        />,
+        title: viewMode === "job"
+          ? <UserTimeLineItem timeEntry={timeEntry}/>
+          : <JobTimeLineItem timeEntry={timeEntry}/>,
         start_time: timeEntry.startTime,
         end_time: timeEntry.endTime,
         canMove: true,
@@ -130,7 +133,7 @@ export function Schedule(props: Props): React.ReactElement {
    * Graphql Mutations.
    */
   let anyLoading = null;
-  const [newTimeEntryForJob, {loading: newJobTimeEntryLoading}] = useMutation(
+  const [newTimeEntryForJob, { loading: newJobTimeEntryLoading }] = useMutation(
     NEW_TIME_ENTRY_JOB,
     {
       onCompleted(data): void {
@@ -150,7 +153,7 @@ export function Schedule(props: Props): React.ReactElement {
 
   const [
     newTimeEntryForUser,
-    {loading: newUserTimeEntryLoading},
+    { loading: newUserTimeEntryLoading },
   ] = useMutation(NEW_TIME_ENTRY_USER, {
     onCompleted(data): void {
       timeEntriesArrayVar(data.newTimeEntryForUser);
@@ -163,7 +166,7 @@ export function Schedule(props: Props): React.ReactElement {
     anyLoading = newUserTimeEntryLoading;
   }
 
-  const [moveTimeEntry, {loading: moveTimeEntryLoading}] = useMutation(
+  const [moveTimeEntry, { loading: moveTimeEntryLoading }] = useMutation(
     MOVE_TIME_ENTRY,
     {
       onCompleted(data): void {
@@ -177,7 +180,7 @@ export function Schedule(props: Props): React.ReactElement {
   if (moveTimeEntryLoading) {
     anyLoading = moveTimeEntryLoading;
   }
-  if (anyLoading) return <CircularProgress/>;
+  if (anyLoading) return <CircularProgress />;
 
   /**
    * Mutation function calls.
@@ -259,7 +262,7 @@ export function Schedule(props: Props): React.ReactElement {
       itemHeightRatio={0.75}
       minZoom={60 * 60 * 1000 * 24}
       canMove={true}
-      canResize={"both"}
+      canResize="both"
       useResizeHandle={true}
       stackItems={true}
       itemTouchSendsClick={false}
@@ -269,7 +272,7 @@ export function Schedule(props: Props): React.ReactElement {
     >
       <TimelineHeaders className="sticky">
         <SidebarHeader>
-          {({getRootProps}) => {
+          {({ getRootProps }) => {
             return (
               <div {...getRootProps()}>
                 <Button
@@ -291,8 +294,8 @@ export function Schedule(props: Props): React.ReactElement {
             );
           }}
         </SidebarHeader>
-        <DateHeader unit="primaryHeader"/>
-        <DateHeader/>
+        <DateHeader unit="primaryHeader" />
+        <DateHeader />
       </TimelineHeaders>
     </Timeline>
   );

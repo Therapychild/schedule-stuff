@@ -41,7 +41,7 @@ export interface Props {
  *   timeEntriesArrayVar: A Reactive variable used to set or retrieve the list
  *     of current timeEntries.
  *
- * @return ReactElement.
+ * @return React.ReactElement.
  */
 export function UserListItem(props: Props): React.ReactElement {
   const { className, entityId, primaryText, buttonText, entityType } = props;

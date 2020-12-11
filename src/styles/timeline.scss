@@ -23,13 +23,12 @@
   border: 1px black solid;
 }
 
-
 .react-calendar-timeline {
   .rct-item {
     .rct-item-content {
       width: 100%;
       overflow: visible;
-      .time-entry-container {
+      .time-line-item {
         width: 100%;
 
         button.MuiButtonBase-root.MuiButton-root {

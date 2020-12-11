@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {TMode} from "../util/types";
+import React, { useState } from "react";
+import { TMode } from "../util/types";
 import Drawer from "@material-ui/core/Drawer";
 import { JobList } from "./JobList";
 import { UserList } from "./UserList";
@@ -19,15 +19,15 @@ export interface Props {
  *  sidebarStateVae: A Reactive variable used to set or retrieve the state of
  *    the Sidebar.
  *
- * @return ReactElement.
+ * @return React.ReactElement.
  */
 export function Sidebar(props: Props): React.ReactElement {
-  const {viewMode} = props;
+  const { viewMode } = props;
 
-  const [{open}, setOpen] = useState({open: false});
+  const [{ open }, setOpen] = useState({ open: false });
 
   const toggleSidebar = (): void => {
-    setOpen({open: !open});
+    setOpen({ open: !open });
   };
 
   /**
@@ -35,15 +35,20 @@ export function Sidebar(props: Props): React.ReactElement {
    */
   let List = <></>;
   if (open) {
-    List = viewMode === "job" ? <UserList className="entity-list"/> : <JobList className="entity-list"/>;
+    List =
+      viewMode === "job" ? (
+        <UserList className="entity-list" />
+      ) : (
+        <JobList className="entity-list" />
+      );
   }
 
   return (
     <Drawer
-      anchor={"left"}
+      anchor="left"
       open={open}
       transitionDuration={{ enter: 0, exit: 0 }}
-      variant={"persistent"}
+      variant="persistent"
       ModalProps={{
         disableAutoFocus: true,
         disableRestoreFocus: true,

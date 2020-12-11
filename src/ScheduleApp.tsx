@@ -1,20 +1,16 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   jobsArrayVar,
   usersArrayVar,
   timeEntriesArrayVar,
 } from "./util/apolloStore";
-import {
-  ApolloError,
-  QueryResult,
-  useQuery,
-} from "@apollo/client";
+import { ApolloError, QueryResult, useQuery } from "@apollo/client";
 import {
   GET_JOBS,
   SCHEDULE_GET_TIME_ENTRIES,
   SCHEDULE_GET_USERS,
 } from "./util/clientSchema";
-import {TMode} from "./util/types";
+import { TMode } from "./util/types";
 import Button from "@material-ui/core/Button";
 import { Sidebar } from "./components/Sidebar";
 import { CircularProgress } from "@material-ui/core";
@@ -33,16 +29,18 @@ import { Schedule } from "./components/Schedule";
  *   timeEntriesArrayVar: A Reactive variable used to set or retrieve a list of
  *     timeEntries.
  *
- * @return ReactElement
+ * @returns React.ReactElement
  */
 export default function ScheduleApp(): React.ReactElement {
-  const [{viewMode}, setViewMode] = useState<{viewMode: TMode}>({viewMode: "job"});
+  const [{ viewMode }, setViewMode] = useState<{ viewMode: TMode }>({
+    viewMode: "job",
+  });
 
   function toggleViewMode() {
     if (viewMode === "user") {
-      setViewMode({viewMode: "job"});
+      setViewMode({ viewMode: "job" });
     } else {
-      setViewMode({viewMode: "user"});
+      setViewMode({ viewMode: "user" });
     }
   }
 
@@ -108,8 +106,8 @@ export default function ScheduleApp(): React.ReactElement {
       >
         {viewMode}
       </Button>
-      <Sidebar viewMode={viewMode}/>
-      <Schedule viewMode={viewMode}/>
+      <Sidebar viewMode={viewMode} />
+      <Schedule viewMode={viewMode} />
     </>
   );
 }

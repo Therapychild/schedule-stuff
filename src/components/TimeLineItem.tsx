@@ -1,136 +1,37 @@
-import React, { useState } from "react";
-import {
-  AssignIds,
-  activeIdsVar,
-  assignIdsVar,
-  timeEntriesArrayVar,
-  viewModeVar,
-} from "../util/apolloStore";
-import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
-import { SET_JOB, SET_USER } from "../util/clientSchema";
+import React, { CSSProperties, useState } from "react";
 import { Card as TimeEntryCard } from "time-entry/dist/components/Card";
 import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface Props {
+  setActiveButton?: JSX.Element;
+  active?: CSSProperties;
+  assignEntity: () => {};
   timeEntry: any;
+  disabled: boolean;
 }
 
 /**
- * Composes an Item to display as a timeEntry on the Schedule's Timeline. The
- * TimeLineItem also composes a TimeEntryCard to display the timeEntry's extra
- * information.
+ * Composes an "Assign" button, as well as a "More Info" button to display a
+ * TimeEntryCard which consists of the timeEntry's information.
  *
  * @param:
  *   props:
- *     timeEntry: A timeEntry object containing the information required to
- *       compose a TimeLineItem.
- *   viewModeVar: A Reactive variable used to set or retrieve the viewMode state.
- *   activeIdsVar: A Reactive variable used to set or retrieve the active entity
- *     information.
- *   assignIdsVar: A Reactive variable used to set or retrieve the assignable
- *     entity information.
- *   timeEntriesArrayVar: A Reactive variable used to set or retrieve the list
- *     of current timeEntries.
+ *     setActiveButton: A button that sets the TimeLineItem's id to active, and
+ *       also sets its assigned entityId to active if one exists;
+ *     active?: A style applied when the TimeLineItem's id becomes active;
+ *     assignEntity: A callback function that assigns the active entityId to the
+ *       active TimelineItem's Id;
+ *     infoData: Data to display in the TimeEntryCard;
+ *     disabled: A boolean that renders the "Assign" button inactive if there is
+ *       not an active entityId.
  *
- * @return ReactElement.
+ * @return React.ReactElement
  */
 export function TimeLineItem(props: Props): React.ReactElement {
-  const { timeEntry } = props;
+  const { setActiveButton, active, assignEntity, timeEntry, disabled } = props;
   const [scheduleViewTimeEntryId, setScheduleViewTimeEntryId] = useState(
     undefined
   );
-  const activeIds = useReactiveVar(activeIdsVar);
-
-  //
-  let anyLoading = null;
-  const [setJob, { loading: setJobLoading }] = useMutation(SET_JOB, {
-    onCompleted(data): void {
-      timeEntriesArrayVar(data.setJob);
-    },
-    onError: (error: ApolloError): void => {
-      console.log("ERROR on setJob Mutation, Schedule.tsx", error);
-    },
-  });
-  if (setJobLoading) {
-    anyLoading = setJobLoading;
-  }
-
-  const [setUser, { loading: setUserLoading }] = useMutation(SET_USER, {
-    onCompleted(data): void {
-      timeEntriesArrayVar(data.setUser);
-    },
-    onError: (error: ApolloError): void => {
-      console.log("ERROR on setUser Mutation, Schedule.tsx", error);
-    },
-  });
-  if (setUserLoading) {
-    anyLoading = setUserLoading;
-  }
-  if (anyLoading) return <CircularProgress />;
-
-  const assignEntity = async ({
-    entityId,
-    entityName,
-    entityType,
-    timeEntryId,
-  }: AssignIds): Promise<void> => {
-    if (entityType === "job") {
-      await setJob({
-        variables: {
-          jobId: entityId,
-          jobName: entityName,
-          entityType,
-          timeEntryId,
-        },
-      });
-    } else if (entityType === "user") {
-      await setUser({
-        variables: {
-          userId: entityId,
-          username: entityName,
-          entityType,
-          timeEntryId,
-        },
-      });
-    }
-    assignIdsVar({
-      entityId,
-      entityName,
-      entityType,
-      timeEntryId,
-    });
-  };
-
-  /**
-   *  Show the SetActive Button, only if it has a name to display.
-   *  Sets the clicked timeEntryId to active, as well as the assigned entity if
-   *  one exists.
-   */
-  const entityId =
-    viewModeVar() === "job" ? timeEntry.user.uid : timeEntry.job.uid;
-  const label =
-    viewModeVar() === "job" ? timeEntry.user.username : timeEntry.job.name;
-  const entityType = viewModeVar() === "job" ? "user" : "job";
-  let setActive = <></>;
-
-  if (entityId) {
-    setActive = (
-      <Button
-        className="time-entry"
-        onClick={() => {
-          activeIdsVar({
-            entityId,
-            entityName: label,
-            entityType,
-            timeEntryId: timeEntry.uid,
-          });
-        }}
-      >
-        {label}
-      </Button>
-    );
-  }
 
   const viewTimeEntryCard =
     scheduleViewTimeEntryId === timeEntry.uid ? (
@@ -139,32 +40,21 @@ export function TimeLineItem(props: Props): React.ReactElement {
       <></>
     );
 
-  const activeColor =
-    activeIds.entityId === entityId ? { backgroundColor: "yellow" } : undefined;
-
   return (
-    <div
-      id={timeEntry.uid}
-      className="time-entry-container"
-    >
-      {setActive}
+    <div id={timeEntry.uid} className="time-line-item">
+      {setActiveButton}
       <Button
         className="assign"
         onClick={async () => {
-          await assignEntity({
-            entityId: activeIds.entityId,
-            entityName: activeIds.entityName,
-            entityType: activeIds.entityType,
-            timeEntryId: timeEntry.uid,
-          });
+          assignEntity();
         }}
-        disabled={activeIds.entityId === undefined}
+        disabled={disabled}
       >
         Assign
       </Button>
       <Button
         className="more-info"
-        style={activeColor}
+        style={active}
         onClick={() => {
           scheduleViewTimeEntryId === timeEntry.uid
             ? setScheduleViewTimeEntryId(undefined)
