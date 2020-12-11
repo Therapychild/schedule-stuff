@@ -47,6 +47,9 @@ export function JobListItem(props: Props): React.ReactElement {
   const { className, entityId, primaryText, buttonText, entityType } = props;
   const activeIds = useReactiveVar(activeIdsVar);
 
+  /**
+   * Graphql Mutation
+   */
   const [setJob, { loading }] = useMutation(SET_JOB, {
     onCompleted(data): void {
       timeEntriesArrayVar(data.setJob);
@@ -57,6 +60,9 @@ export function JobListItem(props: Props): React.ReactElement {
   });
   if (loading) return <CircularProgress />;
 
+  /**
+   * Mutation function call.
+   */
   const assignJob = async ({
     entityId,
     entityName,
@@ -85,7 +91,7 @@ export function JobListItem(props: Props): React.ReactElement {
   return (
     <div className="entity-list-item" style={activeColor}>
       <ListItem
-        className={`${className}-list-item set-active`}
+        className={`${className} set-active`}
         alignItems="flex-start"
         button={true}
         onClick={() => {

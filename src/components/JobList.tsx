@@ -6,6 +6,10 @@ import { JobListItem } from "./JobListItem";
 
 import "../styles/list.scss";
 
+export interface Props {
+  className: string;
+}
+
 /**
  * Composes an array of jobListItems from the data stored in jobsArrayVar.
  *
@@ -15,7 +19,8 @@ import "../styles/list.scss";
  *
  * @return ReactElement.
  */
-export function JobList(): React.ReactElement {
+export function JobList(props: Props): React.ReactElement {
+  const {className} = props;
   const jobs: Job[] = useReactiveVar(jobsArrayVar);
   let rows: ReactElement[] = [];
 
@@ -24,11 +29,11 @@ export function JobList(): React.ReactElement {
     data.forEach((item: Job) => {
       listItems.push(
         <JobListItem
-          className="job"
+          className="entity-list-item job"
           entityId={item.uid}
           primaryText={item.name}
           buttonText="Assign"
-          entityType={"job"}
+          entityType="job"
           key={item.uid}
         />
       );
@@ -39,5 +44,5 @@ export function JobList(): React.ReactElement {
 
   formatJobs(jobs);
 
-  return <List className="entity-list">{rows}</List>;
+  return <List className={className}>{rows}</List>;
 }

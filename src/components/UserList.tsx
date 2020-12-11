@@ -6,6 +6,10 @@ import { UserListItem } from "./UserListItem";
 
 import "../styles/list.scss";
 
+export interface Props {
+  className: string;
+}
+
 /**
  * Composes an array of userListItems from the data stored in usersArrayVar.
  *
@@ -15,7 +19,8 @@ import "../styles/list.scss";
  *
  * @return ReactElement.
  */
-export function UserList(): React.ReactElement {
+export function UserList(props: Props): React.ReactElement {
+  const {className} = props;
   const users: User[] = useReactiveVar(usersArrayVar);
   let rows: ReactElement[] = [];
 
@@ -24,11 +29,11 @@ export function UserList(): React.ReactElement {
     data.forEach((item: User) => {
       listItems.push(
         <UserListItem
-          className="user"
+          className="entity-list-item user"
           entityId={item.uid}
           primaryText={item.username}
           buttonText="Assign"
-          entityType={"user"}
+          entityType="user"
           key={item.uid}
         />
       );
@@ -39,5 +44,5 @@ export function UserList(): React.ReactElement {
 
   formatUsers(users);
 
-  return <List className="entity-list">{rows}</List>;
+  return <List className={className}>{rows}</List>;
 }

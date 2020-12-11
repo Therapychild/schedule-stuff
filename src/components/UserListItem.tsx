@@ -91,7 +91,7 @@ export function UserListItem(props: Props): React.ReactElement {
   return (
     <div className="entity-list-item" style={activeColor}>
       <ListItem
-        className={`${className}-list-item`}
+        className={`${className} set-active`}
         alignItems="flex-start"
         button={true}
         onClick={() => {
