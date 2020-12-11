@@ -1,5 +1,5 @@
-import React from "react";
-import { sidebarStateVar, viewModeVar } from "../util/apolloStore";
+import React, {useState} from "react";
+import {viewModeVar } from "../util/apolloStore";
 import { useReactiveVar } from "@apollo/client";
 import Drawer from "@material-ui/core/Drawer";
 import { JobList } from "./JobList";
@@ -19,26 +19,26 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
  * @return ReactElement.
  */
 export function Sidebar(): React.ReactElement {
+  const [{open}, setOpen] = useState({open: false});
   useReactiveVar(viewModeVar);
-  useReactiveVar(sidebarStateVar);
 
   const toggleSidebar = (): void => {
-    sidebarStateVar(!sidebarStateVar());
+    setOpen({open: !open});
   };
 
   /**
    * Prevent Lists from rendering when when closed.
    */
   let List = <></>;
-  if (sidebarStateVar()) {
+  if (open) {
     List = viewModeVar() === "job" ? <UserList /> : <JobList />;
   }
 
   return (
     <Drawer
       anchor={"left"}
-      open={sidebarStateVar()}
-      transitionDuration={{ enter: 400, exit: 0 }}
+      open={open}
+      transitionDuration={{ enter: 0, exit: 0 }}
       variant={"persistent"}
       ModalProps={{
         disableAutoFocus: true,

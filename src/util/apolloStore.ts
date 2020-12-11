@@ -114,7 +114,6 @@ export const cache = new InMemoryCache({
 });
 
 // Create the reactive variables and initialize with value.
-export const sidebarStateVar = makeVar(false);
 export const jobsArrayVar = makeVar<Job[]>([]);
 export const usersArrayVar = makeVar<User[]>([]);
 export const timeEntriesArrayVar = makeVar<TimeEntry[]>([]);

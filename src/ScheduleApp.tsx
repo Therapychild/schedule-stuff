@@ -1,7 +1,6 @@
 import React from "react";
 import {
   viewModeVar,
-  sidebarStateVar,
   jobsArrayVar,
   usersArrayVar,
   timeEntriesArrayVar,
@@ -18,7 +17,6 @@ import {
   SCHEDULE_GET_USERS,
 } from "./util/clientSchema";
 import Button from "@material-ui/core/Button";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { Sidebar } from "./components/Sidebar";
 import { CircularProgress } from "@material-ui/core";
 import { Schedule } from "./components/Schedule";
@@ -104,13 +102,6 @@ export default function ScheduleApp(): React.ReactElement {
 
   return (
     <>
-      <Button
-        onClick={() => {
-          sidebarStateVar(!sidebarStateVar());
-        }}
-      >
-        {<ChevronRightIcon />}
-      </Button>
       <Button
         onClick={() => {
           toggleViewMode();
