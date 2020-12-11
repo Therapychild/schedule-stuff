@@ -10,18 +10,22 @@ import {
 } from "@apollo/client";
 import { TMode } from "./types";
 
-export interface User {
-  type: ["User"];
+export interface Entity {
+  type: string[];
+  status: string;
   uid: string;
+}
+
+export interface User extends Entity {
+  type: ["User"];
   username: string;
   skills: Skill[];
   scheduledTime: number;
   workedTime: number;
 }
 
-export interface Job {
+export interface Job extends Entity {
   type: ["Job"];
-  uid: string;
   name: string;
   skills: Skill[];
   releaseDate: string;
@@ -31,15 +35,12 @@ export interface Job {
   workedTime: number;
 }
 
-export interface Skill {
-  type: string[];
-  uid: string;
+export interface Skill extends Entity {
+  type: ["Skill"];
   name: string;
 }
 
-export interface TimeEntry {
-  type: string[];
-  uid: string;
+export interface TimeEntry extends Entity {
   job: Job;
   user: User;
   startTime: string;
@@ -50,17 +51,17 @@ export interface TimeEntry {
 }
 
 export interface ActiveIds {
-  entityId: string | undefined;
-  entityName: string | undefined;
-  entityType: string | undefined;
-  timeEntryId: string | undefined;
+  entityId?: string;
+  entityName?: string;
+  entityType?: string;
+  timeEntryId?: string;
 }
 
 export interface AssignIds {
-  entityId: string | undefined;
-  entityName: string | undefined;
-  entityType: string | undefined;
-  timeEntryId: string | undefined;
+  entityId?: string;
+  entityName?: string;
+  entityType?: string;
+  timeEntryId?: string;
 }
 
 export const cache = new InMemoryCache({

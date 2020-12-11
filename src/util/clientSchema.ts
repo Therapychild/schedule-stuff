@@ -5,6 +5,7 @@ export const GET_JOBS = gql`
   query GetJobs($skillIds: [String]) {
     getJobs(skillIds: $skillIds) {
       type
+      status
       uid
       name
       skills {
@@ -24,6 +25,7 @@ export const GET_SKILLS = gql`
   query GetSkills {
     getSkills {
       type
+      status
       uid
       name
     }
@@ -44,6 +46,7 @@ export const SCHEDULE_GET_USERS = gql`
       username: $username
     ) {
       type
+      status
       uid
       username
       skills {
@@ -70,6 +73,7 @@ export const SCHEDULE_GET_TIME_ENTRIES = gql`
       jobIds: $jobIds
     ) {
       type
+      status
       uid
       job {
         uid
@@ -151,6 +155,7 @@ export const NEW_TIME_ENTRY_JOB = gql`
       jobId: $jobId
     ) {
       type
+      status
       uid
       job {
         uid
@@ -196,6 +201,7 @@ export const NEW_TIME_ENTRY_USER = gql`
       userId: $userId
     ) {
       type
+      status
       uid
       job {
         uid
@@ -243,6 +249,7 @@ export const MOVE_TIME_ENTRY = gql`
       newGroupId: $newGroupId
     ) {
       type
+      status
       uid
       job {
         uid
@@ -290,6 +297,7 @@ export const SET_USER = gql`
       timeEntryId: $timeEntryId
     ) {
       type
+      status
       uid
       job {
         uid
@@ -337,6 +345,7 @@ export const SET_JOB = gql`
       timeEntryId: $timeEntryId
     ) {
       type
+      status
       uid
       job {
         uid
