@@ -1,0 +1,43 @@
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ConnectedBaseListBox = void 0;
+
+var _reactRedux = require("react-redux");
+
+var _BaseListBox = _interopRequireDefault(require("../BaseListBox"));
+
+// @todo get groups from resources, see List.tsx from erp_client.
+var mapStateToProps = function mapStateToProps(state) {
+  var activeGroup = state.activeGroup,
+      groups = state.groups,
+      viewMode = state.viewMode;
+  return {
+    activeGroup: activeGroup,
+    groups: groups,
+    viewMode: viewMode
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setActiveGroup: function setActiveGroup(activeGroup) {
+      dispatch({
+        type: "SET_ACTIVE_GROUP",
+        payload: {
+          activeGroup: activeGroup
+        }
+      });
+    }
+  };
+};
+
+var ConnectedBaseListBox = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_BaseListBox["default"]);
+exports.ConnectedBaseListBox = ConnectedBaseListBox;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jb21wb25lbnRzL2Nvbm5lY3RlZC9CYXNlTGlzdEJveC50c3giXSwibmFtZXMiOlsibWFwU3RhdGVUb1Byb3BzIiwic3RhdGUiLCJhY3RpdmVHcm91cCIsImdyb3VwcyIsInZpZXdNb2RlIiwibWFwRGlzcGF0Y2hUb1Byb3BzIiwiZGlzcGF0Y2giLCJzZXRBY3RpdmVHcm91cCIsInR5cGUiLCJwYXlsb2FkIiwiQ29ubmVjdGVkQmFzZUxpc3RCb3giLCJCYXNlTGlzdEJveCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7QUFDQTs7QUFDQTs7QUFLQTtBQUNBLElBQU1BLGVBQWUsR0FBRyxTQUFsQkEsZUFBa0IsQ0FBQ0MsS0FBRCxFQUE0QjtBQUFBLE1BQzFDQyxXQUQwQyxHQUNSRCxLQURRLENBQzFDQyxXQUQwQztBQUFBLE1BQzdCQyxNQUQ2QixHQUNSRixLQURRLENBQzdCRSxNQUQ2QjtBQUFBLE1BQ3JCQyxRQURxQixHQUNSSCxLQURRLENBQ3JCRyxRQURxQjtBQUdsRCxTQUFPO0FBQ0xGLElBQUFBLFdBQVcsRUFBWEEsV0FESztBQUVMQyxJQUFBQSxNQUFNLEVBQU5BLE1BRks7QUFHTEMsSUFBQUEsUUFBUSxFQUFSQTtBQUhLLEdBQVA7QUFLRCxDQVJEOztBQVVBLElBQU1DLGtCQUFrQixHQUFHLFNBQXJCQSxrQkFBcUIsQ0FBQ0MsUUFBRCxFQUF1QztBQUNoRSxTQUFPO0FBQ0xDLElBQUFBLGNBQWMsRUFBRSx3QkFBQ0wsV0FBRCxFQUErQjtBQUM3Q0ksTUFBQUEsUUFBUSxDQUFDO0FBQ1BFLFFBQUFBLElBQUksRUFBRSxrQkFEQztBQUVQQyxRQUFBQSxPQUFPLEVBQUU7QUFBRVAsVUFBQUEsV0FBVyxFQUFYQTtBQUFGO0FBRkYsT0FBRCxDQUFSO0FBSUQ7QUFOSSxHQUFQO0FBUUQsQ0FURDs7QUFXTyxJQUFNUSxvQkFBb0IsR0FBRyx5QkFDbENWLGVBRGtDLEVBRWxDSyxrQkFGa0MsRUFHbENNLHVCQUhrQyxDQUE3QiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFNldEFjdGl2ZUdyb3VwQWN0aW9uIH0gZnJvbSBcIi4uLy4uL2FjdGlvbl9tYW5hZ2Vycy9yZXNvdXJjZS9TZXRBY3RpdmVHcm91cFwiO1xuaW1wb3J0IHsgY29ubmVjdCB9IGZyb20gXCJyZWFjdC1yZWR1eFwiO1xuaW1wb3J0IEJhc2VMaXN0Qm94LCB7XG4gIFN0YXRlUHJvcHMsXG4gIERpc3BhdGNoUHJvcHNcbn0gZnJvbSBcIi4uL0Jhc2VMaXN0Qm94XCI7XG5cbi8vIEB0b2RvIGdldCBncm91cHMgZnJvbSByZXNvdXJjZXMsIHNlZSBMaXN0LnRzeCBmcm9tIGVycF9jbGllbnQuXG5jb25zdCBtYXBTdGF0ZVRvUHJvcHMgPSAoc3RhdGU6IGFueSk6IFN0YXRlUHJvcHMgPT4ge1xuICBjb25zdCB7IGFjdGl2ZUdyb3VwLCBncm91cHMsIHZpZXdNb2RlIH0gPSBzdGF0ZTtcblxuICByZXR1cm4ge1xuICAgIGFjdGl2ZUdyb3VwLFxuICAgIGdyb3VwcyxcbiAgICB2aWV3TW9kZVxuICB9O1xufTtcblxuY29uc3QgbWFwRGlzcGF0Y2hUb1Byb3BzID0gKGRpc3BhdGNoOiBGdW5jdGlvbik6IERpc3BhdGNoUHJvcHMgPT4ge1xuICByZXR1cm4ge1xuICAgIHNldEFjdGl2ZUdyb3VwOiAoYWN0aXZlR3JvdXA6IHN0cmluZyk6IHZvaWQgPT4ge1xuICAgICAgZGlzcGF0Y2goe1xuICAgICAgICB0eXBlOiBcIlNFVF9BQ1RJVkVfR1JPVVBcIixcbiAgICAgICAgcGF5bG9hZDogeyBhY3RpdmVHcm91cCB9LFxuICAgICAgfSBhcyBTZXRBY3RpdmVHcm91cEFjdGlvbik7XG4gICAgfVxuICB9O1xufTtcblxuZXhwb3J0IGNvbnN0IENvbm5lY3RlZEJhc2VMaXN0Qm94ID0gY29ubmVjdDxTdGF0ZVByb3BzLCBEaXNwYXRjaFByb3BzPihcbiAgbWFwU3RhdGVUb1Byb3BzLFxuICBtYXBEaXNwYXRjaFRvUHJvcHNcbikoQmFzZUxpc3RCb3gpO1xuIl19

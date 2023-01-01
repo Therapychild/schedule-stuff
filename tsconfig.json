@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "commonjs",
-    "lib": ["es2020"],
+    "lib": ["es2020", "dom"],
     "allowJs": false,
     "esModuleInterop": true,
     "rootDir": "src",
@@ -11,6 +11,7 @@
     "strict": true,
     "noImplicitAny": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react"
   }
 }
